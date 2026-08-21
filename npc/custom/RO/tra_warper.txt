@@ -1,0 +1,55 @@
+//===== Custom Script =======================================
+//= Hector: Tra Fild02 Warper (Two-Way: Prontera <-> Training Ground)
+//= Warp ke tra_fild02 (scarecrow lv100 test) & balik Prontera tengah
+//= NPC1: Prontera (155,185) | NPC2: tra_fild02 (207,114)
+//============================================================
+
+prontera,168,177,2	script	Hector	1_m_knightmaster,{
+	mes "[Hector]";
+	mes callfunc("F_LangText", "I can teleport you to the special training area", "Puedo teletransportarte al área especial de entrenamiento", "Posso teleportar você para a área especial de treinamento");
+	next;
+	switch(select(callfunc("F_LangText", "Yes, warp me!", "¿Sí, teletranspórtame!", "Sim, me teleporte!") + ":" + callfunc("F_LangText", "Info", "Información", "Informação"))) {
+		case 1:
+			mes "[Hector]";
+			mes callfunc("F_LangText", "Good luck, find my brother if you want to come back~", "¡Buena suerte! Busca a mi hermano si quieres volver~", "Boa sorte! Procure meu irmão se quiser voltar~");
+			close2;
+			warp "tra_fild02",110,96;
+			end;
+		case 2:
+			mes "[Hector]";
+			mes callfunc("F_LangText", "Very safe area, level 100 dummies.", "Área muy segura, muñecos de nivel 100.", "Área muito segura, bonecos de nível 100.");
+			close;
+	}
+}
+
+tra_fild02,202,114,4	script	Hecator	4_M_EDEN_GUARDER,{
+	mes "[Hecator]";
+	mes callfunc("F_LangText", "Done training? Want to rest?", "¿Terminaste de entrenar? ¿Quieres descansar?", "Terminou o treinamento? Quer descansar?");
+	next;
+	switch(select(callfunc("F_LangText", "Yes, warp me!", "¿Sí, teletranspórtame!", "Sim, me teleporte!") + ":" + callfunc("F_LangText", "No, I am still training my skill", "No, todavía estoy entrenando mi habilidad", "Não, ainda estou treinando minha skill"))) {
+		case 1:
+			mes "[Hecator]";
+			mes callfunc("F_LangText", "Great! Bye~", "¡Genial! ¡Adiós~", "Ótimo! Até mais~");
+			close2;
+			warp "prontera",155,185;
+			end;
+		case 2:
+			close;
+	}
+}
+
+tra_fild02,17,114,5	script	Heciator	4_M_EDEN_GUARDER,{
+	mes "[Heciator]";
+	mes callfunc("F_LangText", "Done training? Want to rest?", "¿Terminaste de entrenar? ¿Quieres descansar?", "Terminou o treinamento? Quer descansar?");
+	next;
+	switch(select(callfunc("F_LangText", "Yes, warp me!", "¿Sí, teletranspórtame!", "Sim, me teleporte!") + ":" + callfunc("F_LangText", "No, I am still training my skill", "No, todavía estoy entrenando mi habilidad", "Não, ainda estou treinando minha skill"))) {
+		case 1:
+			mes "[Heciator]";
+			mes callfunc("F_LangText", "Great! Bye~", "¡Genial! ¡Adiós~", "Ótimo! Até mais~");
+			close2;
+			warp "prontera",155,185;
+			end;
+		case 2:
+			close;
+	}
+}

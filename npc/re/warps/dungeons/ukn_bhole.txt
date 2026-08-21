@@ -1,0 +1,17 @@
+cmd_bhole,255,355	warp2	#comodo	1,1,comodo,182,81
+
+comodo,184,81,4	script	Unknown Blue Hole	1_shadow_blue,1,1,{
+	warp "cmd_bhole",252,355;
+	end;
+}
+
+
+1@ba_go,336,50,4	script	Deeper Dimension	1_shadow_violet,1,1,{
+	warp "1@ba_go",68,50;
+	end;
+}
+
+1@ba_go,71,50,4	script	Upper Dimension	1_shadow_violet,1,1,{
+	warp "1@ba_go",339,50;
+	end;
+}

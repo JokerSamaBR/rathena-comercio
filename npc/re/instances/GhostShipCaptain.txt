@@ -1,0 +1,280 @@
+//===== rAthena Script =======================================
+//= Instance: Ghost Ship Captain
+//= Episode 21: Age of Heroes
+//===== Description: =========================================
+//= Instance map script for 1@wtgs (Ghost Ship Captain).
+//= Entry NPC (Mylon#01) is in jor_albe.
+//= Players enter via jor_albe,195,179 after main quest step 33.
+//
+// Instance name : "Ghost Ship Captain"
+// Cooldown quest: 16823 (PLAYTIME)
+// Run tracker   : 16826
+// Min level     : 250
+// Instance type : Party
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Walkthrough Conversion]
+//============================================================
+//------------------------------Map Attributes
+1@wtgs	mapflag	partylock
+1@wtgs	mapflag	noteleport
+1@wtgs	mapflag	nosave	SavePoint
+1@wtgs	mapflag	nomemo
+1@wtgs	mapflag	nobranch
+1@wtgs	mapflag	noicewall
+1@wtgs	mapflag	restricted	6
+
+
+jor_albe,195,179,4	script	Mylon#01	10529,{
+
+	//Cooldown
+	.@playtime = checkquest(16823,PLAYTIME);
+	if(.@playtime == 2) erasequest 16823;
+	if(.@playtime == 0 || .@playtime == 1){
+		mes "[Ilze]";
+		mes "This instance is still on cooldown. Please come back after the cooldown ends.";
+		close;
+	}
+
+	if (getpartyleader(getcharid(1),2)!=getcharid(0)) {
+		mes "Only the party leader may enter this instance alone";
+		close;
+	}
+
+	set .@party_id,getcharid(1);
+	set .@p_name$,getpartyname(.@party_id);
+
+	if (!.@party_id) {
+		mes "[Mylon]";
+		mes "Where are your party members?";
+		close;
+	}
+	
+	.@md_name$ = "Ghost Ship Captain";
+	
+	if (getcharid(0) == getpartyleader(.@party_id,2))
+		set @menu$, "Create "+.@md_name$+":Enter "+.@md_name$;
+	else
+		set @menu$, ":Enter "+.@md_name$;
+
+	mes "[Mylon]";
+	mes "Instance rewards:";
+	mes "^i[102947] ^i[1001618] ^i[1001250] ^i[1001034] ^i[1001663] ^i[1001660] ^i[1001657] ^i[1001654]";
+	mes "What would you like to do?";
+	next;
+	.@i = select(@menu$)-1;
+	switch(.@i) {
+	case 0:
+		if(BaseLevel < 250) {
+			mes "[Mylon]";
+			mes "It's very dangerous inside..."; 
+			mes "Come back after reaching Lv.250..."; 
+			close;
+		}
+		
+		if (instance_create(.@md_name$) < 0) {
+			mes "[Mylon]";
+			mes "Party name: "+.@p_name$;
+			mes "Party leader: "+strcharinfo(0);
+			mes "^0000ff"+.@md_name$+" ^000000- Creation failed!";
+			close;
+		}
+
+		mapannounce strnpcinfo(4),"Party "+getpartyname(.@party_id)+" is preparing to challenge 【"+.@md_name$+"】instance!",bc_map,"0x33ea91";	
+		mes "[Mylon]";
+		mes ""+.@md_name$+" has been created~";
+		mes "Please select ^0066CCEnter "+.@md_name$+"^000000.";
+		
+		.@iid = instance_id(IM_PARTY);
+		set getinstancevar('party_id, .@iid), getcharid(1);
+		//Entry time record
+		set 'Instance_Annal,gettimetick(2);
+		close;
+	case 1:
+		if(BaseLevel < 250) {
+			mes "[Mylon]";
+			mes "It's very dangerous inside..."; 
+			mes "Come back after reaching Lv.250..."; 
+			close;
+		}
+	if ( getinstancevar('Win,instance_id(IM_PARTY)) ) {
+	mes "The instance has already started. Cannot enter again.";
+	close;
+	}
+		switch(instance_enter(.@md_name$)) {
+		case IE_OTHER:
+			mes "Unknown error.";
+			close;
+		case IE_NOINSTANCE:
+			mes .@md_name$+" instance doesn't exist.";
+			mes "The leader hasn't applied for Memory Maze.";
+			close;
+		case IE_NOMEMBER:
+			mes "Only party members who applied for "+.@md_name$+" instance may enter.";
+			close;
+		case IE_OK:
+			//mapannounce strnpcinfo(4),"Party " + getpartyname(.@party_id) + "'s brave " + strcharinfo(0) + " has started 【"+.@md_name$+"】instance",bc_map,"0x00ff99";			
+			//Quest
+			if(checkquest(16826) == -1) { setquest 16826; }
+			close;
+		}
+	}
+	close;
+	
+OnInit:
+	waitingroom "Ghost Ship Captain",0;
+	end;
+}
+
+
+//------------------------------Ghost Ship Captain Event
+1@wtgs,0,0,0	script	Ghost Ship Captain Event1	-1,{
+
+OnInstanceInit:
+	//Create instance map
+	'map$ = instance_mapname("1@wtgs");
+	//Hide NPCs
+	disablenpc instance_npcname("Ghost Ship Captain Portal#01");
+	disablenpc instance_npcname("Ghost Ship Captain Portal#02");
+	disablenpc instance_npcname("Ghost Ship Captain Portal#03");
+	disablenpc instance_npcname("Ghost Ship Captain Portal#04");
+	end;
+
+OnCcdd1:
+	set 'Wtgs_Mob_01,'Wtgs_Mob_01-1;
+	if ('Wtgs_Mob_01>0) end;
+	enablenpc instance_npcname("Ghost Ship Captain Portal#01");
+	set 'Wtgs_Mob_01,5;
+	areamonster 'map$,42,39,48,24,"--ja--",22369,5,instance_npcname("Ghost Ship Captain Event1")+"::OnCcdd2";
+	instance_announce instance_id(1),"Area cleared. Please proceed to next zone",bc_all,0xD7BA98;
+	end;
+
+OnCcdd2:
+	set 'Wtgs_Mob_01,'Wtgs_Mob_01-1;
+	if ('Wtgs_Mob_01>0) end;
+	enablenpc instance_npcname("Ghost Ship Captain Portal#02");
+	set 'Wtgs_Mob_01,14;
+	areamonster 'map$,183,100,185,98,"--ja--",22369,3,instance_npcname("Ghost Ship Captain Event1")+"::OnCcdd3";
+	areamonster 'map$,147,102,151,95,"--ja--",22369,4,instance_npcname("Ghost Ship Captain Event1")+"::OnCcdd3";
+	areamonster 'map$,105,121,110,102,"--ja--",22369,7,instance_npcname("Ghost Ship Captain Event1")+"::OnCcdd3";
+	instance_announce instance_id(1),"Area cleared. Please proceed to next zone",bc_all,0xD7BA98;
+	end;
+
+OnCcdd3:
+	set 'Wtgs_Mob_01,'Wtgs_Mob_01-1;
+	if ('Wtgs_Mob_01>0) end;
+	enablenpc instance_npcname("Maristella Bart#02");
+	end;
+
+OnEnd:
+	'win = 1;
+	//Completion announcement time
+	set 'Instance_Miao,gettimetick(2)-'Instance_Annal;
+	enablenpc instance_npcname("Maristella Bart#03");
+	enablenpc instance_npcname("Mylon#02");
+	announce "【Ghost Ship Captain】: Party ["+strcharinfo(1)+"] led by '"+getpartyleader(getcharid(1),0)+"' completed the challenge in "+('Instance_Miao/60)+" minutes and "+('Instance_Miao%60)+" seconds",bc_all,0xD7BA98;
+	end;
+}
+
+//-------------------------- NPC
+1@wtgs,84,311,4	script	Maristella Bart#01	10577,{
+
+	cutin "ep21_maristella03.png",1;
+	mes "[Maristella Bart]";
+	mes "It's still unclear why Captain Havell who disappeared has reappeared.";
+	npctalk "It's still unclear why Captain Havell who disappeared has reappeared.";
+	next;
+	mes "[Maristella Bart]";
+	mes "I think I need to mentally prepare for what might happen again.";
+	npctalk "I think I need to mentally prepare for what might happen again.";
+	next;
+	mes "[Maristella Bart]";
+	mes "Don't let your guard down, let's keep moving forward.";
+	npctalk "Don't let your guard down, let's keep moving forward.";
+	next;
+	cutin "ep21_maristella03.png",255;
+	close2;
+
+	specialeffect 16;
+	disablenpc instance_npcname(strnpcinfo(0));
+	enablenpc instance_npcname("Ghost Ship Captain Portal#02");
+	set 'Wtgs_Mob_01,15;
+	areamonster 'map$,56,313,68,309,"--ja--",22369,6,instance_npcname("Ghost Ship Captain Event1")+"::OnCcdd1";
+	areamonster 'map$,57,328,70,322,"--ja--",22369,4,instance_npcname("Ghost Ship Captain Event1")+"::OnCcdd1";
+	areamonster 'map$,107,313,114,306,"--ja--",22369,5,instance_npcname("Ghost Ship Captain Event1")+"::OnCcdd1";
+	end;
+
+}
+
+
+1@wtgs,107,113,4	script	Maristella Bart#02	10577,{
+
+	cutin "ep21_maristella01.png",1;
+	mes "[Maristella Bart]";
+	mes "I feel like I've been on this ship before";
+	npctalk "I feel like I've been on this ship before";
+	next;
+	mes "[Maristella Bart]";
+	mes "But it's also true that I feel somewhat uncomfortable. Why do I feel this way?";
+	npctalk "But it's also true that I feel somewhat uncomfortable. Why do I feel this way?";
+	next;
+	mes "[Maristella Bart]";
+	mes "I can sense something unnatural everywhere that's hard to explain";
+	npctalk "I can sense something unnatural everywhere that's hard to explain";
+	next;
+	mes "[Maristella Bart]";
+	mes "If we go to the captain's room, can we find the source of this unnaturalness? I'm not sure, but let's go to the captain's room anyway.";
+	npctalk "If we go to the captain's room, can we find the source of this unnaturalness? I'm not sure, but let's go to the captain's room anyway.";
+	next;
+	cutin "ep21_maristella01.png",255;
+	close2;
+
+	specialeffect 16;
+	disablenpc instance_npcname(strnpcinfo(0));
+	enablenpc instance_npcname("Ghost Ship Captain Portal#03");
+	areamonster 'map$,311,24,311,24,"--ja--",22372,1,instance_npcname("Ghost Ship Captain Event1")+"::OnEnd";
+	end;
+
+OnInstanceInit:
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+}
+
+
+//-----------------------------Portals
+1@wtgs,122,318,0	warp	Ghost Ship Captain Portal#01	2,2,1@wtgs,36,29
+1@wtgs,60,29,0	warp	Ghost Ship Captain Portal#02	2,2,1@wtgs,215,110
+1@wtgs,105,110,0	warp	Ghost Ship Captain Portal#03	2,2,1@wtgs,294,15
+1@wtgs,335,26,0	warp	Ghost Ship Captain Portal#04	2,2,jor_albe,191,180
+
+//-----------------------------Rewards
+1@wtgs,312,25,4	script	Maristella Bart#03	10577,{
+
+	cutin "ep21_maristella01.png",1;
+	mes "[Maristella Bart]";
+	mes "After the battle, I understand better - he's not Captain Havell.";
+	npctalk "After the battle, I understand better - he's not Captain Havell.";
+	next;
+	mes "[Maristella Bart]";
+	mes "Though he looks like Captain Havell, he seems completely irrational. I'm sure what you mentioned earlier didn't happen.";
+	npctalk "Though he looks like Captain Havell, he seems completely irrational. I'm sure what you mentioned earlier didn't happen.";
+	next;
+	mes "[Maristella Bart]";
+	mes "I feel somewhat uneasy. Alright, let's get out of here.";
+	npctalk "I feel somewhat uneasy. Alright, let's get out of here.";
+	next;
+	cutin "ep21_maristella01.png",255;
+	getitem 1001618,10;	//Wagner Trading Group Exchange Certificate
+	if(checkquest(16826) >= 0) { erasequest 16826; setquest 16823; }
+	close2;
+
+	specialeffect 16;
+	disablenpc instance_npcname(strnpcinfo(0));
+	enablenpc instance_npcname("Ghost Ship Captain Portal#04");
+	end;
+
+OnInstanceInit:
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+}
+
+

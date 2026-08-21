@@ -1,0 +1,2559 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2022 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Barter Database
+###########################################################################
+#
+# Barter Settings
+#
+###########################################################################
+#  - Name               NPC name.
+#    Map                Map name. (Default: not on a map)
+#    X                  Map x coordinate. (Default: 0)
+#    Y                  Map y coordinate. (Default: 0)
+#    Direction          Direction the NPC is looking. (Default: North)
+#    Sprite             Sprite name of the NPC. (Default: FakeNpc)
+#    Items:             List of sold items.
+#      - Index          Index of the item inside the shop. (0-...)
+#                       Maximum index depends on client.
+#        Item           Aegis name of the item.
+#        Stock          Amount of item in stock. 0 means unlimited. (Default: 0)
+#        Zeny           Cost of them item in Zeny. (Default: 0)
+#        Refine         Refine level of the item. (Default: 0)
+#        RequiredItems: List of required items (Optional)
+#          - Index      Index of the required item. (0-4)
+#            Item       Aegis name of required item.
+#            Amount     Amount of required item. (Default: 1)
+#            Refine     Refine level of required item. (Default: 0)
+###########################################################################
+
+Header:
+  Type: BARTER_DB
+  Version: 2
+  
+Body:
+  - Name: barter_Ep19_Rgan_Scroll
+    Items:
+      - Index: 0
+        Item: Ep19_Rgan_Scroll
+        Zeny: 2000
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Rgan_Core_F
+            Amount: 2
+  - Name: barter_ep19_snow_stone
+    Items:
+      - Index: 0
+        Item: Snow_F_Stone1
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Ore
+            Amount: 5
+      - Index: 1
+        Item: Snow_F_Stone2
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Stone1
+            Amount: 5
+      - Index: 2
+        Item: Snow_F_Stone3
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Stone2
+            Amount: 5
+  - Name: barter_ep19_repu_1
+    Items:
+      - Index: 0
+        Item: Snow_F_Refine
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 200
+      - Index: 1
+        Item: Glacier_W_Refine
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 500
+      - Index: 2
+        Item: Teleport_Ep19_01
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+  - Name: barter_ep19_repu_2
+    Items:
+      - Index: 0
+        Item: Snow_F_Refine
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 200
+      - Index: 1
+        Item: Glacier_W_Refine
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 500
+      - Index: 2
+        Item: Teleport_Ep19_01
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+      - Index: 3
+        Item: Ep19_Dry_Icegangu
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+      - Index: 4
+        Item: C_Ep19_Rgan
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 1000
+      - Index: 5
+        Item: C_Ep19_Iwin
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 1000
+  - Name: barter_ep19_snow_armor
+    Items:
+      - Index: 0
+        Item: Snowflower_Armor
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 1
+        Item: Snowflower_Robe
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 2
+        Item: Snowflower_Manteau
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 3
+        Item: Snowflower_Muffler
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 4
+        Item: Snowflower_Boots
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 5
+        Item: Snowflower_Shoes
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 6
+        Item: Snowflower_Pendant
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 7
+        Item: Snowflower_Ring
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 8
+        Item: Snowflower_Necklace
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+      - Index: 9
+        Item: Snowflower_Earring
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 100
+  - Name: barter_ep19_new_content
+    Items:
+      - Index: 0
+        Item: EP19_N_P_Ore
+        RequiredItems:
+          - Index: 0
+            Item: EP19_D_P_Ore
+            Amount: 3
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 5
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 25
+      - Index: 1
+        Item: EP19_D_P_Crystal
+        RequiredItems:
+          - Index: 0
+            Item: EP19_D_P_Ore
+            Amount: 15
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 30
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 150
+      - Index: 2
+        Item: EP19_N_P_Crystal
+        RequiredItems:
+          - Index: 0
+            Item: EP19_N_P_Ore
+            Amount: 5
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 5
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 25
+      - Index: 3
+        Item: EP19_S_F_1_Extract
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Stone1
+            Amount: 20
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 5
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 25
+      - Index: 4
+        Item: EP19_S_F_2_Extract
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Stone2
+            Amount: 15
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 10
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 50
+      - Index: 5
+        Item: EP19_S_F_3_Extract
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Stone3
+            Amount: 10
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 15
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 75
+      - Index: 6
+        Item: EP19_Gla_Extract
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 40
+          - Index: 1
+            Item: Ep18_Amethyst_Fragment
+            Amount: 200
+      - Index: 7
+        Item: EP19_DGW_Refine
+        RequiredItems:
+          - Index: 0
+            Item: EP19_D_P_Stone
+            Amount: 1
+          - Index: 1
+            Item: EP19_D_P_Crystal
+            Amount: 10
+          - Index: 2
+            Item: EP19_N_P_Crystal
+            Amount: 10
+  - Name: barter_knuckles
+    Items:
+      - Index: 0
+        Item: VR_1UP
+        RequiredItems:
+          - Index: 0
+            Item: VR_RING
+            Amount: 1
+      - Index: 1
+        Item: VR_High_Speed
+        RequiredItems:
+          - Index: 0
+            Item: VR_RING
+            Amount: 1
+      - Index: 2
+        Item: C_Sonic_Mini
+        RequiredItems:
+          - Index: 0
+            Item: VR_RING
+            Amount: 20
+          - Index: 1
+            Item: VR_Bookmark
+            Amount: 20
+          - Index: 2
+            Item: VR_Reading_Card
+            Amount: 20
+      - Index: 3
+        Item: C_Tails_Mini
+        RequiredItems:
+          - Index: 0
+            Item: VR_RING
+            Amount: 20
+          - Index: 1
+            Item: VR_Bookmark
+            Amount: 20
+          - Index: 2
+            Item: VR_Reading_Card
+            Amount: 20
+      - Index: 4
+        Item: C_Sonic_Ring
+        RequiredItems:
+          - Index: 0
+            Item: VR_RING
+            Amount: 20
+          - Index: 1
+            Item: VR_Bookmark
+            Amount: 20
+          - Index: 2
+            Item: VR_Reading_Card
+            Amount: 20
+      - Index: 5
+        Item: C_S_Attack_Ring
+        RequiredItems:
+          - Index: 0
+            Item: VR_RING
+            Amount: 20
+          - Index: 1
+            Item: VR_Bookmark
+            Amount: 20
+          - Index: 2
+            Item: VR_Reading_Card
+            Amount: 20
+      - Index: 6
+        Item: C_Dr_Eggman_Mask
+        RequiredItems:
+          - Index: 0
+            Item: VR_RING
+            Amount: 20
+          - Index: 1
+            Item: VR_Bookmark
+            Amount: 20
+          - Index: 2
+            Item: VR_Reading_Card
+            Amount: 20
+      - Index: 7
+        Item: Sonic_Chao_Egg
+        RequiredItems:
+          - Index: 0
+            Item: VR_RING
+            Amount: 20
+          - Index: 1
+            Item: VR_Bookmark
+            Amount: 20
+          - Index: 2
+            Item: VR_Reading_Card
+            Amount: 20
+  - Name: barter_lova
+    Items:
+      - Index: 0
+        Item: LoVA_Hades_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 1
+        Item: LoVA_R_Hades_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 2
+        Item: LoVA_Lulu_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 3
+        Item: LoVA_R_Lulu_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 4
+        Item: LoVA_Kima_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 5
+        Item: LoVA_R_Kima_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 6
+        Item: LoVA_Bahamut_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 7
+        Item: LoVA_R_Bahamut_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 8
+        Item: LoVA_Ragnarok_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+      - Index: 9
+        Item: LoVA_R_Ragnarok_Card
+        RequiredItems:
+          - Index: 0
+            Item: Visionary_Ticket
+            Amount: 20
+  - Name: barter_ent
+    Items:
+      - Index: 0
+        Item: Entwined_Armor
+        Zeny: 3000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 150
+      - Index: 1
+        Item: Entwined_Manteau
+        Zeny: 3000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 150
+      - Index: 2
+        Item: Entwined_Boots
+        Zeny: 3000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 150
+      - Index: 3
+        Item: Entwined_Robe
+        Zeny: 3000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 150
+      - Index: 4
+        Item: Entwined_Muffler
+        Zeny: 3000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 150
+      - Index: 5
+        Item: Entwined_Shoes
+        Zeny: 3000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 150
+      - Index: 6
+        Item: Dimension_B_Greave
+        Zeny: 10000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 250
+          - Index: 1
+            Item: Frontier_Stone_BL
+            Amount: 20
+          - Index: 2
+            Item: Frontier_Stone_YL
+            Amount: 15
+          - Index: 3
+            Item: Chaotic_Rune
+            Amount: 30
+      - Index: 7
+        Item: Dimension_S_Shoes
+        Zeny: 10000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 250
+          - Index: 1
+            Item: Frontier_Stone_BL
+            Amount: 20
+          - Index: 2
+            Item: Frontier_Stone_YL
+            Amount: 15
+          - Index: 3
+            Item: Chaotic_Rune
+            Amount: 30
+      - Index: 8
+        Item: Dimension_H_Boots
+        Zeny: 10000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 250
+          - Index: 1
+            Item: Frontier_Stone_BL
+            Amount: 20
+          - Index: 2
+            Item: Frontier_Stone_YL
+            Amount: 15
+          - Index: 3
+            Item: Chaotic_Rune
+            Amount: 30
+      - Index: 9
+        Item: Dimension_M_Shoes
+        Zeny: 10000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 250
+          - Index: 1
+            Item: Frontier_Stone_BL
+            Amount: 20
+          - Index: 2
+            Item: Frontier_Stone_YL
+            Amount: 15
+          - Index: 3
+            Item: Chaotic_Rune
+            Amount: 30
+      - Index: 10
+        Item: Dimension_E_Boots
+        Zeny: 10000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 250
+          - Index: 1
+            Item: Frontier_Stone_BL
+            Amount: 20
+          - Index: 2
+            Item: Frontier_Stone_YL
+            Amount: 15
+          - Index: 3
+            Item: Chaotic_Rune
+            Amount: 30
+  - Name: barter_met
+    Items:
+      - Index: 0
+        Item: Ch1_Warp_Leaf
+        Zeny: 5000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 1
+      - Index: 1
+        Item: Ch1_Root_Coin
+        Zeny: 3000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 1
+      - Index: 2
+        Item: Ch1_Mana_Ring
+        Zeny: 5000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 1
+      - Index: 3
+        Item: Frontier_M_Stone
+        Zeny: 5000
+        RequiredItems:
+          - Index: 0
+            Item: Frontier_Magic_Dust
+            Amount: 5
+      - Index: 4
+        Item: Frontier_Magic_Dust
+        Zeny: 1000
+        RequiredItems:
+          - Index: 0
+            Item: Etel_Dust
+            Amount: 5
+      - Index: 5
+        Item: Illusion_Stone_BL
+        Zeny: 50000
+        RequiredItems:
+          - Index: 0
+            Item: Illusion_Fragment_BL
+            Amount: 7
+          - Index: 1
+            Item: Frontier_Magic_Dust
+            Amount: 10
+      - Index: 6
+        Item: Illusion_Stone_GR
+        Zeny: 75000
+        RequiredItems:
+          - Index: 0
+            Item: Illusion_Fragment_GR
+            Amount: 7
+          - Index: 1
+            Item: Frontier_Magic_Dust
+            Amount: 15
+      - Index: 7
+        Item: Illusion_Stone_YL
+        Zeny: 100000
+        RequiredItems:
+          - Index: 0
+            Item: Illusion_Fragment_YL
+            Amount: 7
+          - Index: 1
+            Item: Frontier_Magic_Dust
+            Amount: 12
+      - Index: 8
+        Item: Illusion_Stone_BK
+        Zeny: 125000
+        RequiredItems:
+          - Index: 0
+            Item: Illusion_Fragment_BK
+            Amount: 7
+          - Index: 1
+            Item: Frontier_Magic_Dust
+            Amount: 17
+      - Index: 9
+        Item: Frontier_Stone_BL
+        Zeny: 75000
+        RequiredItems:
+          - Index: 0
+            Item: Frontier_M_Stone
+            Amount: 3
+          - Index: 1
+            Item: Illusion_Stone_BL
+            Amount: 5
+          - Index: 2
+            Item: Chaotic_Rune
+            Amount: 15
+      - Index: 10
+        Item: Frontier_Stone_GR
+        Zeny: 175000
+        RequiredItems:
+          - Index: 0
+            Item: Frontier_M_Stone
+            Amount: 3
+          - Index: 1
+            Item: Illusion_Stone_GR
+            Amount: 5
+          - Index: 2
+            Item: Disparate_Rune
+            Amount: 15
+      - Index: 11
+        Item: Frontier_Stone_YL
+        Zeny: 125000
+        RequiredItems:
+          - Index: 0
+            Item: Frontier_M_Stone
+            Amount: 3
+          - Index: 1
+            Item: Illusion_Stone_YL
+            Amount: 5
+          - Index: 2
+            Item: Chaotic_Rune
+            Amount: 15
+      - Index: 12
+        Item: Frontier_Stone_BK
+        Zeny: 225000
+        RequiredItems:
+          - Index: 0
+            Item: Frontier_M_Stone
+            Amount: 3
+          - Index: 1
+            Item: Illusion_Stone_BK
+            Amount: 5
+          - Index: 2
+            Item: Disparate_Rune
+            Amount: 15
+      - Index: 13
+        Item: Dimension_Essence_BL
+        Zeny: 100000
+        RequiredItems:
+          - Index: 0
+            Item: Dimension_Energy_BL
+            Amount: 20
+          - Index: 1
+            Item: Chaotic_Essence
+            Amount: 5
+          - Index: 2
+            Item: Illusion_Fragment_BL
+            Amount: 15
+      - Index: 14
+        Item: Dimension_Essence_GR
+        Zeny: 250000
+        RequiredItems:
+          - Index: 0
+            Item: Dimension_Energy_GR
+            Amount: 20
+          - Index: 1
+            Item: Disparate_Essence
+            Amount: 5
+          - Index: 2
+            Item: Illusion_Fragment_GR
+            Amount: 15
+      - Index: 15
+        Item: Dimension_Essence_YL
+        Zeny: 175000
+        RequiredItems:
+          - Index: 0
+            Item: Dimension_Energy_YL
+            Amount: 20
+          - Index: 1
+            Item: Chaotic_Essence
+            Amount: 5
+          - Index: 2
+            Item: Illusion_Fragment_YL
+            Amount: 15
+      - Index: 16
+        Item: Dimension_Essence_BK
+        Zeny: 325000
+        RequiredItems:
+          - Index: 0
+            Item: Dimension_Energy_BK
+            Amount: 20
+          - Index: 1
+            Item: Disparate_Essence
+            Amount: 5
+          - Index: 2
+            Item: Illusion_Fragment_BK
+            Amount: 15
+      - Index: 17
+        Item: Chaotic_Rune
+        Zeny: 10000
+        RequiredItems:
+          - Index: 0
+            Item: Chaotic_Rune_Ore
+            Amount: 10
+          - Index: 1
+            Item: Frontier_M_Stone
+            Amount: 4
+      - Index: 18
+        Item: Disparate_Rune
+        Zeny: 50000
+        RequiredItems:
+          - Index: 0
+            Item: Disparate_Rune_Ore
+            Amount: 10
+          - Index: 1
+            Item: Frontier_M_Stone
+            Amount: 4
+  - Name: barter_zhen
+    Items:
+      - Index: 0
+        Item: Delicious_Dumplings
+        RequiredItems:
+          - Index: 0
+            Item: CLB_KP_Coin
+            Amount: 10
+      - Index: 1
+        Item: Delicious_Noodle
+        RequiredItems:
+          - Index: 0
+            Item: CLB_KP_Coin
+            Amount: 10
+      - Index: 2
+        Item: C_CLB_KP_Po
+        RequiredItems:
+          - Index: 0
+            Item: CLB_KP_Coin
+            Amount: 50
+      - Index: 3
+        Item: C_CLB_KP_Zh
+        RequiredItems:
+          - Index: 0
+            Item: CLB_KP_Coin
+            Amount: 50
+      - Index: 4
+        Item: CLB_CP_PD_Card
+        RequiredItems:
+          - Index: 0
+            Item: CLB_KP_Coin
+            Amount: 50
+  - Name: barter_gap
+    Items:
+      - Index: 0
+        Item: Time_Gap_ABC_Dagger
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_R_Knife
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_R_Knife
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: AC_B44_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Dagger2
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Ice_Water_Drop_Gem
+            Amount: 2000
+      - Index: 1
+        Item: Time_Gap_BO_Blade
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Sword
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Sword
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Saphir_Hall_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Sword2
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Blue_Flame_Heart_Gem
+            Amount: 2000
+      - Index: 2
+        Item: aegis_103582
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Katar
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Katar
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Meuchler_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_Bh_Katar
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Green_Land_Crystal
+            Amount: 2000
+      - Index: 3
+        Item: aegis_103891
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Humma
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Humma
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Kuroiro_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Dagger
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Storm_Wind_Leaf_Gem
+            Amount: 2000
+      - Index: 4
+        Item: Time_Gap_Spear_IG
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Spear
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Spear
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Boost_Lance_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Spear
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Red_Flame_Heart_Gem
+            Amount: 2000
+      - Index: 5
+        Item: Time_Gap_SKE_Book
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Book
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Book
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Circuit_Board_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Book
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Red_Flame_Heart_Gem
+            Amount: 2000
+      - Index: 6
+        Item: Time_Gap_EM_S_Book
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Book
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Book
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Circuit_Board_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Book2
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Firm_Land_Crystal
+            Amount: 2000
+      - Index: 7
+        Item: Time_Gap_HN_Staff
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Wand
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Wand
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Cannon_Rapier_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Sword
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Dry_Wind_Leaf_Gem
+            Amount: 2000
+      - Index: 8
+        Item: Time_Gap_SOA_Rod
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Wand
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Wand
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Rutilus_Stick_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Wand
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Ice_Water_Drop_Gem
+            Amount: 2000
+      - Index: 9
+        Item: Time_Gap_CD_Staff
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Wand
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Wand
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Ultio_Spes_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ein_1H_Foxtail
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Blue_Flame_Heart_Gem
+            Amount: 2000
+      - Index: 10
+        Item: Time_Gap_SH_Foxtail
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Foxtail
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Foxtail
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: ElectricFox_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Foxtail
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Green_Land_Crystal
+            Amount: 2000
+      - Index: 11
+        Item: Time_Gap_IQ_Knuckle
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Knuckle
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Knuckle
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Burning_Knuckle_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_Bh_Knuck
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Storm_Wind_Leaf_Gem
+            Amount: 2000
+      - Index: 12
+        Item: Time_Gap_TR_Vilolin
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Violin
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Violin
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: MH_P89_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Inst
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Hot_Water_Drop_Gem
+            Amount: 2000
+      - Index: 13
+        Item: Time_Gap_TR_Ribbon
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Whip
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Whip
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: MH_P89_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Whip
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Red_Flame_Heart_Gem
+            Amount: 2000
+      - Index: 14
+        Item: Time_Gap_MT_Axe
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_T_Axe
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_T_Axe
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item: Blasti_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Axe
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Firm_Land_Crystal
+            Amount: 2000
+      - Index: 15
+        Item: Time_Gap_DK_Spear
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Lance
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Lance
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item:  Beam_Claymore_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_Bh_Spear
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Dry_Wind_Leaf_Gem
+            Amount: 2000
+      - Index: 16
+        Item: Time_Gap_WH_Bow
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Bow
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Bow
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item:  Virtual_Bow_AD
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_Bh_Bow
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Storm_Wind_Leaf_Gem
+            Amount: 2000
+      - Index: 17
+        Item: Time_Gap_Revolver_NW
+        RequiredItems:
+          - Index: 0
+            Item: Glacier_Revolver
+            Refine: 10
+            Amount: 1
+          - Index: 1
+            Item: D_Glacier_Revolver
+            Refine: 10
+            Amount: 1
+          - Index: 2
+            Item:  Crimson_Rose_LT
+            Refine: 10
+            Amount: 1
+          - Index: 3
+            Item: Ep172_1h_Grenade
+            Refine: 12
+            Amount: 1
+          - Index: 4
+            Item: Green_Land_Crystal
+            Amount: 2000
+  - Name: barter_crown
+    Items:
+      - Index: 0
+        Item: Frontier_R_Crown_DK
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 1
+        Item: Frontier_R_Crown_IG
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 2
+        Item: Frontier_R_Crown_MT
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 3
+        Item: Frontier_R_Crown_BO
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 4
+        Item: Frontier_R_Crown_SHC
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 5
+        Item: Frontier_R_Crown_ABC
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 6
+        Item: Frontier_R_Crown_AG
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 7
+        Item: Frontier_R_Crown_EM
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 8
+        Item: Frontier_R_Crown_CD
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 9
+        Item: Frontier_R_Crown_IQ
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 10
+        Item: Frontier_R_Crown_IQ
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 11
+        Item: Frontier_R_Crown_WH
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 12
+        Item: Frontier_R_Crown_TR
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 13
+        Item: Frontier_R_Crown_SS
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 14
+        Item: Frontier_R_Crown_NW
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 15
+        Item: Frontier_R_Crown_SKE
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 16
+        Item: Frontier_R_Crown_SOA
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 17
+        Item: Frontier_R_Crown_HN
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 18
+        Item: Frontier_R_Crown_SH
+        Zeny: 25000000
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Mana_Ring
+            Amount: 200
+          - Index: 1
+            Item: Frontier_Stone_GR
+            Amount: 15
+          - Index: 2
+            Item: Frontier_Stone_BK
+            Amount: 10
+          - Index: 3
+            Item: Disparate_Rune
+            Amount: 40
+      - Index: 19
+        Item: Physical_TuningScroll
+        Zeny: 5000000
+        RequiredItems:
+          - Index: 0
+            Item: Chaotic_Rune
+            Amount: 200
+          - Index: 1
+            Item: Chaotic_Essence
+            Amount: 5
+          - Index: 2
+            Item: Ch1_Root_Coin
+            Amount: 30
+      - Index: 20
+        Item: Magical_TuningScroll
+        Zeny: 5000000
+        RequiredItems:
+          - Index: 0
+            Item: Chaotic_Rune
+            Amount: 200
+          - Index: 1
+            Item: Chaotic_Essence
+            Amount: 5
+          - Index: 2
+            Item: Ch1_Root_Coin
+            Amount: 30
+  - Name: barter_dimen
+    Items:
+      - Index: 0
+        Item: Time_DM_R_Crown_DK
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 1
+        Item: Time_DM_R_Crown_IG
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 2
+        Item: Time_DM_R_Crown_MT
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 3
+        Item: Time_DM_R_Crown_MT
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 4
+        Item: Time_DM_R_Crown_BO
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 5
+        Item: Time_DM_R_Crown_SHC
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 6
+        Item: Time_DM_R_Crown_ABC
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 7
+        Item: Time_DM_R_Crown_AG
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 8
+        Item: Time_DM_R_Crown_EM
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 9
+        Item: Time_DM_R_Crown_CD
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 10
+        Item: Time_DM_R_Crown_IQ
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 11
+        Item: Time_DM_R_Crown_WH
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 12
+        Item: Time_DM_R_Crown_TR
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 13
+        Item: Time_DM_R_Crown_SS
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 14
+        Item: Time_DM_R_Crown_NW
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 15
+        Item: Time_DM_R_Crown_SKE
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 16
+        Item: Time_DM_R_Crown_SOA
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 17
+        Item: Time_DM_R_Crown_HN
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+      - Index: 18
+        Item: Time_DM_R_Crown_SH
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 50
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 50
+          - Index: 2
+            Item: Jewel_Of_Time_Ore
+            Amount: 75
+  - Name: barter_mat
+    Items:
+      - Index: 0
+        Item: Abyss_Magic_Jewel
+        Zeny: 10000
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Jewel_Fragment
+            Amount: 10
+      - Index: 1
+        Item: Time_Dimension_Jewel
+        Zeny: 10000
+        RequiredItems:
+          - Index: 0
+            Item: Time_Dim_J_Fragment
+            Amount: 10
+      - Index: 2
+        Item: Abyss_Rune_Ore
+        Zeny: 20000
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Magic_Jewel
+            Amount: 10
+          - Index: 1
+            Item: Time_Dimension_Jewel
+            Amount: 10
+      - Index: 3
+        Item: Abyss_Rune
+        Zeny: 30000
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Rune_Ore
+            Amount: 10
+          - Index: 1
+            Item: Temporal_Crystal
+            Amount: 5
+      - Index: 4
+        Item: Time_D_Ma_Rune
+        Zeny: 30000
+        RequiredItems:
+          - Index: 0
+            Item: Abyss_Rune
+            Amount: 5
+          - Index: 1
+            Item: Coagulated_Spell
+            Amount: 5
+          - Index: 2
+            Item: Polluted_Spell
+            Amount: 5
+          - Index: 3
+            Item: Spell_Of_Time
+            Amount: 3
+  - Name: barter_ep20_shop_1_A
+    Items:
+      - Index: 0
+        Item: Ep20_Fatty_Icegangu
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 10
+  - Name: barter_ep20_shop_1_B
+    Items:
+      - Index: 0
+        Item: Ep20_Fatty_Icegangu
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 10
+      - Index: 1
+        Item: C_Armored_Copo
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 1000
+      - Index: 2
+        Item: C_Egg_Copo
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 1000
+      - Index: 3
+        Item: Glacier_Armor_9Refine
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 500
+  - Name: barter_ep20_glacier_eq
+    Items:
+      - Index: 0
+        Item: Glacier_Armor
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 1
+        Item: Glacier_Robe
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 2
+        Item: Glacier_Manteau
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 3
+        Item: Glacier_Muffler
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 4
+        Item: Glacier_Boots
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 5
+        Item: Glacier_Shoes
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 6
+        Item: Glacier_Ring
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 7
+        Item: Glacier_Pendant
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 8
+        Item: Glacier_Earring
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 9
+        Item: Glacier_Necklace
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+      - Index: 10
+        Item: Glacier_Guard
+        RequiredItems:
+          - Index: 0
+            Item: Ep20_Cat_Whiskers
+            Amount: 100
+  - Name: barter_ep20_shop_2
+    Items:
+      - Index: 0
+        Item: EP20_D_P_Crystal
+        RequiredItems:
+          - Index: 0
+            Item: EP20_D_P_Ore
+            Amount: 10
+          - Index: 1
+            Item: Ep20_Cat_Whiskers
+            Amount: 15
+          - Index: 2
+            Item: Ep19_Snow_Flower
+            Amount: 30
+      - Index: 1
+        Item: EP20_D_P_Extract
+        RequiredItems:
+          - Index: 0
+            Item: EP20_D_P_Crystal
+            Amount: 5
+          - Index: 1
+            Item: Ep20_Cat_Whiskers
+            Amount: 25
+          - Index: 2
+            Item: Ep19_Snow_Flower
+            Amount: 45
+      - Index: 2
+        Item: EP20_DGA_Refine
+        RequiredItems:
+          - Index: 0
+            Item: EP20_D_Scale
+          - Index: 1
+            Item: EP20_D_P_Extract
+            Amount: 15
+          - Index: 2
+            Item: EP20_D_P_Crystal
+            Amount: 25
+  - Name: barter_wing
+    Items:
+      - Index: 0
+        Item: Teleport_Ep21
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 1
+      - Index: 1
+        Item: Gaebolg_A_Hammer_1
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 50
+      - Index: 2
+        Item: Gaebolg_Armor
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 3
+        Item: Gaebolg_Robe
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 4
+        Item: Gaebolg_Manteau
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 5
+        Item: Gaebolg_Muffler
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 6
+        Item: Gaebolg_Boots
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 7
+        Item: Gaebolg_Shoes
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 8
+        Item: Gaebolg_Ring
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 9
+        Item: Gaebolg_Glove
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 10
+        Item: Gaebolg_Earring
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+      - Index: 11
+        Item: Gaebolg_Necklace
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+  - Name: barter_materi
+    Items:
+      - Index: 0
+        Item: Snow_F_Stone1
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 10
+      - Index: 1
+        Item: Snow_F_Stone2
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 10
+      - Index: 2
+        Item: Snow_F_Stone3
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 10
+      - Index: 3
+        Item: Ep21_Fatty_Shrimp
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 1
+      - Index: 4
+        Item: Gaebolg_A_Hammer_2
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 50
+  - Name: barter_scrolly
+    Items:
+      - Index: 0
+        Item: Yorscalp_Scroll_A
+        RequiredItems:
+          - Index: 0
+            Item: Ep21_Wigner_Ticket
+            Amount: 100
+  - Name: barter_yors
+    Items:
+      - Index: 0
+        Item: aegis_300585
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001837
+            Amount: 30
+      - Index: 1
+        Item: aegis_300586
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001838
+            Amount: 30
+      - Index: 2
+        Item: aegis_300587
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001839
+            Amount: 30
+      - Index: 3
+        Item: aegis_300588
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001840
+            Amount: 30
+      - Index: 4
+        Item: aegis_300589
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001841
+            Amount: 30
+      - Index: 5
+        Item: aegis_300590
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001842
+            Amount: 30
+      - Index: 6
+        Item: aegis_300591
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001843
+            Amount: 30
+      - Index: 7
+        Item: aegis_300592
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001844
+            Amount: 30
+      - Index: 8
+        Item: aegis_300593
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001845
+            Amount: 30
+      - Index: 9
+        Item: aegis_300594
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001846
+            Amount: 30
+      - Index: 10
+        Item: aegis_300595
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001847
+            Amount: 30
+      - Index: 11
+        Item: aegis_300596
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001848
+            Amount: 30
+      - Index: 12
+        Item: aegis_300597
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001849
+            Amount: 30
+      - Index: 13
+        Item: aegis_300598
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001850
+            Amount: 30
+      - Index: 14
+        Item: aegis_300599
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001851
+            Amount: 30
+      - Index: 15
+        Item: aegis_300600
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001852
+            Amount: 30
+      - Index: 16
+        Item: aegis_300601
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001853
+            Amount: 30
+      - Index: 17
+        Item: aegis_300602
+        RequiredItems:
+          - Index: 0
+            Item: aegis_1001854
+            Amount: 30
+  - Name: barter_yonce
+    Items:
+      - Index: 0
+        Item: Yorscalp_Symbol
+        Zeny: 1500000
+        RequiredItems:
+          - Index: 0
+            Item: Yorscalp_Spirit
+            Amount: 5
+      - Index: 1
+        Item: Yorscalp_Symbol
+        Zeny: 10000
+        RequiredItems:
+          - Index: 0
+            Item: Yorscalp_Spirit
+            Amount: 50
+      - Index: 2
+        Item: Yorscalp_Serpent
+        Zeny: 50000
+        RequiredItems:
+          - Index: 0
+            Item: Yorscalp_Spirit
+            Amount: 100
+      - Index: 3
+        Item: Yorscalp_Serpent
+        Zeny: 3000000
+        RequiredItems:
+          - Index: 0
+            Item: Yorscalp_Spirit
+            Amount: 10
+      - Index: 4
+        Item: Yorscalp_Serpent
+        Zeny: 50000
+        RequiredItems:
+          - Index: 0
+            Item: Yorscalp_Symbol
+            Amount: 3
+      - Index: 5
+        Item: Encroached_Fruit
+        Zeny: 1000000
+        RequiredItems:
+          - Index: 0
+            Item: Yorscalp_Spirit
+            Amount: 500
+          - Index: 1
+            Item: Apple
+            Amount: 1
+  - Name: barter_crowny
+    Items:
+      - Index: 0
+        Item: Yorscalp_P_Circlet
+        Zeny: 1000000
+        RequiredItems:
+          - Index: 0
+            Item: Encroached_Fruit
+            Amount: 5
+          - Index: 1
+            Item: Yorscalp_Spirit
+            Amount: 100
+          - Index: 2
+            Item: Yorscalp_Symbol
+            Amount: 30
+      - Index: 1
+        Item: Yorscalp_M_Circlet
+        Zeny: 1000000
+        RequiredItems:
+          - Index: 0
+            Item: Encroached_Fruit
+            Amount: 5
+          - Index: 1
+            Item: Yorscalp_Spirit
+            Amount: 100
+          - Index: 2
+            Item: Yorscalp_Symbol
+            Amount: 30
+  - Name: remorse_item
+    Items:
+      - Index: 0
+        Item: Sakray_Fury
+        Zeny: 100000
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 50
+      - Index: 1
+        Item: Sakray_Regret
+        Zeny: 100000
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 50
+      - Index: 2
+        Item: Sakray_Fury2
+        Zeny: 150000
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 50
+      - Index: 3
+        Item: Sakray_Regret2
+        Zeny: 150000
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 250    
+  - Name: remorse_weapon
+    Items:
+      - Index: 0
+        Item: Poenitentia_Ensis
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700
+      - Index: 1
+        Item: Poenitentia_Catapulta
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700
+      - Index: 2
+        Item: Poenetentia_Box1
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 3
+        Item: Poenetentia_Box2
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700  
+      - Index: 4
+        Item: Poenitentia_Catapulta
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700            
+      - Index: 5
+        Item: Poenitentia_Ascia
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700           
+      - Index: 6
+        Item: Poenitentia_Clava
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700      
+      - Index: 7
+        Item: Poenitentia_Pendulus
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 8
+        Item: Poenitentia_Ligula
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700  
+      - Index: 9
+        Item: Poenitentia_Termes
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700    
+      - Index: 10
+        Item: Poenitentia_Virga
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700                
+      - Index: 11
+        Item: Poenitentia_Scipio
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700    
+      - Index: 12
+        Item: Poenitentia_Codex
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 13
+        Item: Poenitentia_Liber
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 14
+        Item: Poenitentia_Crystallum
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700  
+      - Index: 15
+        Item: Poenitentia_Caestus
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700  
+      - Index: 16
+        Item: Poenitentia_Ungula
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 17
+        Item: Poenitentia_Manus
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700        
+      - Index: 18
+        Item: Poenitentia_Mucro
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 19
+        Item: Poenitentia_Tenon
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700  
+      - Index: 20
+        Item: Poenetentia_Dilacero
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700    
+      - Index: 21
+        Item: Poenitentia_Nervus
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700                 
+      - Index: 22
+        Item: Poenetentia_Attendo
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 23
+        Item: Poenitentia_Chorda
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 24
+        Item: Poenitentia_Flagellum
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700   
+      - Index: 25
+        Item: Poenetentia_Vatia
+        RequiredItems:
+          - Index: 0
+            Item: Mine_As
+            Amount: 700
+  - Name: gatcha_met
+    Items:
+      - Index: 0
+        Item: C_CLB_GAT_doc
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 1
+        Item: C_CLB_GAT_button
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 2
+        Item: C_CLB_GAT_BK
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 3
+        Item: C_CLB_GAT_G1
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 4
+        Item: C_CLB_GAT_G2
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 5
+        Item: C_CLB_GAT_G3
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 6
+        Item: C_CLB_GAT_G4
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 7
+        Item: C_CLB_GAT_G5
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 8
+        Item: C_CLB_GAT_bye
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 5
+      - Index: 9
+        Item: C_CLB_GAT_go
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 8
+      - Index: 10
+        Item: CLB_GAT_card1
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 10
+      - Index: 11
+        Item: CLB_GAT_card2
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 10
+      - Index: 12
+        Item: CLB_GAT_card3
+        RequiredItems:
+          - Index: 0
+            Item: Casp_Check
+            Amount: 10
+#= Loja de Missões (Barter System - Hunting Missions)
+
+  - Name: Hunting_Quest_ShopMISSAO
+    Items:
+      - Index: 0
+        Item: Red_Potion
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 1
+      - Index: 1
+        Item: Orange_Potion
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 1
+      - Index: 2
+        Item: Yellow_Potion
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 1
+      - Index: 3
+        Item: White_Potion
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 5
+      - Index: 4
+        Item: Blue_Potion
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 5
+      - Index: 5
+        Item: Apple
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 10
+      - Index: 6
+        Item: Banana
+        RequiredItems:
+          - Index: 0
+            Item: Ch1_Root_Coin
+            Amount: 10

@@ -1,0 +1,56 @@
+// SeasonEngine login selection.
+// A escolha aparece somente quando o personagem ainda nao possui uma temporada.
+-	script	SeasonRateLogin	-1,{
+OnPCLoginEvent:
+	if (SEASON_FIRST_LOGIN_DONE || season_state() == 1)
+		end;
+
+	// Aguarda o carregamento completo do personagem e do inventario.
+	sleep2 2500;
+	if (SEASON_FIRST_LOGIN_DONE || season_state() == 1)
+		end;
+
+OnChooseRate:
+	mes callfunc("F_LangText", "[Season Selection]", "[Elección de Temporada]", "[Escolha de Temporada]");
+	mes callfunc("F_LangText", "Welcome to the server, ", "¡Bienvenido al servidor, ", "Bem-vindo ao servidor, ") + strcharinfo(0) + "!";
+	mes callfunc("F_LangText", "Before you start, choose this character's personal rate.", "Antes de empezar, elige la rate personal de este personaje.", "Antes de começar, escolha a rate pessoal deste personagem.");
+	mes callfunc("F_LangText", "This choice does not affect other players.", "Esta elección no afecta a otros jugadores.", "A escolha não altera os outros jogadores.");
+	mes "";
+	mes callfunc("F_LangText", "Season 1x lasts 30 days, counts while offline and has level rewards.", "La Temporada 1x dura 30 días, cuenta offline y tiene recompensas por nivel.", "A Temporada 1x dura 30 dias, conta mesmo offline e possui recompensas por nível.");
+	next;
+
+	.@choice = select(
+		callfunc("F_LangText", "Season 1x (30 days)", "Temporada 1x (30 días)", "Temporada 1x (30 dias)") + ":" +
+		callfunc("F_LangText", "Normal rate 1x", "Rate normal 1x", "Rate normal 1x") + ":" +
+		callfunc("F_LangText", "Rate 25x", "Rate 25x", "Rate 25x") + ":" +
+		callfunc("F_LangText", "Rate 50x", "Rate 50x", "Rate 50x") + ":" +
+		callfunc("F_LangText", "Rate 100x", "Rate 100x", "Rate 100x"));
+	mes callfunc("F_LangText", "[Season Selection]", "[Elección de Temporada]", "[Escolha de Temporada]");
+	mes callfunc("F_LangText", "You selected option ", "Seleccionaste la opción ", "Você selecionou a opção ") + .@choice + ".";
+	if (.@choice == 1)
+		mes callfunc("F_LangText", "Base EXP 1x | Job EXP 1x | Drop +60% | Duration 30 days.", "EXP Base 1x | EXP Job 1x | Drop +60% | Duración 30 días.", "Base EXP 1x | Job EXP 1x | Drop +60% | Duração 30 dias.");
+	else if (.@choice == 2)
+		mes callfunc("F_LangText", "Base EXP 1x | Job EXP 1x | Drop +50% | Permanent.", "EXP Base 1x | EXP Job 1x | Drop +50% | Permanente.", "Base EXP 1x | Job EXP 1x | Drop +50% | Permanente.");
+	else if (.@choice == 3)
+		mes callfunc("F_LangText", "Base EXP 25x | Job EXP 25x | Drop +25% | Permanent.", "EXP Base 25x | EXP Job 25x | Drop +25% | Permanente.", "Base EXP 25x | Job EXP 25x | Drop +25% | Permanente.");
+	else if (.@choice == 4)
+		mes callfunc("F_LangText", "Base EXP 50x | Job EXP 50x | Drop +10% | Permanent.", "EXP Base 50x | EXP Job 50x | Drop +10% | Permanente.", "Base EXP 50x | Job EXP 50x | Drop +10% | Permanente.");
+	else
+		mes callfunc("F_LangText", "Base EXP 100x | Job EXP 100x | Drop +5% | Permanent.", "EXP Base 100x | EXP Job 100x | Drop +5% | Permanente.", "Base EXP 100x | Job EXP 100x | Drop +5% | Permanente.");
+	mes "";
+	mes callfunc("F_LangText", "Confirm your choice?", "¿Confirmar tu elección?", "Confirma sua escolha?");
+	next;
+	if (select(callfunc("F_LangText", "Confirm", "Confirmar", "Confirmar") + ":" + callfunc("F_LangText", "Choose again", "Elegir otra vez", "Escolher outra vez")) == 2)
+		goto OnChooseRate;
+
+	if (season_setrate(.@choice)) {
+		SEASON_FIRST_LOGIN_DONE = 1;
+		dispbottom callfunc("F_LangText", "Season configured. Use @season to check your rate.", "Temporada configurada. Usa @season para consultar tu rate.", "Temporada configurada. Use @season para consultar sua rate.");
+		mes callfunc("F_LangText", "Rate configured successfully!", "¡Rate configurada correctamente!", "Rate configurada com sucesso!");
+		mes callfunc("F_LangText", "Your rewards will be delivered according to the season rules.", "Tus recompensas se entregarán según las reglas de la temporada.", "Suas recompensas serão entregues conforme as regras da temporada.");
+	} else {
+		mes callfunc("F_LangText", "The rate could not be configured now.", "No fue posible configurar la rate ahora.", "Não foi possível configurar a rate agora.");
+		mes callfunc("F_LangText", "Try relogging or contact the administration.", "Intenta reloguear o contacta a la administración.", "Tente relogar ou procure a administração.");
+	}
+	close;
+}

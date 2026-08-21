@@ -1,0 +1,339 @@
+
+//=====Mjolnir Underground Cave					
+mjo_wst01	monster	--ja--	21951,90
+mjo_wst01	monster	--ja--	21952,90
+mjo_wst01	monster	--ja--	21953,90
+mjo_wst01	monster	--ja--	21954,90
+mjo_wst01	boss_monster	--ja--	21955,1,7200000,600000,1
+					
+//=====Power Twisted Plains					
+ra_pol01	monster	--ja--	21946,100
+ra_pol01	monster	--ja--	21947,125
+ra_pol01	monster	--ja--	21948,125
+ra_pol01	monster	--ja--	21949,125
+ra_pol01	boss_monster	--ja--	21950,1,7200000,600000,1
+					
+					
+jor_twice	monster	--ja--	21969,60
+jor_twice	monster	--ja--	21972,20
+jor_twice	monster	--ja--	21973,20
+jor_twice	monster	--ja--	21983,60
+jor_twice	monster	--ja--	21987,40
+					
+					
+jor_twig	monster	--ja--	21997,20
+jor_twig	monster	--ja--	21998,20
+					
+					
+jor_back4	monster	--ja--	21522,10
+jor_back4	monster	--ja--	21523,10
+jor_back4	monster	--ja--	21969,50
+jor_back4	monster	--ja--	21983,50
+jor_back4	monster	--ja--	21976,30
+jor_back4	monster	--ja--	21977,30
+jor_back4	monster	--ja--	21978,20
+jor_back4	boss_monster	--ja--	21996,1,7200000,600000,1
+					
+jor_back5	monster	--ja--	21524,10
+jor_back5	monster	--ja--	21984,10
+jor_back5	monster	--ja--	21965,40
+jor_back5	monster	--ja--	21966,60
+jor_back5	monster	--ja--	21974,20
+jor_back5	monster	--ja--	21975,20
+jor_back5	monster	--ja--	21968,40
+					
+jor_back6	monster	--ja--	21524,10
+jor_back6	monster	--ja--	21978,20
+jor_back6	monster	--ja--	21971,75
+jor_back6	monster	--ja--	23060,55
+jor_back6	monster	--ja--	21967,100
+					
+jor_maze	monster	--ja--	21972,35
+jor_maze	monster	--ja--	21973,35
+jor_maze	monster	--ja--	21989,30
+					
+jor_root1	monster	--ja--	21972,20
+jor_root1	monster	--ja--	21973,10
+jor_root1	monster	--ja--	21985,80
+jor_root1	monster	--ja--	21986,70
+jor_root1	monster	--ja--	21989,20
+					
+jor_root2	monster	--ja--	21972,5
+jor_root2	monster	--ja--	21973,15
+jor_root2	monster	--ja--	21989,60
+jor_root2	monster	--ja--	21987,40
+jor_root2	monster	--ja--	21988,30
+					
+jor_root3	monster	--ja--	21971,30
+jor_root3	monster	--ja--	21970,110
+jor_root3	monster	--ja--	21990,130
+jor_root3	boss_monster	--ja--	21980,1,7200000,600000,1
+			
+moc_akhet	monster	--ja--	22395,120
+moc_akhet	monster	--ja--	22396,23
+moc_akhet	monster	--ja--	22401,75
+moc_akhet	monster	--ja--	22402,14
+moc_akhet	monster	--ja--	22397,120
+moc_akhet	monster	--ja--	22398,23
+moc_akhet	monster	--ja--	22399,105
+moc_akhet	monster	--ja--	22400,20
+moc_akhet	monster	--ja--	22403,1
+moc_akhet	boss_monster	--ja--	22404,1,7200000,600000,1
+					
+nif_fild03	monster	--ja--	22383,60
+nif_fild03	monster	--ja--	22384,10
+nif_fild03	monster	--ja--	22385,105
+nif_fild03	monster	--ja--	22386,17
+nif_fild03	monster	--ja--	22387,75
+nif_fild03	monster	--ja--	22388,14
+nif_fild03	monster	--ja--	22389,105
+nif_fild03	monster	--ja--	22390,17
+nif_fild03	monster	--ja--	22391,105
+nif_fild03	monster	--ja--	22392,17
+nif_fild03	boss_monster	--ja--	22394,1,7200000,600000,1
+
+	
+//=====ep21
+jor_base	monster	--ja--	22322,230
+jor_base	monster	--ja--	22313,50
+jor_base	monster	--ja--	22321,230
+jor_base	monster	--ja--	22326,30
+jor_base	monster	--ja--	22324,30
+					
+jor_raise1	monster	--ja--	22315,70
+jor_raise1	monster	--ja--	22313,70
+jor_raise1	monster	--ja--	22316,70
+jor_raise1	monster	--ja--	22314,70
+jor_raise1	monster	--ja--	22317,70
+jor_raise1	monster	--ja--	22323,30
+jor_raise1	monster	--ja--	22327,30
+jor_raise1	monster	--ja--	22325,30
+					
+jor_raise2	monster	--ja--	22313,100
+jor_raise2	monster	--ja--	22319,130
+jor_raise2	monster	--ja--	22320,100
+jor_raise2	monster	--ja--	22318,130
+jor_raise2	boss_monster	--ja--	22362,1,7200000,600000,1
+					
+jor_tmple1	monster	--ja--	22323,70
+jor_tmple1	monster	--ja--	22326,70
+jor_tmple1	monster	--ja--	22327,70
+jor_tmple1	monster	--ja--	22353,75
+jor_tmple1	monster	--ja--	22324,70
+jor_tmple1	monster	--ja--	22325,70
+jor_tmple1	monster	--ja--	22354,75
+jor_tmple1	monster	--ja--	22355,20
+jor_tmple1	monster	--ja--	22356,20
+jor_tmple1	monster	--ja--	22357,20
+jor_tmple1	boss_monster	--ja--	22363,1,7200000,600000,1
+					
+jor_tmple2	monster	--ja--	22355,90
+jor_tmple2	monster	--ja--	22356,90
+jor_tmple2	monster	--ja--	22357,90
+jor_tmple2	monster	--ja--	22358,80
+jor_tmple2	monster	--ja--	22359,80
+jor_tmple2	monster	--ja--	22360,70
+jor_tmple2	monster	--ja--	22361,70
+jor_tmple2	boss_monster	--ja--	22364,1,7200000,600000,1
+
+//========================================================================
+// Jormugand Cult Temple
+//========================================================================
+jor_sklf1	monster	Yormi	22417,100
+jor_sklf1	monster	Yormi Missionary	22418,100
+jor_sklf1	monster	Yordos Executor	22414,100
+jor_sklf1	monster	Yordos Judge	22415,100
+jor_sklf1	monster	Yordos Investigator	22416,100
+jor_sklf1	boss_monster	Awakened Yortus Judge	22421,1,7200000,600000,1
+
+jor_sklf2	monster	Yordos Executor	22414,35
+jor_sklf2	monster	Yordos Judge	22415,35
+jor_sklf2	monster	Yordos Investigator	22416,35
+jor_sklf2	monster	Yoscopus Guardian	22419,100
+jor_sklf2	monster	Yoscopus Sorcerer	22420,100
+jor_sklf2	monster	Yortus Bishop	22412,100
+jor_sklf2	monster	Yortus Warlock	22413,100
+jor_sklf2	boss_monster	Awakened Yortus Executor	22422,1,7200000,600000,1
+
+//==========================================================================
+// Mysterious Ghost Ship Dungeon
+//==========================================================================
+1@wtgs	monster	Ghost Ship Sailor	22369,100
+1@wtgs	boss_monster	Ghost Ship Captain	22372,1,7200000,600000,1
+
+//==========================================================================
+// Unknown Dimension Monster
+//==========================================================================
+uknw_ruin	monster	Scabiosa	22467,35
+uknw_ruin	monster	Calendula	22466,60
+uknw_ruin	monster	Nyaise	22463,15
+uknw_ruin	monster	Tulip	22465,60
+uknw_ruin	monster	Shadow Jailer	22464,15
+
+uknw_ruin2	monster	Nyaise	22463,15
+uknw_ruin2	monster	Shadow Jailer	22464,15
+uknw_ruin2	monster	Anemone	22470,60
+uknw_ruin2	monster	Lobelia	22468,35
+uknw_ruin2	monster	Myosotis	22469,60
+uknw_ruin2	boss_monster	Glutton	22495,1,7200000,600000,1
+
+//===========================================================================
+// Twisted Land of Darkness
+//===========================================================================
+ygg_roots	monster	Yggring	22443,10
+ygg_roots	monster	Leafring	22444,10
+
+//===========================================================================
+// Unknown Blue Hole
+//===========================================================================
+cmd_bhole	monster	Hanom	22435,90
+cmd_bhole	monster	Tough Hanom	22440,15
+cmd_bhole	monster	Sirena	22436,60
+cmd_bhole	monster	Tough Sirena	22441,10
+cmd_bhole	monster	Tatsi	22431,100
+cmd_bhole	monster	Tough Tatsi	22433,17
+cmd_bhole	monster	Diosa	22437,100
+cmd_bhole	monster	Tough Diosa	22442,16
+cmd_bhole	monster	Guerrero	22434,100
+cmd_bhole	monster	Tough Guerrero	22439,17
+cmd_bhole	boss_monster	Peska	22438,1,720000,600000,1
+
+//===========================================================================
+// Muspelheim
+//===========================================================================
+mu_fild01	monster	Charcoaring	22445,30
+mu_fild01	monster	Volcano Clam	22449,45
+mu_fild01	monster	Vulring	22446,30
+mu_fild01	monster	Firafflesia	22448,45
+mu_fild01	monster	Fire Ring	22447,45
+mu_fild01	monster	Fire Flower	22450,15
+mu_fild01	boss_monster	Bulgasari	22494,1,720000,600000,1
+
+//===========================================================================
+// Destroyed Verus
+//===========================================================================
+hem_dun01	monster	Encroached Dimic	22456,20
+hem_dun01	monster	Encroached Dimic	22457,20
+hem_dun01	monster	Encroached Dimic	22458,20
+hem_dun01	monster	Encroached Dimic	22459,20
+hem_dun01	monster	Encroached Repair Robot	22455,60
+hem_dun01	monster	Immortal Butcher Soldier	22460,15
+hem_dun01	monster	Immortal Scythe Soldier	22461,15
+hem_dun01	monster	Immortal Plow Soldier	22462,15
+hem_dun01	monster	Exploration Robot	22454,60
+
+hem_dun02	monster	Immortal Legion Officer	22474,25
+hem_dun02	monster	Immortal Legion Officer	22475,25
+hem_dun02	monster	Strange Skogul	22471,50
+hem_dun02	monster	Strange Frus	22472,50
+hem_dun02	monster	Listener	22473,50
+
+//============================================================================
+// Devoured Geffenia
+//============================================================================
+ch1_gfn01	monster	Bloody Slasher	22480,35
+ch1_gfn01	monster	Bloody Slasher	22481,6
+ch1_gfn01	monster	Toxit	22476,35
+ch1_gfn01	monster	Toxit	22477,6
+ch1_gfn01	monster	Shadiest	22482,35
+ch1_gfn01	monster	Shadiest	22483,6
+ch1_gfn01	monster	Lunarina	22478,35
+ch1_gfn01	monster	Lunarina	22479,6
+ch1_gfn01	monster	High Succubus	22484,18
+ch1_gfn01	monster	High Succubus	22489,3
+ch1_gfn01	monster	High Incubus	22486,18
+ch1_gfn01	monster	High Incubus	22487,3
+ch1_gfn01	monster	Commander of Abyss	22488,18
+ch1_gfn01	monster	Commander of Abyss	22489,3
+
+ch1_gfn03	monster	Bloody Slasher	22480,35
+ch1_gfn03	monster	Bloody Slasher	22481,6
+ch1_gfn03	monster	Toxit	22476,35
+ch1_gfn03	monster	Toxit	22477,6
+ch1_gfn03	monster	Shadiest	22482,35
+ch1_gfn03	monster	Shadiest	22483,6
+ch1_gfn03	monster	Lunarina	22478,35
+ch1_gfn03	monster	Lunarina	22479,6
+ch1_gfn03	monster	High Succubus	22484,18
+ch1_gfn03	monster	High Succubus	22489,3
+ch1_gfn03	monster	High Incubus	22486,18
+ch1_gfn03	monster	High Incubus	22487,3
+ch1_gfn03	monster	Commander of Abyss	22488,18
+ch1_gfn03	monster	Commander of Abyss	22489,3
+
+//============================================================================
+// Destroyed Geffen Field
+//============================================================================
+hem_fild	monster	Corrupted Silk Frog	22452,28
+hem_fild	monster	Big Eye	22451,52
+hem_fild	monster	Corrupted Silk Snail	22453,28
+hem_fild	monster	Immortal Butcher Soldier	22460,12
+hem_fild	monster	Immortal Scythe Soldier	22461,12
+hem_fild	monster	Immortal Plow Soldier	22462,12
+
+//============================================================================
+// Corridor of Phantoms
+//============================================================================
+vis_h01	monster	Amon Ra of the Illusion	20181,1,15000
+vis_h01	monster	Baphomet the Illusion	20182,1,15000
+vis_h01	monster	Dark Lord of The Illusion	20183,1,15000
+vis_h01	monster	Illusion Doppelganger	20184,1,15000
+vis_h01	monster	Illusion Dracula	20185,1,15000
+vis_h01	monster	Illusion Drake	20186,1,15000
+vis_h01	monster	Illusion Eddga	20187,1,15000
+vis_h01	monster	Welcome Hati	20188,1,15000
+vis_h01	monster	Illusion Golden Thief	20189,1,15000
+vis_h01	monster	Knight of the Illusion	20190,1,15000
+vis_h01	monster	Welcome Maya	20191,1,15000
+vis_h01	monster	Illusion Mistress	20192,1,15000
+vis_h01	monster	Welcome Moonlight	20193,1,15000
+vis_h01	monster	Orc Lord of the Illusion	20194,1,15000
+vis_h01	monster	Welcome Orc Hero	20195,1,15000
+vis_h01	monster	Osiris the illusion	20196,1,15000
+vis_h01	monster	Phantom Pharaoh	20197,1,15000
+vis_h01	monster	Phreeoni of illusion	20198,1,15000
+vis_h01	monster	Tao Gunka of Welcome	20199,1,15000
+vis_h01	monster	Welcome Turtle General	20200,1,15000
+
+//============================================================================
+// Abandoned Zero Cell
+//============================================================================
+ch1fild1	monster	M.RK-ERROR	22669,7,15000
+ch1fild1	monster	M.GC-ERROR	22670,5,15000
+ch1fild1	monster	M.GC.D-ERROR	22671,5,15000
+
+ch1zero1	monster	M.RK-4480	22507,60,15000
+ch1zero1	monster	M.MC.M-5407	22508,60,15000
+ch1zero1	monster	M.SC-3941	22509,60,15000
+ch1zero1	monster	M.RA-4152	22510,40,15000
+ch1zero1	monster	M.SO-4206	22511,60,15000
+ch1zero1	monster	M.AB-4084	22512,40,15000
+ch1zero1	monster	M.MI.D-5794	22513,40,15000
+ch1zero1	monster	M.GC.D-4402	22514,60,15000
+
+ch1zero2	monster	M.RG-5520	22516,70,15000
+ch1zero2	monster	M.MC-4593	22517,90,15000
+ch1zero2	monster	M.GN-6059	22518,90,15000
+ch1zero2	monster	M.GC-5848	22519,70,15000
+ch1zero2	monster	M.MI-4419	22520,90,15000
+ch1zero2	monster	M.SR-5916	22521,90,15000
+ch1zero2	monster	M.WL-5581	22522,70,15000
+ch1zero2	monster	M.WA-5598	22523,90,15000
+
+ch1zero3	monster	M.MC.M-0001	22526,65,15000
+ch1zero3	monster	M.SC-0001	22527,65,15000
+ch1zero3	monster	M.RA-0001	22528,65,15000
+ch1zero3	monster	M.SO-0001	22529,45,15000
+ch1zero3	monster	M.AB-0001	22530,65,15000
+ch1zero3	monster	M.MI.D-0001	22531,45,15000
+ch1zero3	monster	M.GC.D-0001	22532,45,15000
+ch1zero3	monster	M.RK-0001	22525,65,15000
+
+ch1zero4	monster	M.RG-0001	22542,45,15000
+ch1zero4	monster	M.MC-0001	22543,65,15000
+ch1zero4	monster	M.GC-0001	22544,45,15000
+ch1zero4	monster	M.SO-0001	22545,65,15000
+ch1zero4	monster	M.MI-0001	22546,65,15000
+ch1zero4	monster	M.SR-0001	22547,65,15000
+ch1zero4	monster	M.WL-0001	22548,65,15000
+ch1zero4	monster	M.WA-0001	22549,45,15000

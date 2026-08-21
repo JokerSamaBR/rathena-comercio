@@ -1,0 +1,207 @@
+//===== rAthena Script =======================================
+//= Healer
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Basic healer script.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//= 1.1 Aligned coordinates with @go.
+//============================================================
+
+-	script	Healer	-1,{
+
+	.@Price = 0;	// Zeny required for heal
+	.@Buffs = 1;	// Also buff players? (1: yes / 0: no)
+	.@Delay = 0;	// Heal delay, in seconds
+
+	if (@HD > gettimetick(2))
+		end;
+	if (.@Price) {
+		message strcharinfo(0), "Healing costs " + callfunc("F_InsertComma",.@Price) + " Zeny.";
+		if (Zeny < .@Price)
+			end;
+		if (select("^0055FFHeal^000000:^777777Cancel^000000") == 2)
+			end;
+		Zeny -= .@Price;
+	}
+	specialeffect2 EF_HEAL2;
+	percentheal 100,100;
+	if (.@Buffs) {
+		specialeffect2 EF_INCAGILITY;
+		sc_start SC_INCREASEAGI,240000,10;
+		specialeffect2 EF_BLESSING;
+		sc_start SC_BLESSING,240000,10;
+skilleffect 384,0; sc_start SC_MELTDOWN,3600000,5;
+skilleffect 383,0; sc_start SC_WINDWALK,3600000,5;
+skilleffect 378,0; sc_start SC_EDP,3600000,5;
+skilleffect 465,0; sc_start SC_KAITE,3600000,7;
+skilleffect 464,0; sc_start SC_KAUPE,3600000,3;
+skilleffect 463,0; sc_start SC_KAAHI,3600000,7;
+skilleffect 462,0; sc_start SC_KAIZEL,3600000,7;
+skilleffect 8,0; sc_start SC_ENDURE,3600000,10;
+skilleffect 33,0; sc_start SC_ANGELUS,3600000,10;
+skilleffect 45,0; sc_start SC_CONCENTRATE,3600000,10;
+skilleffect 74,0; sc_start SC_MAGNIFICAT,3600000,5;
+skilleffect 75,0; sc_start SC_GLORIA,3600000,5;
+skilleffect 459,0; sc_start SC_ADRENALINE2,3600000,1;
+skilleffect 66,0; sc_start SC_IMPOSITIO,3600000,5;
+skilleffect 67,0; sc_start SC_SUFFRAGIUM,3600000,3;
+skilleffect 34,0; sc_start SC_BLESSING,3600000,10;
+skilleffect 29,0; sc_start SC_INCREASEAGI,3600000,10;
+skilleffect 112,0; sc_start SC_WEAPONPERFECTION,3600000,10;
+skilleffect 113,0; sc_start SC_OVERTHRUST,3600000,5;
+skilleffect 114,0; sc_start SC_MAXIMIZEPOWER,3600000,5;
+skilleffect 357,0; sc_start SC_CONCENTRATION,3600000,5;
+skilleffect 355,0; sc_start SC_AURABLADE,3600000,5;
+skilleffect 155,0; sc_start SC_LOUD,3600000,1;
+skilleffect 157,0; sc_start SC_ENERGYCOAT,3600000,1;
+sc_start SC_ASPDPOTION2,3600000,50;
+sc_start SC_STRFood,3600000,50;
+sc_start SC_AGIFood,3600000,50;
+sc_start SC_VITFood,3600000,50;
+sc_start SC_INTFood,3600000,50;
+sc_start SC_DEXFood,3600000,50;
+sc_start SC_LUKFood,3600000,50;
+sc_start SC_HitFood,3600000,50;
+sc_start SC_FleeFood,3600000,50;
+sc_start SC_BATKFood,3600000,50;
+sc_start SC_MATKFood,3600000,50;
+skilleffect 380,0; sc_start SC_TRUESIGHT,3600000,5;
+skilleffect 361,0; sc_start SC_ASSUMPTIO,3600000,5;
+sc_start SC_INTFOOD,3600000,50;
+sc_start SC_DEXFOOD,3600000,50;
+sc_start SC_VITFOOD,3600000,50;
+sc_start SC_MATKPOTION,3600000,50;
+percentheal 100,100;
+sc_start SC_DEXFOOD,3600000,50;
+sc_start SC_AGIFOOD,3600000,50;
+sc_start SC_LUKFOOD,3600000,50;
+sc_start SC_ATKPOTION,3600000,50;
+sc_start SC_MATKPOTION,3600000,50;
+percentheal 100,100;
+sc_start SC_STRFOOD,3600000,50;
+sc_start SC_AGIFOOD,3600000,50;
+sc_start SC_VITFOOD,3600000,50;
+sc_start SC_INTFOOD,3600000,50;
+sc_start SC_DEXFOOD,3600000,50;
+sc_start SC_LUKFOOD,3600000,50;
+sc_start SC_ATKPOTION,3600000,50;
+sc_start SC_MATKPOTION,3600000,50;
+sc_start SC_SPEEDUP1,3600000,50;
+sc_start SC_EXPBOOST,3600000,50;
+sc_start SC_JEXPBOOST,3600000,50;
+sc_start SC_ITEMBOOST,3600000,50;
+sc_start SC_CP_WEAPON,3600000,50;
+sc_start SC_CP_HELM,3600000,50;
+sc_start SC_CP_ARMOR,3600000,50;
+sc_start SC_CP_SHIELD,3600000,50;
+sc_start SC_CP_WEAPON,3600000,50;
+sc_start SC_CP_HELM,3600000,50;
+sc_start SC_CP_ARMOR,3600000,50;
+sc_start SC_CP_SHIELD,3600000,50;
+percentheal 100,100;
+atcommand "@healap";
+atcommand "@allskill";
+atcommand "@allskill";
+atcommand "@identifyall";
+atcommand "@refine 0 +99";
+atcommand "@grade 0 +99";
+	}
+	if (.@Delay)
+		@HD = gettimetick(2) + .@Delay;
+	end;
+}
+
+// Duplicates
+//============================================================
+alberta,25,240,6	duplicate(Healer)	Healer#alb	641
+aldebaran,135,118,6	duplicate(Healer)	Healer#alde	641
+amatsu,200,79,4	duplicate(Healer)	Healer#ama	641
+ayothaya,207,169,6	duplicate(Healer)	Healer#ayo	641
+comodo,184,158,6	duplicate(Healer)	Healer#com	641
+einbech,57,36,6	duplicate(Healer)	Healer#einbe	641
+einbroch,57,202,6	duplicate(Healer)	Healer#einbr	641
+geffen,115,72,6	duplicate(Healer)	Healer#gef	641
+gonryun,154,120,6	duplicate(Healer)	Healer#gon	641
+hugel,89,150,6	duplicate(Healer)	Healer#hug	641
+izlude,121,150,6	duplicate(Healer)	Healer#izl	641	//Pre-RE: (125,118)
+jawaii,250,139,4	duplicate(Healer)	Healer#jaw	641
+lighthalzen,152,100,6	duplicate(Healer)	Healer#lhz	641
+louyang,226,103,4	duplicate(Healer)	Healer#lou	641
+manuk,272,144,6	duplicate(Healer)	Healer#man	641
+mid_camp,203,289,6	duplicate(Healer)	Healer#mid	641
+moc_ruins,72,164,4	duplicate(Healer)	Healer#moc	641
+morocc,153,97,6	duplicate(Healer)	Healer#mor	641
+moscovia,220,191,4	duplicate(Healer)	Healer#mos	641
+niflheim,212,182,5	duplicate(Healer)	Healer#nif	641
+payon,179,106,4	duplicate(Healer)	Healer#pay	641
+prontera,159,189,4	duplicate(Healer)	Healer#prt	641
+rachel,125,116,6	duplicate(Healer)	Healer#rac	641
+splendide,201,153,4	duplicate(Healer)	Healer#spl	641
+thor_camp,249,74,4	duplicate(Healer)	Healer#thor	641
+umbala,105,148,3	duplicate(Healer)	Healer#umb	641
+veins,217,121,4	duplicate(Healer)	Healer#ve	641
+xmas,143,136,4	duplicate(Healer)	Healer#xmas	641
+yuno,164,45,4	duplicate(Healer)	Healer#yuno	641
+
+// Duplicates (Renewal)
+//============================================================
+brasilis,194,221,6	duplicate(Healer)	Healer#bra	641
+dewata,195,187,4	duplicate(Healer)	Healer#dew	641
+dicastes01,201,194,4	duplicate(Healer)	Healer#dic	641
+ecl_in01,45,60,4	duplicate(Healer)	Healer#ecl	641
+malangdo,132,114,6	duplicate(Healer)	Healer#mal	641
+malaya,227,204,6	duplicate(Healer)	Healer#ma	641
+mora,55,152,4	duplicate(Healer)	Healer#mora	641
+wolfvill,135,150,5	duplicate(Healer)	Healer#wol	641
+verus04,129,253,5	duplicate(Healer)	Healer#ver	641
+ba_maison,59,149,7	duplicate(Healer)	Healer#ba_	641
+harboro1,289,200,7	duplicate(Healer)	Healer#har	641
+caspen,161,215,5	duplicate(Healer)	Healer#cas	641
+ygg_roots,203,173,4	duplicate(Healer)	Healer#ygg	641
+ygg_edge,146,171,6	duplicate(Healer)	Healer#ysg	641
+jor_albe,58,159,3	duplicate(Healer)	Healer#al_	641
+jor_mbase,223,158,2	duplicate(Healer)	Healer#mba	641
+sp_cor,166,172,4	duplicate(Healer)	Healer#cor	641
+ch1_geffen,124,66,2	duplicate(Healer)	Healer#rui	641
+icecastle,198,148,2	duplicate(Healer)	Healer#ice	641
+
+// Duplicates (Training Ground)
+//============================================================
+tra_fild,101,171,5	duplicate(Healer)	Healer#tg1	641
+tra_fild,114,78,3	duplicate(Healer)	Healer#tg2	641
+tra_fild02,117,108,8	duplicate(Healer)	Healer#tg3	641
+
+//============================================================
+prontera,159,182,5	script	Soullinker Buff	10434,{
+switch ( basejob ) {
+ case Job_Alchemist:	set .@spirit, 445; break;
+ case Job_Monk:	 set .@spirit, 447; break;
+ case Job_Star_Gladiator:  set .@spirit, 448; break;
+ case Job_Sage:	 set .@spirit, 449; break;
+ case Job_Crusader:	set .@spirit, 450; break;
+ case Job_SuperNovice:   set .@spirit, 451; break;
+ case Job_Knight:	set .@spirit, 452; break;
+ case Job_Wizard:	set .@spirit, 453; break;
+ case Job_Priest:	set .@spirit, 454; break;
+ case Job_Bard: case Job_Dancer: set .@spirit, 455; break;
+ case Job_Rogue:	 set .@spirit, 456; break;
+ case Job_Assassin:	set .@spirit, 457; break;
+ case Job_Blacksmith:   set .@spirit, 458; break;
+ case Job_Hunter:	set .@spirit, 460; break;
+ case Job_Soul_Linker:   set .@spirit, 461; break;
+ default:
+  if ( upper == 1 && baselevel < 70 )
+set .@spirit, 494;
+}
+if ( .@spirit ) {
+ sc_start4 sc_spirit, .@time, 99, .@spirit,0,0;
+ skilleffect .@spirit, 5;
+}
+end;
+}

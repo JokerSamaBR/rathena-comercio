@@ -1,0 +1,591 @@
+//===== rAthena Script =======================================
+//= Garden of Time Instances - Lake of Fire & Hall of Life
+//===== Description: =========================================
+//= Functional instance layer compatible with garden_of_time_patched.txt
+//= Maps:
+//=   1@f_lake = Garden of Time - Lake of Fire
+//=   1@ba_go  = Garden of Time - Hall of Life
+//============================================================
+
+//============================================================
+//= CONFIG - MUHRO / DIVINE-PRIDE IDS APPLIED
+//============================================================
+-	script	GOT_MD_Config	-1,{
+OnInit:
+	// Instance map names
+	$GOT_LOF_MAP$ = "1@f_lake";
+	$GOT_HOL_MAP$ = "1@ba_go";
+
+	// Required item for Hall of Life
+	$GOT_HOL_KEY = 1001415; // Hall of Life Key
+
+	// Reward items - change if your DB uses different IDs
+	$GOT_DIM_FRAGMENT = 1001414; // Dimensional Crystal Fragment
+	setarray $GOT_ELEMENT_REWARD[0], 1001440,1001441,1001442,1001443; // Spring, Summer, Autumn, Winter energy
+
+	// Monster IDs - REQUIRED: replace with your registered monster IDs
+	// Lake of Fire bosses: Spring, Summer, Autumn, Winter / divine beasts
+	setarray $GOT_LOF_BOSS[0], 22177,22178,22179,22180; // Floral Pegasus, Coral Marine, Maple Tree, Monarch Penguin
+
+	// Optional Lake of Fire mobs
+	setarray $GOT_LOF_MOB[0], 22177,22178,22179,22180; // fallback mobs: same as Lake of Fire prisoners
+
+	// Hall of Life boss / dimensional criminal
+	$GOT_HOL_BOSS = 22174; // Rigel
+
+	// Hall of Life reward items
+	$GOT_CIRCULATION_LIFE = 1001456;
+	$GOT_FRUIT_BIRTH = 1001457;
+	$GOT_FRUIT_EXTINCTION = 1001458;
+	$GOT_TRUTH_LIFE = 1001459;
+	$GOT_LIGHT_LIFE = 1001460;
+	$GOT_GENESIS_LIFE = 1001601;
+	$GOT_RUNE_STONE = 1001593;
+
+	// Optional Hall of Life mobs / illusions
+	setarray $GOT_HOL_MOB[0], 22174; // Hall of Life only Rigel; no extra official mobs configured
+
+	// Cooldowns
+	$GOT_LOF_COOLDOWN = 86400;      // 1 day
+	$GOT_HOL_ENTER_DELAY = 60;      // allows re-entry after 1 minute if player has another key
+	$GOT_HOL_REWARD_DELAY = 604800; // 7 days
+
+	// Instance timeout
+	$GOT_TIME_LIMIT = 3600; // 60 minutes
+	$GOT_TIMEOUT_AFTER_CLEAR = 300;
+	end;
+}
+
+//============================================================
+//= ENTRY FUNCTIONS CALLED BY GARDEN OF TIME GATES
+//============================================================
+function	script	F_GOT_LakeOfFire_Enter	{
+	.@md_name$ = "Lake of Fire";
+
+	if (BaseLevel < 250) {
+		mes "[Dimension Prison]";
+		mes "Only adventurers level 250 or higher may enter.";
+		close;
+	}
+	if (isbegin_quest(12597) != 2) {
+		mes "[Dimension Prison]";
+		mes "You are not registered on the prison access list.";
+		close;
+	}
+	if (checkweight(1201,1) == 0) {
+		mes "^ff0000It seems that there are too many types and weights of items. Please organize your inventory.^000000";
+		close;
+	}
+	if (getcharid(1) < 1) {
+		mes "^0000ffPlease organize a party of at least one person and proceed.^000000";
+		close;
+	}
+
+	switch( checkquest(70251,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Dimension Prison]";
+		mes "Lake of Fire can only be entered once per day.";
+		close;
+	case 2:
+		erasequest 70251;
+		break;
+	}
+
+	mes "[Dimension Prison]";
+	mes "Lake of Fire prison access.";
+	next;
+
+	.@menu$ = "";
+	if (is_party_leader())
+		.@menu$ = "Open Lake of Fire:";
+	.@menu$ += "Enter Lake of Fire:Cancel";
+
+	switch( select(.@menu$) ) {
+	case 1:
+		if (!is_party_leader()) {
+			switch( instance_enter(.@md_name$) ) {
+			case IE_OK:
+				end;
+			case IE_NOINSTANCE:
+				mes "[Dimension Prison]";
+				mes "The party leader has not opened the prison yet.";
+				close;
+			case IE_NOMEMBER:
+				mes "[Dimension Prison]";
+				mes "Only party members can enter.";
+				close;
+			case IE_OTHER:
+				mes "[Dimension Prison]";
+				mes "Unknown error.";
+				close;
+			}
+		}
+		if (instance_create(.@md_name$) < 0) {
+			mes "[Dimension Prison]";
+			mes "Failed to create Lake of Fire instance.";
+			mes "Check instance_db name: Lake of Fire.";
+			close;
+		}
+		mes "[Dimension Prison]";
+		mes "Lake of Fire has been opened.";
+		mes "Talk to the gate again and choose Enter.";
+		close;
+
+	case 2:
+		switch( instance_enter(.@md_name$) ) {
+		case IE_OK:
+			setquest 70251;
+			end;
+		case IE_NOINSTANCE:
+			mes "[Dimension Prison]";
+			mes "The prison has not been opened yet.";
+			close;
+		case IE_NOMEMBER:
+			mes "[Dimension Prison]";
+			mes "Only party members can enter.";
+			close;
+		case IE_OTHER:
+			mes "[Dimension Prison]";
+			mes "Unknown error.";
+			close;
+		}
+		end;
+
+	case 3:
+		end;
+	}
+	end;
+}
+
+function	script	F_GOT_HallOfLife_Enter	{
+	.@md_name$ = "Hall of Life";
+
+	if (BaseLevel < 250) {
+		mes "[Dimension Prison]";
+		mes "Only adventurers level 250 or higher may enter.";
+		close;
+	}
+	if (isbegin_quest(12597) != 2) {
+		mes "[Dimension Prison]";
+		mes "You are not registered on the prison access list.";
+		close;
+	}
+	if (checkweight(1201,1) == 0) {
+		mes "^ff0000It seems that there are too many types and weights of items. Please organize your inventory.^000000";
+		close;
+	}
+	if (getcharid(1) < 1) {
+		mes "^0000ffPlease organize a party of at least one person and proceed.^000000";
+		close;
+	}
+	if (countitem($GOT_HOL_KEY) < 1) {
+		mes "[Dimension Prison]";
+		mes "You need " + mesitemlink($GOT_HOL_KEY) + ".";
+		close;
+	}
+	if (#GOT_HOL_LEVEL < 1)
+		#GOT_HOL_LEVEL = 1;
+
+	mes "[Dimension Prison]";
+	mes "Hall of Life prison access.";
+	mes "Current barrier level: ^0000ff" + #GOT_HOL_LEVEL + "^000000.";
+	next;
+
+	.@menu$ = "";
+	if (is_party_leader())
+		.@menu$ = "Open Hall of Life:";
+	.@menu$ += "Enter Hall of Life:Cancel";
+
+	switch( select(.@menu$) ) {
+	case 1:
+		if (!is_party_leader()) {
+			delitem $GOT_HOL_KEY, 1;
+			switch( instance_enter(.@md_name$) ) {
+			case IE_OK:
+				end;
+			case IE_NOINSTANCE:
+				getitem $GOT_HOL_KEY, 1;
+				mes "[Dimension Prison]";
+				mes "The party leader has not opened the prison yet.";
+				close;
+			case IE_NOMEMBER:
+				getitem $GOT_HOL_KEY, 1;
+				mes "[Dimension Prison]";
+				mes "Only party members can enter.";
+				close;
+			case IE_OTHER:
+				getitem $GOT_HOL_KEY, 1;
+				mes "[Dimension Prison]";
+				mes "Unknown error.";
+				close;
+			}
+		}
+		if (instance_create(.@md_name$) < 0) {
+			mes "[Dimension Prison]";
+			mes "Failed to create Hall of Life instance.";
+			mes "Check instance_db name: Hall of Life.";
+			close;
+		}
+		mes "[Dimension Prison]";
+		mes "Hall of Life has been opened.";
+		mes "Talk to the gate again and choose Enter.";
+		close;
+
+	case 2:
+		delitem $GOT_HOL_KEY, 1;
+		switch( instance_enter(.@md_name$) ) {
+		case IE_OK:
+			warp $GOT_HOL_MAP$,53,62;
+			end;
+		case IE_NOINSTANCE:
+			getitem $GOT_HOL_KEY, 1;
+			mes "[Dimension Prison]";
+			mes "The prison has not been opened yet.";
+			close;
+		case IE_NOMEMBER:
+			getitem $GOT_HOL_KEY, 1;
+			mes "[Dimension Prison]";
+			mes "Only party members can enter.";
+			close;
+		case IE_OTHER:
+			getitem $GOT_HOL_KEY, 1;
+			mes "[Dimension Prison]";
+			mes "Unknown error.";
+			close;
+		}
+		end;
+
+	case 3:
+		end;
+	}
+	end;
+}
+
+//============================================================
+//= LAKE OF FIRE INSTANCE
+//============================================================
+1@f_lake,0,0,0	script	GOT_LakeOfFire#Ctrl	-1,{
+OnInstanceInit:
+	.@map$ = instance_mapname($GOT_LOF_MAP$);
+
+	setd "$@GOT_LOF_CLEAR_" + instance_id(), 0;
+	setd "$@GOT_LOF_BOSS_COUNT_" + instance_id(), 4;
+
+	mapannounce .@map$, "Lake of Fire: the four divine prisoners remain sealed.", bc_map;
+
+	disablenpc instance_npcname("Lake Exit Portal#got");
+
+	end;
+
+OnBossDead:
+	.@left = getd("$@GOT_LOF_BOSS_COUNT_" + instance_id()) - 1;
+	setd "$@GOT_LOF_BOSS_COUNT_" + instance_id(), .@left;
+
+	.@map$ = instance_mapname($GOT_LOF_MAP$);
+
+	if (.@left > 0) {
+		mapannounce .@map$, "Remaining divine prisoners: " + .@left + ".", bc_map;
+		end;
+	}
+
+	setd "$@GOT_LOF_CLEAR_" + instance_id(), 1;
+
+	mapannounce .@map$, "All divine prisoners have been suppressed. The dimensional exit has appeared.", bc_map;
+
+	enablenpc instance_npcname("Lake Exit Portal#got");
+	end;
+}
+
+//============================================================
+//= LAKE OF FIRE - STANDBY BOSSES
+//= Important: each standby NPC uses disablenpc(); BEFORE monster spawn.
+//= This disables the current duplicated instance NPC itself.
+//============================================================
+
+1@f_lake,85,183,3	script	Floral Pegasus#got	MD_PRI_DRAGON_1,{
+	if (getd("$@GOT_LOF_SUMMONED_22177_" + instance_id()) == 1)
+		end;
+
+	mes "[Floral Pegasus]";
+	mes "...";
+	next;
+	mes "The dimensional seal begins to weaken...";
+	close2;
+
+	setd "$@GOT_LOF_SUMMONED_22177_" + instance_id(), 1;
+	disablenpc();
+
+	sleep2 1000;
+
+	monster instance_mapname("1@f_lake"),85,183,"Floral Pegasus",22177,1,instance_npcname("GOT_LakeOfFire#Ctrl")+"::OnBossDead";
+	end;
+}
+
+1@f_lake,20,108,3	script	Coral Marine#got	MD_PRI_DRAGON_2,{
+	if (getd("$@GOT_LOF_SUMMONED_22178_" + instance_id()) == 1)
+		end;
+
+	mes "[Coral Marine]";
+	mes "...";
+	next;
+	mes "The dimensional seal begins to weaken...";
+	close2;
+
+	setd "$@GOT_LOF_SUMMONED_22178_" + instance_id(), 1;
+	disablenpc();
+
+	sleep2 1000;
+
+	monster instance_mapname("1@f_lake"),20,108,"Coral Marine",22178,1,instance_npcname("GOT_LakeOfFire#Ctrl")+"::OnBossDead";
+	end;
+}
+
+1@f_lake,69,76,3	script	Maple Tree#got	MD_PRI_DRAGON_3,{
+	if (getd("$@GOT_LOF_SUMMONED_22179_" + instance_id()) == 1)
+		end;
+
+	mes "[Maple Tree]";
+	mes "...";
+	next;
+	mes "The dimensional seal begins to weaken...";
+	close2;
+
+	setd "$@GOT_LOF_SUMMONED_22179_" + instance_id(), 1;
+	disablenpc();
+
+	sleep2 1000;
+
+	monster instance_mapname("1@f_lake"),69,76,"Maple Tree",22179,1,instance_npcname("GOT_LakeOfFire#Ctrl")+"::OnBossDead";
+	end;
+}
+
+1@f_lake,108,73,3	script	Monarch Penguin#got	MD_PRI_DRAGON_4,{
+	if (getd("$@GOT_LOF_SUMMONED_22180_" + instance_id()) == 1)
+		end;
+
+	mes "[Monarch Penguin]";
+	mes "...";
+	next;
+	mes "The dimensional seal begins to weaken...";
+	close2;
+
+	setd "$@GOT_LOF_SUMMONED_22180_" + instance_id(), 1;
+	disablenpc();
+
+	sleep2 1000;
+
+	monster instance_mapname("1@f_lake"),108,73,"Monarch Penguin",22180,1,instance_npcname("GOT_LakeOfFire#Ctrl")+"::OnBossDead";
+	end;
+}
+
+//============================================================
+//= LAKE OF FIRE EXIT
+//============================================================
+
+1@f_lake,139,14,2	script	Lake Exit Portal#got	45,2,2,{
+	end;
+
+OnTouch:
+	if (getd("$@GOT_LOF_CLEAR_" + instance_id()) != 1)
+		end;
+
+	warp "t_garden",158,235;
+	end;
+}
+
+//============================================================
+//= HALL OF LIFE INSTANCE - BARRIER SCALING VERSION
+//= Rigel is spawned dynamically when player enters instance map.
+//= Battle talk timer is inside instance controller to avoid map "" error.
+//============================================================
+
+1@ba_go	mapflag	loadevent
+
+1@ba_go,0,0,0	script	GOT_HallOfLife#Ctrl	-1,{
+OnInstanceInit:
+	.@map$ = instance_mapname($GOT_HOL_MAP$);
+
+	setd "$@GOT_HOL_CLEAR_" + instance_id(), 0;
+	setd "$@GOT_HOL_SPAWNED_" + instance_id(), 0;
+	setd "$@GOT_HOL_BARRIER_" + instance_id(), 1;
+	$@GOT_HOL_CLEAR_ALWAYS = 0;
+
+	mapannounce .@map$, "Hall of Life: the dimensional criminal is waiting inside the prison.", bc_map;
+
+	initnpctimer;
+	end;
+
+OnPCLoadMapEvent:
+	.@map$ = instance_mapname($GOT_HOL_MAP$);
+
+	if (strcharinfo(3) != .@map$)
+		end;
+
+	if (getd("$@GOT_HOL_SPAWNED_" + instance_id()) == 1)
+		end;
+
+	if (#GOT_HOL_LEVEL < 1)
+		#GOT_HOL_LEVEL = 1;
+
+	if (#GOT_HOL_LEVEL > 20)
+		#GOT_HOL_LEVEL = 20;
+
+	.@lv = #GOT_HOL_LEVEL;
+
+	setd "$@GOT_HOL_BARRIER_" + instance_id(), .@lv;
+	setd "$@GOT_HOL_SPAWNED_" + instance_id(), 1;
+
+	mapannounce .@map$, "Barrier Level " + .@lv + " has been applied to Rigel.", bc_map;
+
+	.@gid = monster(
+		.@map$,
+		53,93,
+		"Rigel",
+		22174,
+		1,
+		instance_npcname("GOT_HallOfLife#Ctrl")+"::OnBossDead"
+	);
+
+	.@hp_rate = 100 + ((.@lv - 1) * 40);
+	.@atk_rate = 100 + ((.@lv - 1) * 15);
+
+	getunitdata .@gid, .@data;
+
+	.@maxhp = .@data[UDT_MAXHP] * .@hp_rate / 100;
+	.@atkmin = .@data[UDT_ATKMIN] * .@atk_rate / 100;
+	.@atkmax = .@data[UDT_ATKMAX] * .@atk_rate / 100;
+
+	setunitdata .@gid, UDT_MAXHP, .@maxhp;
+	setunitdata .@gid, UDT_HP, .@maxhp;
+	setunitdata .@gid, UDT_ATKMIN, .@atkmin;
+	setunitdata .@gid, UDT_ATKMAX, .@atkmax;
+
+	mapannounce .@map$, "Rigel's dimensional barrier is empowering his body.", bc_map;
+	end;
+
+OnTimer15000:
+	.@map$ = instance_mapname($GOT_HOL_MAP$);
+
+	if (getd("$@GOT_HOL_CLEAR_" + instance_id()) != 1
+		&& mobcount(.@map$, instance_npcname("GOT_HallOfLife#Ctrl")+"::OnBossDead") > 0) {
+
+		switch(rand(1,6)) {
+		case 1:
+			mapannounce .@map$, "Rigel: Your life is brief, but its resistance is amusing.", bc_map;
+			break;
+		case 2:
+			mapannounce .@map$, "Rigel: A dimension is nothing more than a body waiting to be worn.", bc_map;
+			break;
+		case 3:
+			mapannounce .@map$, "Rigel: Struggle harder. I want to know how much your soul can endure.", bc_map;
+			break;
+		case 4:
+			mapannounce .@map$, "Rigel: The Constellation of Life was weak. I merely corrected that mistake.", bc_map;
+			break;
+		case 5:
+			mapannounce .@map$, "Rigel: Every wound you open becomes another door for me.", bc_map;
+			break;
+		case 6:
+			mapannounce .@map$, "Rigel: Do not call this murder. I am collecting unfinished lives.", bc_map;
+			break;
+		}
+	}
+
+	initnpctimer;
+	end;
+
+OnBossDead:
+	.@map$ = instance_mapname($GOT_HOL_MAP$);
+
+	setd "$@GOT_HOL_CLEAR_" + instance_id(), 1;
+	setd "$@GOT_HOL_SPAWNED_" + instance_id(), 0;
+	$@GOT_HOL_CLEAR_ALWAYS = 1;
+
+	.@lv = getd("$@GOT_HOL_BARRIER_" + instance_id());
+
+	mapannounce .@map$, "Rigel: ...So this is the limit of the life I stole.", bc_map;
+	mapannounce .@map$, "Hall of Life Barrier Level " + .@lv + " has been cleared.", bc_map;
+	mapannounce .@map$, "Choose your result at the terminal or leave through the exit.", bc_map;
+	end;
+}
+
+1@ba_go,50,52,2	script	Hall of Life Result#got	4_SYSTEM_BOX,{
+	if (getd("$@GOT_HOL_CLEAR_" + instance_id()) != 1 && $@GOT_HOL_CLEAR_ALWAYS != 1) {
+		mes "[Hall of Life Result]";
+		mes "Suppress the dimensional criminal first.";
+		close;
+	}
+	if (#GOT_HOL_LEVEL < 1)
+		#GOT_HOL_LEVEL = 1;
+	if (#GOT_HOL_LEVEL > 20)
+		#GOT_HOL_LEVEL = 20;
+
+	.@lv = #GOT_HOL_LEVEL;
+	mes "[Hall of Life Result]";
+	mes "Current barrier level: ^0000ff" + .@lv + "^000000.";
+	next;
+
+	.@menu$ = "Leave";
+	if (.@lv < 20)
+		.@menu$ += ":Increase barrier level";
+	else
+		.@menu$ += ":Barrier level is already max";
+	.@menu$ += ":Receive weekly reward";
+
+	switch(select(.@menu$)) {
+	case 1:
+		warp "t_garden",173,235;
+		end;
+	case 2:
+		if (.@lv < 20) {
+			#GOT_HOL_LEVEL++;
+			mes "[Hall of Life Result]";
+			mes "Barrier level increased to ^0000ff" + #GOT_HOL_LEVEL + "^000000.";
+			close2;
+		}
+		warp "t_garden",173,235;
+		end;
+	case 3:
+		switch( checkquest(70252,PLAYTIME) ) {
+		case 2:
+			erasequest 70252;
+			break;
+		}
+
+		if (#GOT_HOL_REWARD_CD > gettimetick(2)) {
+			mes "[Hall of Life Result]";
+			mes "You have already received the weekly reward.";
+			mes "Remaining seconds: ^ff0000" + (#GOT_HOL_REWARD_CD - gettimetick(2)) + "^000000.";
+			close;
+		}
+
+		getitem $GOT_CIRCULATION_LIFE, 5 + .@lv;
+		getitem $GOT_FRUIT_BIRTH, 2;
+		getitem $GOT_FRUIT_EXTINCTION, 2;
+		getitem $GOT_TRUTH_LIFE, 1;
+		getitem $GOT_LIGHT_LIFE, 3 + (.@lv / 2);
+		if (rand(100) < 10)
+			getitem $GOT_GENESIS_LIFE, 1;
+		if (rand(100) < 30)
+			getitem $GOT_RUNE_STONE, 1;
+		getexp 10000000 * .@lv, 5000000 * .@lv;
+		#GOT_HOL_REWARD_CD = gettimetick(2) + $GOT_HOL_REWARD_DELAY;
+		setquest 70252;
+		mes "[Hall of Life Result]";
+		mes "Weekly reward received.";
+		close2;
+		warp "t_garden",173,235;
+		end;
+	}
+}
+
+1@ba_go,52,50,2	script	Exit#got_hol	4_SYSTEM_BOX,{
+	mes "Return to Garden of Time?";
+	next;
+	if (select("Cancel:Return") == 2)
+		warp "t_garden",173,235;
+	end;
+}

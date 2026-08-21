@@ -1,0 +1,31 @@
+//===== rAthena Script =======================================
+//= Item for Skills Consumption
+//===== By: ==================================================
+//= Master WSM
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Easy stuff
+
+prontera,164,170,4	script	Makwing	935,{
+	
+	switch(select(callfunc("F_LangText", "Crystal & Stones", "Cristales y piedras", "Cristais e pedras") + ":" + callfunc("F_LangText", "Scrolls & Fuels, etc", "Pergaminos y combustibles, etc.", "Pergaminhos e combustíveis, etc."))) {
+		case 1:
+			callshop "Crystal & Stones",0;
+			end;
+		break;
+		case 2:
+			callshop "Scrolls & Fuels, etc",1;
+			end;
+		break;
+	}
+	end;
+}
+
+
+
+//The hidden npc which holds the function
+-	shop	Crystal & Stones	-1,717:5000,715:5000,716:5000,7522:5000,7521:5000,7523:5000,991:5000,995:5000,992:5000,996:5000,990:5000,994:5000,993:5000,997:5000,1000293:5000,1000291:5000,1000295:5000,1000294:5000,1000292:5000;
+-	shop	Scrolls & Fuels, etc	-1,101118:100000,101120:100000,101121:100000,101122:100000,101119:100000,101112:100000,101113:100000,101114:100000,101115:100000,100190:100000,100187:100000,100188:100000,100189:100000,612:100000,615:100000,6146:100000,1000352:1000000;

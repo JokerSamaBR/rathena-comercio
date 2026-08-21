@@ -1,0 +1,433 @@
+
+//===== rAthena Script =======================================
+//= Starter Pack Item
+//===== By: ==================================================
+//= Manuel Sintos
+//===== Current Version: =====================================
+//= 1.0
+//===== Description: =========================================
+//= Starter Pack items for newbies. Use the command @starterpack
+//= Provides job-specific gear and consumables using getitembound4
+//===== Additional Comments: =================================
+// @reloadnpc npc/custom/manuel_npc/newbie_freebies.txt
+
+prontera,150,182,5	script	Adventurer Starter Pack	864,{
+	// Call the Functions for the flow converse	
+	callfunc("Solo_Pack_Converse");
+
+	OnInit:
+		while (1) {
+			showscript "To Newbie Players!", getnpcid(0, "Adventurer Starter Pack"), AREA;
+			sleep 3000;
+			showscript "Claim your Starter Pack here!", getnpcid(0, "Adventurer Starter Pack"), AREA;
+			sleep 3000;
+			showscript "or Type @starterpack!", getnpcid(0, "Adventurer Starter Pack"), AREA;
+			sleep 6000;
+		}
+	end;
+}
+
+-	script	Adventurer_Solo_Pack_Cmd	-,{
+	OnSoloPackCmd:
+		// Call the Functions for the flow converse	
+		callfunc("Solo_Pack_Converse");
+	end;
+	
+	OnInit:
+		bindatcmd "starterpack", strnpcinfo(3) + "::OnSoloPackCmd";
+	end;
+}
+
+function	script	Solo_Pack_Converse	{
+	// Get the list of items in your inventory.
+	getinventorylist;
+	
+	// Get the weight of the player
+	.@weight = 100 * Weight / MaxWeight;
+
+	// Get the character id of the player who is this command
+	.@char_id = getcharid(3);
+
+	if (alreadyReceived[.@char_id]) {
+		mes callfunc("F_LangText", "[Starter Pack Distributor]", "[Distribuidor del Pack Inicial]", "[Distribuidor do Pack Iniciante]");
+    	mes callfunc("F_LangText", "You have already received your Starter Pack items!", "¡Ya recibiste los objetos de tu Pack Inicial!", "Você já recebeu os itens do seu Pack Iniciante!");
+		mes callfunc("F_LangText", "^FF0000* Remember! All items are character-bound!! *^000000", "^FF0000* ¡Recuerda! ¡Todos los objetos están vinculados al personaje! *^000000", "^FF0000* Lembre-se! Todos os itens são vinculados ao personagem! *^000000");
+    	close;
+	}
+	
+	// Check the Weight of player
+	if(.@weight > 50){
+		mes callfunc("F_LangText", "[Starter Pack Distributor]", "[Distribuidor del Pack Inicial]", "[Distribuidor do Pack Iniciante]");
+		mes callfunc("F_LangText", "^FF0000You must have at least 50 percent free weight to receive the Starter Pack.^000000", "^FF0000Debes tener al menos 50 por ciento de peso libre para recibir el Pack Inicial.^000000", "^FF0000Você precisa ter pelo menos 50 por cento de peso livre para receber o Pack Iniciante.^000000");
+		mes " ";
+		mes callfunc("F_LangText", "You are currently at ", "Actualmente estás en ", "Atualmente você está com ") + .@weight + callfunc("F_LangText", " percent of your maximum weight.", " por ciento de tu peso máximo.", " por cento do seu peso máximo.");
+		close;
+	}
+
+	// Check the status of the player first if they have to many items at inventory
+	if ( @inventorylist_count > 40 ) {
+		mes callfunc("F_LangText", "[Starter Pack Distributor]", "[Distribuidor del Pack Inicial]", "[Distribuidor do Pack Iniciante]");
+		mes callfunc("F_LangText", "You have 40 different items in your inventory.", "Tienes 40 objetos diferentes en tu inventario.", "Você possui 40 itens diferentes no inventário.");
+		mes callfunc("F_LangText", "Please store them in Kafra Storage first!", "¡Guárdalos primero en el almacenamiento Kafra!", "Guarde-os primeiro no Armazém Kafra!");
+		close;
+	}
+
+	mes callfunc("F_LangText", "[Starter Pack Distributor]", "[Distribuidor del Pack Inicial]", "[Distribuidor do Pack Iniciante]");
+    mes callfunc("F_LangText", "Hello! Would you like to receive your Starter Pack items?", "¡Hola! ¿Quieres recibir los objetos de tu Pack Inicial?", "Olá! Você deseja receber os itens do seu Pack Iniciante?");
+    next;
+		
+	if(select(callfunc("F_LangText", "Yes", "Sí", "Sim") + ":" + callfunc("F_LangText", "No", "No", "Não")) == 2) {
+		mes callfunc("F_LangText", "[Starter Pack Distributor]", "[Distribuidor del Pack Inicial]", "[Distribuidor do Pack Iniciante]");        	
+		mes callfunc("F_LangText", "Alright, come back if you change your mind.", "De acuerdo, vuelve si cambias de opinión.", "Certo, volte se mudar de ideia.");
+        close;
+    }
+
+    // Flag for player that he/she already received the Gpack
+    // For Debug. Just put it below the .char_id and set it to 0
+	set alreadyReceived[.@char_id], 1;
+
+	// Call the Function for giving the job-specific Starter Pack item
+	callfunc("Solo_Pack_Func");
+}
+
+
+// Function should be call it once or else you will get an error
+// [Info]: npc_parse_function: Overwriting user function [Solo_Pack_Func]
+function	script	Solo_Pack_Func	{
+	// Get the character id of the player who use this command
+	.@char_id = getcharid(3);
+
+	// Give the job-specific Starter Pack item
+    switch(BaseJob) {
+       	// Second Class
+        case Job_Knight:
+            // Weapon
+			getitembound2 1230, 1, 1, 20, 0, 0, 0, 0, 0, BOUND_CHAR, getcharid(3);	// +8 Icepick
+				
+			// Armor set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+
+			// HG and Acce
+			getitembound 2629,2, BOUND_CHAR, getcharid(3); 		// Meg (str)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break; 
+
+		case Job_Priest:
+		    // Weapon
+			getitembound2 1602, 1, 1, 20, 0, 4474, 4474, 4474, 4474, BOUND_CHAR, getcharid(3);	// +10 Rod [4] with 4 Zakudam
+
+		    // V.Set (INT)
+			setarray .@OptID[0],RDMOPT_VAR_INTAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 int) with Boss Egnigem
+			getitembound2 5013, 1, 1, 20, 0, 4374, 4374, 4374, 4374, BOUND_CHAR, getcharid(3);	// +8 LKH [4] with 4 White Lady
+
+			// HG and Acce
+			getitembound 30002,2, BOUND_CHAR, getcharid(3); 	// Meg (int)
+			getitembound 19086, 1, BOUND_CHAR, getcharid(3);	// Robo Eye [1]
+		break; 
+		             
+		case Job_Wizard:
+		    // Weapon
+			getitembound2 1602, 1, 1, 20, 0, 4474, 4474, 4474, 4474, BOUND_CHAR, getcharid(3);	// +10 Rod [4] with 4 Zakudam
+				
+			// V.Set (INT)
+			setarray .@OptID[0],RDMOPT_VAR_INTAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4441, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 int) with Fallen Bishop
+			
+			// HG and Acce
+			getitembound 30002,2, BOUND_CHAR, getcharid(3); 	// Meg (int)
+			getitembound 19086, 1, BOUND_CHAR, getcharid(3);	// Robo Eye [1]
+		break;
+
+		case Job_Blacksmith:
+		    // Weapon
+			getitembound2 1230, 1, 1, 20, 0, 0, 0, 0, 0, BOUND_CHAR, getcharid(3);	// +8 Icepick
+				
+			// Armor set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+
+			// HG and Acce
+			getitembound 2629,2, BOUND_CHAR, getcharid(3); 		// Meg (str)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;
+
+		case Job_Hunter:
+		    // Weapon
+			getitembound2 1702, 1, 1, 20, 0, 4305, 4305, 4399, 4399, BOUND_CHAR, getcharid(3);	// +10 Bow [4] with 2 TG and 2 Thana
+		        
+		    // V.Set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+			getitembound2 5013, 1, 1, 20, 0, 4374, 4374, 4374, 4374, BOUND_CHAR, getcharid(3);	// +8 LKH [4] with 4 Vesper
+
+			// HG and Acce
+			getitembound 30003,2, BOUND_CHAR, getcharid(3); 	// Meg (dex)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;    
+
+		case Job_Assassin:
+		    // Weapon
+			getitembound2 1230, 1, 1, 20, 0, 0, 0, 0, 0, BOUND_CHAR, getcharid(3);	// +8 Icepick
+			getitembound2 1208, 1, 1, 20, 0, 4305, 4305, 4399, 4399, BOUND_CHAR, getcharid(3); // +10 Main Gauche [4] with 2 TG and 2 Thana
+
+			// V.Set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+			getitembound2 5013, 1, 1, 20, 0, 4372, 4372, 4372, 4372, BOUND_CHAR, getcharid(3);	// +8 LKH [4] with 4 Kiel-D-01
+
+			// HG and Acce
+			getitembound 2629,2, BOUND_CHAR, getcharid(3); 		// Meg (str)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;   
+
+		case Job_Crusader:
+		    // Weapon
+			getitembound2 1228, 1, 1, 20, 0, 0, 0, 0, 0, BOUND_CHAR, getcharid(3);	// +8 Combat Knife
+			getitembound2 1237, 1, 1, 20, 0, 0, 0, 0, 0, BOUND_CHAR, getcharid(3); 	// +9 Grimtooth
+
+			// V.Set (VIT)
+			setarray .@OptID[0],RDMOPT_VAR_VITAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+
+			// HG and Acce
+			getitembound 30000,2, BOUND_CHAR, getcharid(3); 	// Meg (vit)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;
+
+		case Job_Monk:
+			// Items
+			getitembound2 1505, 1, 1, 20, 0, 4305, 4305, 4399, 4399, BOUND_CHAR, getcharid(3); // +10 Mace [4] with 2 TG and 2 Thana
+
+			// V.Set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+
+			// HG and Acce
+			getitembound 2629,2, BOUND_CHAR, getcharid(3); 		// Meg (str)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;    
+				
+		case Job_Sage:
+		    // Weapon
+			getitembound2 1602, 1, 1, 20, 0, 4474, 4474, 4474, 4474, BOUND_CHAR, getcharid(3);	// +10 Rod [4] with 4 Zakudam
+				
+			// V.Set (INT)
+			setarray .@OptID[0],RDMOPT_VAR_INTAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4441, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 int) with Fallen Bishop
+			
+			// HG and Acce
+			getitembound 30002,2, BOUND_CHAR, getcharid(3); 	// Meg (int)
+			getitembound 19086, 1, BOUND_CHAR, getcharid(3);	// Robo Eye [1]
+		break;
+
+		case Job_Rogue:
+		    // Weapon
+			getitembound2 1230, 1, 1, 20, 0, 0, 0, 0, 0, BOUND_CHAR, getcharid(3);	// +8 Icepick
+			getitembound2 1208, 1, 1, 20, 0, 4305, 4305, 4399, 4399, BOUND_CHAR, getcharid(3); // +10 Main Gauche [4] with 2 TG and 2 Thana
+
+			// V.Set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+			getitembound2 5013, 1, 1, 20, 0, 4403, 4403, 4403, 4403, BOUND_CHAR, getcharid(3);	// +8 LKH [4] with 4 Kiel-D-01
+
+			// HG and Acce
+			getitembound 2629,2, BOUND_CHAR, getcharid(3); 		// Meg (str)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;
+
+		case Job_Alchemist:
+		    // Weapon
+			getitembound2 1230, 1, 1, 20, 0, 0, 0, 0, 0, BOUND_CHAR, getcharid(3);	// +8 Icepick
+			getitembound2 1208, 1, 1, 20, 0, 4305, 4305, 4399, 4399, BOUND_CHAR, getcharid(3); // +10 Main Gauche [4] with 2 TG and 2 Thana
+
+			// V.Set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+			getitembound2 5013, 1, 1, 20, 0, 4403, 4403, 4403, 4403, BOUND_CHAR, getcharid(3);	// +8 LKH [4] with 4 Kiel-D-01
+
+			// HG and Acce
+			getitembound 2629,2, BOUND_CHAR, getcharid(3); 		// Meg (str)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;
+
+		case Job_Bard:
+		    // Weapon
+			getitembound2 1902, 1, 1, 20, 0, 4305, 4305, 4399, 4399, BOUND_CHAR, getcharid(3);	// +10 Violin [4] with 2 TG and 2 Thana
+		       	
+		    // V.Set (DEX)
+			setarray .@OptID[0],RDMOPT_VAR_DEXAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+			getitembound2 5013, 1, 1, 20, 0, 4403, 4403, 4403, 4403, BOUND_CHAR, getcharid(3);	// +8 LKH [4] with 4 Kiel-D-01
+
+			// HG and Acce
+			getitembound 30003,2, BOUND_CHAR, getcharid(3); 	// Meg (dex)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask   	
+		break;
+
+		case Job_Dancer:
+		    // Weapon
+			getitembound2 1902, 1, 1,20, 0, 4305, 4305, 4399, 4399, BOUND_CHAR, getcharid(3);	// +10 Violin [4] with 2 TG and 2 Thana
+		       	
+		    // V.Set (DEX)
+			setarray .@OptID[0],RDMOPT_VAR_DEXAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+			getitembound2 5013, 1, 1, 20, 0, 4403, 4403, 4403, 4403, BOUND_CHAR, getcharid(3);	// +8 LKH [4] with 4 Kiel-D-01
+
+			// HG and Acce
+			getitembound 30003,2, BOUND_CHAR, getcharid(3); 	// Meg (dex)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask 
+		break;
+
+		case Job_Super_Novice:
+		    // Weapon
+			getitembound2 1602, 1, 1,20, 0, 4474, 4474, 4474, 4474, BOUND_CHAR, getcharid(3);	// +10 Rod [4] with 4 Zakudam
+				
+			// V.Set (INT)
+			setarray .@OptID[0],RDMOPT_VAR_INTAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4441, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 int) with Fallen Bishop
+			
+			// HG and Acce
+			getitembound 30002,2, BOUND_CHAR, getcharid(3); 	// Meg (int)
+			getitembound 19086, 1, BOUND_CHAR, getcharid(3);	// Robo Eye [1]
+		break;
+
+		case Job_Taekwon:
+		case Job_Star_Gladiator:
+		    // Weapon
+			getitembound2 1579, 1, 1, 20, 0, 4305, 4399, 0, 0, BOUND_CHAR, getcharid(3);	// +10 Book of the Dead [2] with TG and Thana
+				
+			// V.Set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+
+			// HG and Acce
+			getitembound 2629,2, BOUND_CHAR, getcharid(3); 		// Meg (str)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;
+
+		case Job_Soul_Linker:
+		    // Weapon
+			getitembound2 1602, 1, 1, 20, 0, 4474, 4474, 4474, 4474, BOUND_CHAR, getcharid(3);	// +10 Rod [4] with 4 Zakudam
+				
+			// V.Set (INT)
+			setarray .@OptID[0],RDMOPT_VAR_INTAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4441, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 int) with Fallen Bishop
+			
+			// HG and Acce
+			getitembound 30002,2, BOUND_CHAR, getcharid(3); 	// Meg (int)
+			getitembound 19086, 1, BOUND_CHAR, getcharid(3);	// Robo Eye [1]
+		break;
+		
+		case Job_Gunslinger:
+			// Weapon
+			getitembound2 13107, 1, 1, 20, 0, 4305, 4399, 0, 0, BOUND_CHAR, getcharid(3);	// +10 Western Outlaw [2] with TG and Thana
+
+			// V.Set (STR)
+			setarray .@OptID[0],RDMOPT_VAR_STRAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4352, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 str) with Boss Egnigem
+
+			// HG and Acce
+			getitembound 2629,2, BOUND_CHAR, getcharid(3); 		// Meg (str)
+			getitembound 5483, 1, BOUND_CHAR, getcharid(3);		// Odin Mask
+		break;
+
+		case Job_Ninja:
+			// Weapon
+			getitembound2 28717, 1, 1, 20, 0, 4474, 4474, 4474, 4474, BOUND_CHAR, getcharid(3);	// +10 V.Knife with 4 Zakudam
+				
+			// V.Set (INT)
+			setarray .@OptID[0],RDMOPT_VAR_INTAMOUNT;
+			setarray .@OptVal[0],5;
+			setarray .@OptParam[0],0;
+			getitembound3 2404, 1, 1, 20, 0, 4441, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Shoes [1] (+5 int) with Fallen Bishop
+			
+			// HG and Acce
+			getitembound 30002,2, BOUND_CHAR, getcharid(3); 	// Meg (int)
+			getitembound 19086, 1, BOUND_CHAR, getcharid(3);	// Robo Eye [1]
+		break;
+
+		default:
+		    // Reset the Flag
+			set alreadyReceived[.@char_id], 0;
+
+		    mes callfunc("F_LangText", "[Starter Pack Distributor]", "[Distribuidor del Pack Inicial]", "[Distribuidor do Pack Iniciante]");
+		    mes callfunc("F_LangText", "^FF0000Please complete a class change job first!^000000", "^FF0000¡Completa primero un cambio de clase!^000000", "^FF0000Conclua primeiro uma mudança de classe!^000000");
+			mes callfunc("F_LangText", "^FF0000I will provide you with a Starter Pack based on your Class Job.^000000", "^FF0000Te entregaré un Pack Inicial según tu clase.^000000", "^FF0000Vou entregar um Pack Iniciante de acordo com sua classe.^000000");
+			close;
+		break;
+    }
+
+    // Random option stats equipment for all jobs
+    getitembound3 2311, 1, 1, 20, 0, 4565, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Mink Coat [1] (+5 str) with Paladin
+	getitembound3 2311, 1, 1, 20, 0, 4302, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Mink Coat [1] (+5 str) with Tao Gunka
+	getitembound3 2311, 1, 1, 20, 0, 4047, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3);	// +8 Mink Coat [1] (+5 str) with Ghostring
+	getitembound3 2504, 1, 1, 20, 0, 4174, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3); // +8 Muffler [1] (+5 str) with Devilring
+	getitembound3 2115, 1, 1, 20, 0, 4128, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3); // +8 V.Shield [1] (+5 str) with GTB
+	getitembound3 2115, 1, 1, 20, 0, 4058, 0, 0, 0, BOUND_CHAR, .@OptID, .@OptVal, .@OptParam, getcharid(3); // +8 V.Shield [1] (+5 str) with Thara Frog
+
+    // For HG and Accessories All Jobs
+	getitembound2 5013, 1, 1, 20, 0, 4143, 4330, 4112, 4087, BOUND_CHAR, getcharid(3);	// LKH [4] with OH, DSL, Marduk, and Giearth
+	getitembound2 2202, 1, 1, 20, 0, 4198, 0, 0, 0, BOUND_CHAR, getcharid(3);	// Sunglasses [1] with Maya Purple
+	getitembound 2541, 1, BOUND_CHAR, getcharid(3);	// Asprika
+	getitembound 2410, 1, BOUND_CHAR, getcharid(3);	// Sleipner
+	getitembound 5800, 1, BOUND_CHAR, getcharid(3);	// Blush of Groom
+	getitembound 18670, 1, BOUND_CHAR, getcharid(3);// Hanke in Mouth
+
+    // Consumables Boxes for all class jobs
+	getitembound 12887, 1, BOUND_CHAR, getcharid(3);	// Infinite Flywing
+	getitembound2 24084, 1, 1, 20, 0, 312788, 312788, 312788, 312788, BOUND_CHAR, getcharid(3);
+	getitembound2 24087, 1, 1, 20, 0, 310630, 310630, 310630, 310630, BOUND_CHAR, getcharid(3);
+	getitembound2 24086, 1, 1, 20, 0, 312758, 312758, 312758, 312758, BOUND_CHAR, getcharid(3);
+	getitembound2 24085, 1, 1, 20, 0, 312798, 312798, 312798, 312798, BOUND_CHAR, getcharid(3);
+	getitembound2 24088, 1, 1, 20, 0, 29080, 29080, 29080, 29080, BOUND_CHAR, getcharid(3);
+	getitembound2 24089, 1, 1, 20, 0, 29080, 29080, 29080, 29080, BOUND_CHAR, getcharid(3);
+
+    mes callfunc("F_LangText", "[Starter Pack Distributor]", "[Distribuidor del Pack Inicial]", "[Distribuidor do Pack Iniciante]");
+    mes callfunc("F_LangText", "Here are your Starter Pack items for your class!", "¡Aquí están los objetos del Pack Inicial para tu clase!", "Aqui estáo os itens do Pack Iniciante para sua classe!");
+	mes callfunc("F_LangText", "^FF0000* Remember! All items are character-bound!! *^000000", "^FF0000* ¡Recuerda! ¡Todos los objetos están vinculados al personaje! *^000000", "^FF0000* Lembre-se! Todos os itens são vinculados ao personagem! *^000000");
+    close;
+}
+
+
+
+
+
+
+
+

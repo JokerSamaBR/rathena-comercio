@@ -1,0 +1,310 @@
+//===== rAthena Script =======================================
+//= Hunting Missions
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: =========================================
+//= Random hunting missions.
+//= Rewards are based on quest difficulty.
+//= 
+//= NOTE: Requires SQL mob database.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//= 1.1 Small improvements and fixes.
+//= 1.2 Added party support and replaced blacklists with an
+//=     SQL query, both thanks to AnnieRuru.
+//= 1.3 Re-added a blacklist adapted for the SQL query.
+//= 1.3a Added mission reset options.
+//= 1.3b Function updates.
+//= 1.4 Check for deleted characters, thanks to AnnieRuru.
+//=     Syntax updates and style cleaning.
+//============================================================
+
+prontera,152,187,6	script	Hunting Missions	4_F_EDEN_MASTER,{
+function Chk;
+	mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+	mes callfunc("F_LangText", "Hello, ", "Hola, ", "Olá, ") + strcharinfo(0) + "!";
+	if (!#Mission_Delay) {
+		next;
+		mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+		mes callfunc("F_LangText", "I can't find any records...", "No encuentro ningún registro...", "Não encontrei nenhum registro...");
+		mes callfunc("F_LangText", "You must be new here!", "¡Debes ser nuevo aquí!", "Você deve ser novo por aqui!");
+		emotion ET_HUK;
+		next;
+		callsub Mission_Info;
+		emotion ET_GO;
+		#Mission_Delay = 1;
+		close;
+	}
+	mes F_Rand(callfunc("F_LangText", "Working hard, as always...", "Trabajando duro, como siempre...", "Trabalhando bastante, como sempre..."), callfunc("F_LangText", "Not slacking, I hope...", "Espero que no estés holgazaneando...", "Espero que não esteja enrolando..."));
+	mes callfunc("F_LangText", "Is there anything I can help", "¿Hay algo en lo que pueda ayudarte", "Há algo em que eu possa ajudar");
+        mes callfunc("F_LangText", "you with?", "para ayudarte?", "para ajudar você?");
+	mes " ";
+	mes "^777777~ You've completed " + F_InsertPlural(Mission_Total,callfunc("F_LangText", "mission", "misión", "missão"),0,"^0055FF%d^777777 %s") + ". ~^000000";
+	next;
+	switch(select(
+((!Mission0) ? " ~ " + callfunc("F_LangText", "New Mission", "Nueva misión", "Nova missão") + "::" : ": ~ " + callfunc("F_LangText", "Mission Status", "Estado de la misión", "Status da missão") + ": ~ " + callfunc("F_LangText", "Abandon Mission", "Abandonar misión", "Abandonar missão")) +
+			": ~ " + callfunc("F_LangText", "Information", "Información", "Informações") + ": ~ " + callfunc("F_LangText", "Mission Shop", "Tienda de misiones", "Loja de missões") + ": ~ " + callfunc("F_LangText", "View Top Hunters", "Ver mejores cazadores", "Ver melhores caçadores") + ": ~ ^777777" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar") + "^000000"
+	)) {
+	case 1:
+		mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+		if (#Mission_Count) {
+			mes callfunc("F_LangText", "You've started a mission", "Has comenzado una misión", "Você iniciou uma missão");
+			mes callfunc("F_LangText", "on another character.", "en otro personaje.", "em outro personagem.");
+			if (!@hm_char_del_check) {  // check for deleted character
+				query_sql("SELECT 1 FROM `char_reg_num` WHERE `key` = 'Mission0' AND `char_id` IN(SELECT `char_id` FROM `char` WHERE `account_id` = " + getcharid(3) + ")", .@i);
+				if (!.@i) {
+					next;
+					mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+					mes callfunc("F_LangText", "I can't seem to find any records", "No encuentro registros", "Não encontrei registros");
+					mes callfunc("F_LangText", "for that character, though...", "de ese personaje...", "desse personagem...");
+					mes callfunc("F_LangText", "One moment, please.", "Un momento, por favor.", "Um momento, por favor.");
+					emotion ET_SCRATCH;
+					#Mission_Count = 0;
+				}
+				@hm_char_del_check = true;
+			}
+			close;
+		}
+		if (#Mission_Delay > gettimetick(2) && .Delay) {
+			mes callfunc("F_LangText", "I'm afraid you'll have to wait ", "Tendrás que esperar ", "Você terá que esperar ") + Time2Str(#Mission_Delay) + callfunc("F_LangText", " before taking another mission.", " antes de aceptar otra misión.", " antes de aceitar outra missão.");
+			close;
+		}
+		mes callfunc("F_LangText", "You must hunt:", "Debes cazar:", "Você deve caçar:");
+if (BaseLevel < 50) {
+    mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+    mes callfunc("F_LangText", "Your level does not allow these missions yet.", "Tu nivel todavía no permite estas misiones.", "Seu nível ainda não permite estas missões.");
+    mes callfunc("F_LangText", "The minimum level is 50.", "El nivel mínimo es 50.", "O nível mínimo é 50.");
+    close;
+}
+
+// Lists copied from daily_hunt_system. Boundaries are exclusive after each tier.
+if (BaseLevel <= 75)
+    setarray .@mob[0], 1016,1029,1032,1035,1036,1037,1040,1041,1045,1061,1149,1166;
+else if (BaseLevel <= 99)
+    setarray .@mob[0], 1072,1102,1109,1117,1131,1154,1155,1193,1198,1199,1213,1257;
+else if (BaseLevel <= 125)
+    setarray .@mob[0], 1030,1098,1106,1132,1133,1148,1163,1194,1202,1206,1207,1219;
+else if (BaseLevel <= 150)
+    setarray .@mob[0], 1652,1653,1654,1655,1656,1657,1660,1786,1787,2083,2084,2085;
+else if (BaseLevel <= 175)
+    setarray .@mob[0], 2916,2917,2918,2919,2920,3088,3089,3090,3153,3154,3155,3156;
+else if (BaseLevel <= 200)
+    setarray .@mob[0], 20367,20369,20370,20371,20372,20373,20378,20379,20380,20420,20560,20592;
+else if (BaseLevel <= 225)
+    setarray .@mob[0], 20808,20929,20930,20931,20932,20933,20935,20937,20938,20939,21298,21300;
+else if (BaseLevel <= 250)
+    setarray .@mob[0], 20920,20921,20922,20923,20924,20925,20926,20927;
+else
+    setarray .@mob[0], 20936,20940,20941,20942,22192,22196,22200,22204;
+
+for (.@i = 0; .@i < .Quests; .@i++) {
+    .@pick = rand(getarraysize(.@mob));
+    while (inarray(.@selected, .@mob[.@pick]) >= 0)
+        .@pick = rand(getarraysize(.@mob));
+    .@selected[.@i] = .@mob[.@pick];
+    setd "Mission" + .@i, .@selected[.@i];
+    setd "Mission" + .@i + "_", 0;
+}
+		for (.@i = 0; .@i < .Quests; .@i++) {
+			setd "Mission" + .@i, .@mob[.@i];
+			setd "Mission" + .@i +"_", 0;
+		}
+		#Mission_Count = rand(.Count[0], .Count[1]);
+		callsub Mission_Status;
+		next;
+		mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+		mes callfunc("F_LangText", "Report back when", "Regresa cuando", "Volte quando");
+		mes callfunc("F_LangText", "you've finished.", "hayas terminado.", "tiver terminado.");
+		mes callfunc("F_LangText", "Good luck!", "¡Buena suerte!", "Boa sorte!");
+		close;
+	case 2:
+		mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+		mes callfunc("F_LangText", "Mission status:", "Estado de la misión:", "Status da missão:");
+		callsub Mission_Status;
+		close;
+	case 3:
+		mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+		mes callfunc("F_LangText", "Do you really want to", "¿Realmente quieres", "Você realmente deseja");
+		mes callfunc("F_LangText", "abandon your mission?", "abandonar tu misión?", "abandonar sua missão?");
+		if (.Reset < 0 && .Delay)
+			mes callfunc("F_LangText", "Your delay time will not be reset.", "El tiempo de espera no se reiniciará.", "O tempo de espera não será reiniciado.");
+		else if (.Reset > 0)
+			mes callfunc("F_LangText", "It will cost ", "Costará ", "Custará ") + F_InsertComma(.Reset) + " Zeny.";
+		next;
+		switch(select(" ~ " + callfunc("F_LangText", "Abandon...", "Abandonar...", "Abandonar...") + ": ~ ^777777" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar") + "^000000")) {
+		case 1:
+			if (.Reset > 0) {
+				if (Zeny < .Reset) {
+					mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+					mes callfunc("F_LangText", "You don't have enough", "No tienes suficiente", "Você não possui");
+					mes callfunc("F_LangText", "Zeny to drop this mission.", "Zeny para abandonar esta misión.", "Zeny para abandonar esta missão.");
+					emotion ET_SORRY;
+					close;
+				}
+				Zeny -= .Reset;
+				emotion ET_MONEY;
+			}
+			mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+			mes callfunc("F_LangText", "Alright, I've dropped", "De acuerdo, he abandonado", "Certo, abandonei");
+			mes callfunc("F_LangText", "your current mission.", "tu misión actual.", "sua missão atual.");
+			specialeffect2 EF_STORMKICK4;
+			for (.@i = 0; .@i < .Quests; .@i++) {
+				setd "Mission"+.@i, 0;
+				setd "Mission"+.@i+"_", 0;
+			}
+			#Mission_Count = 0;
+			if (.Reset < 0 && .Delay)
+				#Mission_Delay = gettimetick(2) + (.Delay * 3600);
+			close;
+		case 2:
+			mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+			mes callfunc("F_LangText", "I knew you were kidding!", "¡Sabía que estabas bromeando!", "Eu sabia que você estava brincando!");
+			mes callfunc("F_LangText", "Keep up the good work.", "Sigue con el buen trabajo.", "Continue com o bom trabalho.");
+			emotion ET_SMILE;
+			close;
+		}
+	case 4:
+		callsub Mission_Info;
+		close;
+	case 5:
+		mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+mes callfunc("F_LangText", "You have ^0055FF", "Tienes ^0055FF", "Você possui ^0055FF") + countitem(.CoinId) + callfunc("F_LangText", "^000000 Root Gold Coins.", "^000000 monedas de oro de raíz.", "^000000 Root Gold Coins.");
+		mes callfunc("F_LangText", "Use them well!", "¡Úsalas bien!", "Use-as bem!");
+close2; callshop "Hunting_Quest_ShopMISSAO",1; end;
+		end;
+	case 6:
+		mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+		mes callfunc("F_LangText", "The top hunters are:", "Los mejores cazadores son:", "Os melhores caçadores são:");
+		query_sql("SELECT char_id AS id, (SELECT `name` FROM `char` WHERE char_id = id),`value` FROM `char_reg_num` WHERE `key` = 'Mission_Total' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 5", .@id, .@name$, .@val);
+		for (.@i = 0; .@i < 5; .@i++)
+			mes "  [" + callfunc("F_LangText", "Rank ", "Puesto ", "Posição ") + (.@i+1) + "]  " + ((.@name$[.@i] == "") ? "^777777" + callfunc("F_LangText", "none", "ninguno", "nenhum") : "^0055FF" + .@name$[.@i]+"^000000 : ^FF0000" + .@val[.@i] + " " + callfunc("F_LangText", "pts.", "puntos.", "pontos.")) + "^000000";
+		close;
+	case 7:
+		mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+		mes callfunc("F_LangText", "Nothing? Okay...", "¿Nada? De acuerdo...", "Nada? Tudo bem...");
+		emotion ET_SCRATCH;
+		close;
+	}
+	end;
+
+Mission_Status:
+	@f = false;
+	deletearray .@j[0], getarraysize(.@j);
+	for (.@i = 0; .@i < .Quests; .@i++) {
+		.@j[.@i] = getd("Mission" + .@i);
+		.@j[.Quests] = .@j[.Quests] + getmonsterinfo(.@j[.@i], MOB_LV);
+		.@j[.Quests+1] = .@j[.Quests+1] + (getmonsterinfo(.@j[.@i], MOB_BASEEXP) / (getbattleflag("base_exp_rate") / 100) * .Modifier[0]);
+		.@j[.Quests+2] = .@j[.Quests+2] + (getmonsterinfo(.@j[.@i], MOB_JOBEXP) / (getbattleflag("job_exp_rate") / 100) * .Modifier[1]);
+		mes " > "+Chk(getd("Mission"+.@i+"_"),#Mission_Count) + getmonsterinfo(.@j[.@i], MOB_NAME) + " (" + getd("Mission"+.@i+"_") + "/" + #Mission_Count + ")^000000";
+	}
+
+	// Reward formulas:
+	.@Mission_Coin = 3 + (.@j[.Quests] / .Quests / 6);
+	.@Base_Exp = #Mission_Count * .@j[.Quests+1] / 10;
+	.@Job_Exp = #Mission_Count * .@j[.Quests+2] / 10;
+	.@Zeny = #Mission_Count * .Quests * .@j[.@i] * .Modifier[2];
+
+	next;
+	mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+	mes callfunc("F_LangText", "Mission rewards:", "Recompensas de la misión:", "Recompensas da missão:");
+mes callfunc("F_LangText", " > Root Gold Coins: ^0055FF", " > Monedas de oro de raíz: ^0055FF", " > Root Gold Coins: ^0055FF") + .@Mission_Coin + "^000000";
+	mes callfunc("F_LangText", " > Base Experience: ^0055FF", " > Experiencia Base: ^0055FF", " > Experiência Base: ^0055FF") + F_InsertComma(.@Base_Exp) + "^000000";
+	mes callfunc("F_LangText", " > Job Experience: ^0055FF", " > Experiencia Job: ^0055FF", " > Experiência Job: ^0055FF") + F_InsertComma(.@Job_Exp) + "^000000";
+	mes callfunc("F_LangText", " > Zeny: ^0055FF", " > Zeny: ^0055FF", " > Zeny: ^0055FF") + F_InsertComma(.@Zeny) + "^000000";
+	if (@f) {
+		@f = false;
+		return;
+	}
+	next;
+	mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+	mes callfunc("F_LangText", "Oh, you're done!", "¡Has terminado!", "Você terminou!");
+	mes callfunc("F_LangText", "Good work.", "Buen trabajo.", "Bom trabalho.");
+	mes callfunc("F_LangText", "Here's your reward.", "Aquí está tu recompensa.", "Aqui está sua recompensa.");
+	emotion ET_BEST;
+	specialeffect2 EF_ANGEL;
+	specialeffect2 EF_TRUESIGHT;
+getitem .CoinId, .@Mission_Coin;
+	BaseExp += .@Base_Exp;
+	JobExp += .@Job_Exp;
+	Zeny += .@Zeny;
+	for (.@i = 0; .@i < .Quests; .@i++) {
+		setd "Mission" + .@i, 0;
+		setd "Mission" + .@i+"_", 0;
+	}
+	#Mission_Count = 0;
+	if (.Delay)
+		#Mission_Delay = gettimetick(2) + (.Delay * 3600);
+	Mission_Total++;
+	if (Mission_Total == 1)
+		query_sql("INSERT INTO `char_reg_num` (`char_id`,`key`,`index`,`value`) VALUES (" + getcharid(0) + ",'Mission_Total','0',1)");
+	else
+		query_sql("UPDATE `char_reg_num` SET `value` = " + Mission_Total + " WHERE `char_id` = " + getcharid(0) + " AND `key` = 'Mission_Total'");
+	close;
+
+Mission_Info:
+    mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+    mes callfunc("F_LangText", "QUICK GUIDE", "GUÍA RÁPIDA", "GUIA RÁPIDO");
+    mes callfunc("F_LangText", "1. Accept a hunting mission.", "1. Acepta una misión de caza.", "1. Aceite uma missão de caça.");
+    mes callfunc("F_LangText", "2. Hunt the 4 listed monsters.", "2. Caza los 4 monstruos indicados.", "2. Cace os 4 monstros indicados.");
+    mes callfunc("F_LangText", "3. Use Mission Status to check progress.", "3. Usa Estado de la misión para ver el progreso.", "3. Use Status da missão para ver o progresso.");
+    mes callfunc("F_LangText", "4. Return here after completing all 4 targets.", "4. Regresa aquí al completar los 4 objetivos.", "4. Ao completar os 4 alvos, volte aqui.");
+    mes callfunc("F_LangText", "5. Receive EXP, Job EXP, Zeny and Coins.", "5. Recibe EXP, EXP Job, Zeny y monedas.", "5. Receba EXP, Job EXP, Zeny e Coins.");
+    next;
+    mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+    mes callfunc("F_LangText", "There is one mission per account.", "Hay una misión por cuenta.", "A missão é uma por conta.");
+    mes callfunc("F_LangText", "Each target has the same number", "Cada objetivo tiene el mismo número", "Cada alvo possui o mesmo número");
+    mes callfunc("F_LangText", "of kills, randomly selected between 40 and 150.", "de muertes, elegido al azar entre 40 y 150.", "de mortes, sorteado entre 40 e 150.");
+    mes callfunc("F_LangText", "The monsters are chosen according to", "Los monstruos se eligen según", "Os monstros são escolhidos conforme");
+    mes callfunc("F_LangText", "your character's level.", "el nivel de tu personaje.", "o nível do seu personagem.");
+    mes callfunc("F_LangText", "Use @whereis MonsterName to", "Usa @whereis NombreDelMonstruo para", "Use @whereis NomeDoMonstro para");
+    mes callfunc("F_LangText", "find where it appears.", "saber dónde aparece.", "encontrar onde ele aparece.");
+    next;
+    mes callfunc("F_LangText", "[Hunting Missions]", "[Misiones de Caza]", "[Missões de Caça]");
+    mes callfunc("F_LangText", "REWARDS - EXAMPLE", "RECOMPENSAS - EJEMPLO", "RECOMPENSAS - EXEMPLO");
+    mes callfunc("F_LangText", "With 100 kills and 4 targets:", "Con 100 muertes y 4 objetivos:", "Com 100 mortes e 4 alvos:");
+    mes "";
+    mes "Base EXP :     40.000";
+    mes "Job EXP  :     20.000";
+    mes "Zeny     :  1.840.000";
+    mes "Coins    :         12";
+    mes "";
+    mes callfunc("F_LangText", "The actual value varies according to the", "El valor real varía según los", "O valor real varia conforme os");
+    mes callfunc("F_LangText", "monsters and the selected amount.", "monstruos y la cantidad seleccionada.", "monstros e a quantidade sorteada.");
+    mes callfunc("F_LangText", "The reward is delivered only when", "La recompensa se entrega solo cuando", "A recompensa só é entregue quando");
+    mes callfunc("F_LangText", "all 4 objectives are complete.", "los 4 objetivos están completos.", "os 4 objetivos forem concluídos.");
+    mes callfunc("F_LangText", "After completing them, wait for the", "Después de completarlos, espera el", "Após concluir, aguarde o tempo");
+    mes callfunc("F_LangText", "server-configured waiting time.", "tiempo de espera configurado por el servidor.", "de espera configurado pelo servidor.");
+    return;
+function Chk {
+	if (getarg(0) < getarg(1)) {
+		@f = true;
+		return "^FF0000";
+	} else
+		return "^00FF00";
+}
+
+OnInit:
+    .CoinId = 1001972; // Ch1_Root_Coin / Root Gold Coin
+	.Delay = 0;            // Quest delay, in hours (0 to disable).
+	.Quests = 4;            // Number of subquests per mission (increases rewards).
+	.Party = 3;             // Party options: 0 (exclude party kills), 1 (include party kills), 2 (same map only), 3 (screen area only)
+	.Reset = -1;            // Reset options: -1 (abandoning mission sets delay time), 0 (no delay time), [Zeny] (cost to abandon mission, no delay time)
+	setarray .Count[0],     // Min and max monsters per subquest (increases rewards).
+		40,150;
+	setarray .Modifier[0],  // Multipliers for Base Exp, Job Exp, and Zeny rewards.
+		getbattleflag("base_exp_rate")/100,getbattleflag("job_exp_rate")/100,20;
+	.mob_db$ =              // Table name of SQL mob database
+		(checkre(0))?"mob_db_re":"mob_db";
+	.Blacklist$ =           // Blacklisted mob IDs.
+		"1062,1088,1183,1186,1200,1212,1220,1221,1234,1235,"+
+		"1244,1245,1250,1268,1290,1293,1294,1296,1298,1299,"+
+		"1300,1301,1303,1304,1305,1306,1308,1309,1311,1313,"+
+		"1515,1588,1618,1676,1677,1678,1679,1796,1797,1974,"+
+		"1975,1976,1977,1978,1979";
+
+	end;
+}

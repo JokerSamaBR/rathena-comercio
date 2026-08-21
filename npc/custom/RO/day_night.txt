@@ -1,0 +1,43 @@
+-	script	DayNightCycle15Menit	-1,{
+    
+    OnInit:
+        set $is_night, 0;
+        initnpctimer;
+        end;
+
+    OnTimer1800000: // 30 menit
+        if ($is_night == 0) {
+            atcommand "@night";
+            set $is_night, 1;
+            announce "-.-.", bc_all;
+        } else {
+            atcommand "@day";
+            set $is_night, 0;
+            announce "-_-", bc_all;
+        }
+        initnpctimer;
+        end;
+}
+
+
+prontera,151,150,4	script	Sync Sticky Sea	4_F_KAFRA1,{
+	mes callfunc("F_LangText", "[Sync Sticky Sea]", "[Sincronización Sticky Sea]", "[Sincronização Sticky Sea]");
+	mes callfunc("F_LangText", "Current ep20_sidequest_1: ", "ep20_sidequest_1 actual: ", "ep20_sidequest_1 atual: ") + ep20_sidequest_1;
+	mes "11945: " + isbegin_quest(11945);
+	mes "11946: " + isbegin_quest(11946);
+	next;
+
+	if (ep20_sidequest_1 == 18) {
+		if (isbegin_quest(11945) == 0) {
+			setquest 11945;
+			mes callfunc("F_LangText", "Synced: quest 11945 has been added.", "Sincronizado: se añadió la misión 11945.", "Sincronizado: a missão 11945 foi adicionada.");
+		} else {
+			mes callfunc("F_LangText", "Quest 11945 is already active.", "La misión 11945 ya está activa.", "A missão 11945 já está ativa.");
+		}
+		close;
+	}
+
+	mes callfunc("F_LangText", "No sync applied.", "No se aplicó ninguna sincronización.", "Nenhuma sincronização foi aplicada.");
+	mes callfunc("F_LangText", "Your ep20_sidequest_1 is not 18.", "Tu ep20_sidequest_1 no es 18.", "Seu ep20_sidequest_1 não é 18.");
+	close;
+}

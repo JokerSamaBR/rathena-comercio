@@ -1,0 +1,205 @@
+// File: npc/custom/instances/sunken_tower.txt
+// Instance: Sunken Tower
+
+// NPC untuk memulai instance
+alberta,214,74,2	script	Leticia	4_4JOB_LETICIA,{
+    .@instance_name$ = "Sunken Tower";
+    
+    mes "[Leticia]";
+    mes "Selamat datang di Sunken Tower!";
+    mes "Level minimum: 40, harus dalam party.";
+    mes "Pilih tingkat kesulitan:";
+    next;
+    
+    // Cek syarat
+    if (BaseLevel < 40) {
+        mes "Levelmu terlalu rendah!";
+        close;
+    }
+    if (!getcharid(1)) {
+        mes "Kamu harus dalam party!";
+        close;
+    }
+    if (instance_id(IM_PARTY)) {
+        mes "Party-mu sudah dalam instance lain!";
+        close;
+    }
+    // Cek cooldown (24 jam)
+    if (checkquest(10001, PLAYTIME) == 2) {
+        mes "Kamu harus menunggu 24 jam sebelum masuk kembali!";
+        close;
+    }
+    
+    // Menu kesulitan
+    .@difficulty = select("Normal:Hard:Extreme") - 1;
+    .@difficulty_name$[0] = "Normal";
+    .@difficulty_name$[1] = "Hard";
+    .@difficulty_name$[2] = "Extreme";
+    
+    mes "Kamu memilih kesulitan: " + .@difficulty_name$[.@difficulty] + ".";
+    mes "Siap masuk?";
+    next;
+    if (select("Masuk:Sudah, nanti saja") == 2) {
+        mes "Kembali lagi nanti!";
+        close;
+    }
+    
+    // Buat instance
+    .@instance_id = instance_create(.@instance_name$, IM_PARTY);
+    if (.@instance_id < 0) {
+        mes "Gagal membuat instance!";
+        close;
+    }
+    
+    // Tambahkan peta
+    .@map$ = "1@ch_u";
+    if (instance_attachmap(.@map$, .@instance_id, 1, .@map$ + "@" + .@instance_id) < 0) {
+        mes "Gagal memetakan peta!";
+        instance_destroy(.@instance_id);
+        close;
+    }
+    
+    // Pasang instance
+    instance_attach(.@instance_id);
+    instance_set_timeout(1800, 300, .@instance_id); // 30 menit, 5 menit cleanup
+    instance_init(.@instance_id);
+    
+    // Simpan data kesulitan
+    setd ".@difficulty_" + .@instance_id, .@difficulty;
+    
+    // Set cooldown quest
+    setquest 10001;
+    
+    // Teleport ke instance
+    .@map_instance$ = .@map$ + "@" + .@instance_id;
+    warp .@map_instance$, 50, 50;
+    close;
+}
+
+// Script utama instance
+-	script	SunkenTowerController	-1,{
+OnInstanceInit:
+    .@instance_id = instance_id(IM_PARTY);
+    .@map$ = instance_mapname("1@ch_u@" + .@instance_id);
+    .@difficulty = getd(".@difficulty_" + .@instance_id);
+    
+    // Inisialisasi variabel
+    setd ".@floor_" + .@instance_id, 1; // Mulai dari lantai 1
+    setd ".@monsters_killed_" + .@instance_id, 0;
+    
+    // Petunjuk elemen dari Leticia
+    .@elements$[0] = "Water";
+    .@elements$[1] = "Fire";
+    .@elements$[2] = "Wind";
+    .@elements$[3] = "Earth";
+    .@element_hint$ = .@elements$[rand(4)];
+    
+    // Cek apakah party leader pernah masuk sebelumnya
+    .@leader_id = getcharid(0, getpartyleader(getcharid(1)));
+    if (checkquest(10000 + .@instance_id) == -1) {
+        announce "Leticia: Ini pertama kalimu, jadi tidak ada petunjuk elemen!", bc_map;
+        setquest (10000 + .@instance_id); // Tandai bahwa leader sudah masuk
+    } else {
+        announce "Leticia: Mayoritas monster di lantai ini menggunakan elemen " + .@element_hint$ + "!", bc_map;
+    }
+    
+    // Spawn monster awal
+    callsub OnSpawnMonsters, .@map$, .@difficulty, .@instance_id;
+    end;
+
+OnSpawnMonsters:
+    .@map$ = getarg(0);
+    .@difficulty = getarg(1);
+    .@instance_id = getarg(2);
+    .@floor = getd(".@floor_" + .@instance_id);
+    
+    // Jumlah monster berdasarkan kesulitan
+    .@monster_count = 10 + (.@difficulty * 5); // Normal: 10, Hard: 15, Extreme: 20
+    
+    // Daftar monster acak
+    .@monsters[0] = 1002; // Poring
+    .@monsters[1] = 1031; // Poporing
+    .@monsters[2] = 1113; // Marin
+    .@monsters[3] = 1242; // Drops
+    .@element_changes$[0] = "NPC_CHANGEWATER";
+    .@element_changes$[1] = "NPC_CHANGEFIRE";
+    .@element_changes$[2] = "NPC_CHANGEWIND";
+    .@element_changes$[3] = "NPC_CHANGEGROUND";
+    
+    // Spawn monster
+    for (.@i = 0; .@i < .@monster_count; .@i++) {
+        .@mob_id = .@monsters[rand(getarraysize(.@monsters))];
+        .@mob_name$ = "Basement Floor " + .@floor + " Variant";
+        monster .@map$, 0, 0, .@mob_name$, .@mob_id, 1, instance_npcname("SunkenTowerController") + "::OnMonsterDead";
+        unitskilluseid getnpcid(0), .@element_changes$[rand(4)], 1; // Ubah elemen acak
+        unitskilluseid getnpcid(0), "NPC_RELIEVE_ON", 1; // Kurangi damage
+    }
+    
+    setd ".@monsters_total_" + .@instance_id, .@monster_count;
+    end;
+
+OnMonsterDead:
+    .@instance_id = instance_id(IM_PARTY);
+    .@map$ = instance_mapname("1@ch_u@" + .@instance_id);
+    .@floor = getd(".@floor_" + .@instance_id);
+    .@monsters_killed = getd(".@monsters_killed_" + .@instance_id) + 1;
+    setd ".@monsters_killed_" + .@instance_id, .@monsters_killed;
+    
+    // Cek apakah semua monster di lantai mati
+    if (.@monsters_killed >= getd(".@monsters_total_" + .@instance_id)) {
+        announce "Lantai " + .@floor + " selesai! Bicaralah dengan Dimensional Device untuk melanjutkan!", bc_map;
+        // Spawn Dimensional Device sebagai NPC
+        enablenpc instance_npcname("Dimensional Device#" + .@instance_id);
+    }
+    end;
+
+OnInstanceDestroy:
+    .@instance_id = instance_id(IM_PARTY);
+    // Nonaktifkan NPC Dimensional Device
+    disablenpc instance_npcname("Dimensional Device#" + .@instance_id);
+    instance_destroy(.@instance_id);
+    end;
+}
+
+// Dimensional Device sebagai NPC
+1@ch_u,50,50,4	script	Dimensional Device#100	1001,{
+    .@instance_id = instance_id(IM_PARTY);
+    .@map$ = instance_mapname("1@ch_u@" + .@instance_id);
+    .@floor = getd(".@floor_" + .@instance_id);
+    .@difficulty = getd(".@difficulty_" + .@instance_id);
+    
+    // Nonaktifkan NPC hingga diaktifkan oleh OnMonsterDead
+    disablenpc instance_npcname("Dimensional Device#" + .@instance_id);
+    
+    // Bonus setiap 5 lantai
+    if (.@floor % 5 == 0) {
+        .@exp_base = 100000 * (.@difficulty + 1); // Skala EXP berdasarkan kesulitan
+        getexp .@exp_base, 0; // Beri EXP
+        if (rand(100) < 50 + (.@difficulty * 10)) { // Peluang drop: 50% Normal, 60% Hard, 70% Extreme
+            getitem 7939, 1; // Meteorite Dust (ID asumsi)
+        }
+    }
+    
+    // Pindah ke lantai berikutnya (hanya party leader)
+    if (getcharid(0) == getpartyleader(getcharid(1))) {
+        mes "[Dimensional Device]";
+        mes "Lantai " + .@floor + " selesai.";
+        mes "Pindah ke lantai berikutnya?";
+        next;
+        if (select("Pindah:Sudah dulu") == 2) {
+            mes "Kembali lagi nanti!";
+            close;
+        }
+        
+        // Reset monster dan pindah lantai
+        setd ".@floor_" + .@instance_id, .@floor + 1;
+        setd ".@monsters_killed_" + .@instance_id, 0;
+        killmonsterall .@map$;
+        disablenpc instance_npcname("Dimensional Device#" + .@instance_id);
+        callsub OnSpawnMonsters, .@map$, .@difficulty, .@instance_id;
+    } else {
+        mes "[Dimensional Device]";
+        mes "Hanya party leader yang bisa memindahkan lantai!";
+    }
+    close;
+}

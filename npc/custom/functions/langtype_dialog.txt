@@ -1,0 +1,12 @@
+// Helper de dialogos multilíngues para scripts customizados.
+// #langtype: 0 = Inglês, 2 = Espanhol, 8 = Português brasileiro.
+// Uso: callfunc("F_LangText", "English", "Espanol", "Portugues");
+
+function	script	F_LangText	{
+	.@lang = #langtype;
+	if (.@lang == 8)
+		return getarg(2);
+	if (.@lang == 2)
+		return getarg(1);
+	return getarg(0);
+}

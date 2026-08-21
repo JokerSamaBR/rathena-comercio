@@ -1,0 +1,2315 @@
+//===== rAthena Script =======================================
+//= Episode 21: Age of Heroes
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//--- Main Quest NPCs for Episode 21
+//
+// Notes:
+// - Requires BaseLevel 230 and ep20_main == 100
+// - The last value of ep21_main is 100
+//
+// - ep21_main = 26  daily quests tersedia (data NPC/quest ID belum lengkap - lihat section DAILY QUESTS)
+// - ep21_main = 20  unlocks Alberta arc
+// - ep21_main = 100 (final) completes the episode
+//
+// Quest ID ranges used:
+//   Main Quest:  12700 - 12760
+//   Side Quests: 12770 - 12820
+//   Daily:       12830 - 12860
+//   Instances:   16823 (Ghost Ship Captain cooldown), 16826 (Ghost Ship run), 12646 (Final Battle cooldown), 12650/12651 (Final Battle runs)
+//
+// Instance scripts for Ghost Ship Captain (1@wtgs) and Final Battle (1@ep21b)
+// are in the original quests_21.txt skeleton and should remain unchanged.
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Walkthrough Conversion]
+//============================================================
+
+// Helper: check if any quest is active between two IDs
+function	script	F_ep21_queststatus_between	{
+	.@start = getarg(0);
+	.@end   = getarg(1);
+	.@i     = .@start;
+	while (.@i <= .@end) {
+		if (isbegin_quest(.@i) > 0)
+			return 1;
+		.@i++;
+	}
+	return 0;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 1
+// Map: jor_tail 233,41  NPC: Shufapa
+// Story: Investigate Scale Island - unusual mana wavelength
+//============================================================
+jor_tail,233,41,3	script	Shufapa#ep21_01	4_EP19_IWIN_DIVER,{
+	if (ep20_main < 100) {
+		mes "[Shufapa]";
+		mes "We haven't wrapped up everything from the last journey.";
+		mes "Come back once you're fully prepared, adventurer.";
+		close;
+	}
+	if (ep21_main > 1) {
+		mes "[Shufapa]";
+		mes "Our destination is Scale Island. Everyone is counting on you.";
+		close;
+	}
+	if (BaseLevel < 230) {
+		mes "[Shufapa]";
+		mes "...You still need to grow stronger.";
+		mes "The road ahead is not for the faint of heart.";
+		mes "^4d4dffThis quest requires level 230 or above.^000000";
+		close;
+	}
+
+	// Step 1 - first encounter
+	if (ep21_main == 0) {
+		cutin "ep21_shufapa01.png",2;
+		mes "[Shufapa]";
+		mes "Adventurer, I was hoping you'd come.";
+		next;
+		mes "[Shufapa]";
+		mes "We've been detecting an unusual mana wavelength coming from Scale Island.";
+		mes "The readings are unlike anything we've seen before.";
+		next;
+		mes "[Shufapa]";
+		mes "I want you to come along and help us investigate.";
+		mes "There may be something dangerous on that island.";
+		next;
+		select("I'll come.");
+		mes "[Shufapa]";
+		mes "Good. Head to Scale Island and meet up with the group.";
+		mes "Nillem and Lehar are already on their way.";
+		ep21_main = 1;
+		setquest 12700;
+		close2;
+		cutin "",255;
+		navigateto("jor_crk",137,137);
+		end;
+	}
+
+	if (ep21_main == 1) {
+		cutin "ep21_shufapa01.png",2;
+		mes "[Shufapa]";
+		mes "Scale Island is to the east. Nillem and Lehar are waiting at the coordinates I gave them.";
+		cutin "",255;
+		close;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep20_main == 100 && ep21_main == 0 && BaseLevel >= 230" );
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 2
+// Map: jor_crk 137,137  (auto-trigger zone)
+// Story: Nillem confirms unusual wavelength, Lehar spots Nyar
+//============================================================
+jor_crk,132,132,0	script	#ep21_trigger_crk01	HIDDEN_WARP_NPC,8,8,{
+	end;
+OnTouch:
+	if (ep21_main != 1) end;
+	if (getcharid(0) == 0) end;
+
+	erasequest 12700;
+	setquest 12701;
+	ep21_main = 2;
+
+	cutin "ep21_nillem01.png",0;
+	mes "[Nillem]";
+	mes "...Yes. The readings are genuine.";
+	mes "Whatever is on this island is generating mana on a scale I've never encountered.";
+	next;
+	cutin "ep21_lehar01.png",2;
+	mes "[Lehar]";
+	mes "Wait. Over there — isn't that Nyar?";
+	mes "What is she doing on an island like this?";
+	next;
+	cutin "",255;
+	mes "[ The group decides to approach Nyar. ]";
+	close2;
+	navigateto("jor_crk",107,112);
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 3
+// Map: jor_crk 107,112  NPC: Nyar
+// Story: The rift, time collapse, past leads to Lasgand
+//============================================================
+jor_crk,107,112,5	script	Nyar#ep21_crk01	4_EP20_NYAR,{
+	if (ep21_main < 2) {
+		mes "[Nyar]";
+		mes "...";
+		close;
+	}
+	if (ep21_main > 3) {
+		mes "[Nyar]";
+		mes "The rift is connected. We are here now, in the past.";
+		close;
+	}
+
+	cutin "ep21_nyar01.png",2;
+	mes "[Nyar]";
+	mes "...You've come. I wasn't sure you'd follow.";
+	next;
+	mes "[Nyar]";
+	mes "The source of the mana wavelength is this rift behind me.";
+	mes "It is not stable.";
+	next;
+	cutin "ep21_aurelie01.png",0;
+	mes "[Aurelie]";
+	mes "A rift? What kind of rift?";
+	next;
+	cutin "ep21_nyar01.png",2;
+	mes "[Nyar]";
+	mes "The dimensional boundaries between time and parallel worlds are collapsing.";
+	mes "This rift is the cause — and also the symptom.";
+	next;
+	mes "[Nyar]";
+	mes "But there is one thing I can tell you.";
+	mes "This rift does not lead to another dimension.";
+	mes "It leads to the past.";
+	next;
+	cutin "ep21_lehar01.png",0;
+	mes "[Lehar]";
+	mes "The past...? What point in time?";
+	next;
+	cutin "ep21_nyar01.png",2;
+	mes "[Nyar]";
+	mes "The moment Lasgand received his power.";
+	mes "Before the inheritance was sealed within him.";
+	next;
+	mes "[Nyar]";
+	mes "If we alter that moment, we may be able to stop him entirely.";
+	next;
+	switch( select("We should go.", "Is it safe?", "What happens if we fail?") ) {
+	case 1:
+	case 2:
+	case 3:
+		mes "[Nyar]";
+		mes "...In the end, it does not matter what choice you make here.";
+		mes "There is only one path forward.";
+		break;
+	}
+	next;
+	cutin "ep21_nyar01.png",2;
+	mes "[Nyar]";
+	mes "I will connect the rift to that specific point in time.";
+	mes "Stand by.";
+	ep21_main = 3;
+	erasequest 12701;
+	setquest 12702;
+	close2;
+	cutin "",255;
+	warp "jor_crk_p",108,106;
+	end;
+
+}
+
+
+//============================================================
+// MAIN QUEST STEP 4
+// Map: jor_crk_p 108,106  NPC: Nyar (past)
+// Story: We are in the past - Rune-Midgarts foundation era
+//============================================================
+jor_crk_p,108,106,5	script	Nyar#ep21_crk_p01	4_EP20_NYAR,{
+	if (ep21_main < 3) {
+		mes "[Nyar]";
+		mes "The connection has not been established yet.";
+		close;
+	}
+	if (ep21_main > 4) {
+		mes "[Nyar]";
+		mes "Stay close to the group. We must not draw too much attention.";
+		close;
+	}
+
+	cutin "ep21_nyar01.png",2;
+	mes "[Nyar]";
+	mes "...We are here.";
+	next;
+	cutin "ep21_nillem01.png",0;
+	mes "[Nillem]";
+	mes "This mana... it is ancient. Genuinely ancient.";
+	mes "We are truly in the past.";
+	next;
+	mes "[Nillem]";
+	mes "This era — it corresponds to the founding years of Rune-Midgarts.";
+	mes "The time when the kingdom was barely formed.";
+	next;
+	cutin "ep21_nyar01.png",2;
+	mes "[Nyar]";
+	mes "And it is the time when Lasgand's power was inherited.";
+	mes "We must find a way into the faction that knows about it.";
+	next;
+	cutin "ep21_lehar01.png",0;
+	mes "[Lehar]";
+	mes "Wait. There are people over there.";
+	mes "They're moving fast — and they've spotted us.";
+	next;
+	mes "[Lehar]";
+	mes "We should approach them carefully. Pose as volunteers.";
+	mes "Volunteers for the resistance against the Jormungandr Cult.";
+	ep21_main = 4;
+	erasequest 12702;
+	setquest 12703;
+	close2;
+	cutin "",255;
+	navigateto("jor_crk_p",104,95);
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 5
+// Map: jor_crk_p 104,95  NPC: Ivan Wigner
+// Story: Ivan from Wigner family - we follow him
+//============================================================
+jor_crk_p,104,95,3	script	Ivan Wigner#ep21_01	4_EP21_IVAN,{
+	if (ep21_main < 4) {
+		mes "[Ivan]";
+		mes "...Who are you people?";
+		close;
+	}
+	if (ep21_main > 5) {
+		mes "[Ivan]";
+		mes "Stay close. We're heading to Lunaphoma.";
+		close;
+	}
+
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "Stop right there. Who are you people?";
+	mes "This is restricted territory.";
+	next;
+	mes "[Ivan]";
+	mes "You're not from the cult, but you're clearly not soldiers either.";
+	mes "Speak.";
+	next;
+	select("We're adventurers.");
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "...Adventurers.";
+	mes "From beyond the barrier?";
+	next;
+	mes "[Ivan]";
+	mes "Hmm. That's... not impossible. I've heard of such things.";
+	mes "And you're against the cult?";
+	next;
+	select("Yes.");
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "Then you're on our side.";
+	mes "My name is Ivan. Ivan Wigner, of the Wigner merchant family.";
+	next;
+	mes "[Ivan]";
+	mes "We are part of the resistance against the Jormungandr Cult.";
+	mes "Follow me — I'll bring you to our base.";
+	ep21_main = 5;
+	erasequest 12703;
+	setquest 12704;
+	close2;
+	cutin "",255;
+	warp "luna_sf1",258,147;
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 6
+// Map: luna_sf1 258,147  NPC: Ivan (safe place)
+// Story: Near the cult, heading to Gaebolg base Lunaphoma
+//============================================================
+luna_sf1,258,147,3	script	Ivan Wigner#ep21_02	4_EP21_IVAN,{
+	if (ep21_main < 5) {
+		mes "[Ivan]";
+		mes "Wait for the others.";
+		close;
+	}
+	if (ep21_main > 6) {
+		mes "[Ivan]";
+		mes "The commander is in the main base. Head to jor_mbase.";
+		close;
+	}
+
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "This place is safe for now.";
+	mes "We are close to the cult's territory — the Raised Land.";
+	next;
+	mes "[Ivan]";
+	mes "But our immediate destination is not the cult.";
+	mes "We are heading to Lunaphoma — the headquarters of Gaebolg's resistance.";
+	next;
+	mes "[Ivan]";
+	mes "A soldier will escort you to the commander.";
+	mes "Don't wander. The area is still dangerous.";
+	ep21_main = 6;
+	erasequest 12704;
+	setquest 12705;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",38,152);
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 7
+// Map: jor_mbase 38,152  NPC: Resistance Soldier -> Tris
+// Story: Introduced to Lunaphoma, Freya followers complain
+//============================================================
+jor_mbase,38,152,3	script	Resistance Soldier#ep21_01	4_EP21_SOLDIER_A,{
+	if (ep21_main < 6) {
+		mes "[Resistance Soldier]";
+		mes "Move along, civilian.";
+		close;
+	}
+	if (ep21_main > 8) {
+		mes "[Resistance Soldier]";
+		mes "The commanders are in conference. Try Tris's post.";
+		close;
+	}
+
+	if (ep21_main == 6) {
+		mes "[Resistance Soldier]";
+		mes "Ivan radioed ahead. You're the adventurers from beyond the barrier.";
+		next;
+		mes "[Resistance Soldier]";
+		mes "Commander Lunaphoma wants to see you, but there's a situation first.";
+		mes "The followers of Freya are raising a complaint. The commanders are busy.";
+		next;
+		cutin "ep21_lehar01.png",2;
+		mes "[Lehar]";
+		mes "Then let's listen in. It might be important to understand the state of things here.";
+		next;
+		mes "[Resistance Soldier]";
+		mes "Over there — that's Vice-Commander Tris. She's handling the complaint.";
+		ep21_main = 7;
+		erasequest 12705;
+		setquest 12706;
+		close2;
+		navigateto("jor_mbase",80,170);
+		end;
+	}
+
+	if (ep21_main == 7 || ep21_main == 8) {
+		mes "[Resistance Soldier]";
+		mes "Tris is wrapping up the Freya situation. She'll introduce you to the commanders after.";
+		close;
+	}
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 8
+// Map: jor_mbase ~80,170  NPC: Tris (Vice-Commander)
+// Story: Freya vs Odin tension in resistance
+//============================================================
+jor_mbase,80,170,5	script	Tris#ep21_01	4_EP21_TRIS,{
+	if (ep21_main < 7) {
+		mes "[Tris]";
+		mes "I don't have time for visitors right now.";
+		close;
+	}
+	if (ep21_main > 9) {
+		mes "[Tris]";
+		mes "Welcome to the resistance. Tan will escort you to the mercenary group.";
+		close;
+	}
+
+	if (ep21_main == 7) {
+		cutin "ep21_tris01.png",2;
+		mes "[Tris]";
+		mes "I understand your frustration. Truly, I do.";
+		next;
+		mes "[Tris]";
+		mes "But the war against the Jormungandr Cult is the priority.";
+		mes "We have not forgotten the people of Freya. We need more time.";
+		next;
+		mes "[ A representative of Freya's followers speaks. ]";
+		mes "\"The resistance fights in the name of Odin alone!\"";
+		mes "\"The name of Freya is never invoked. We will not be part of this!\"";
+		next;
+		cutin "ep21_tris01.png",2;
+		mes "[Tris]";
+		mes "...";
+		mes "I see. Then I will not force you.";
+		next;
+		mes "[ The Freya followers leave the resistance. ]";
+		next;
+		cutin "ep21_tris01.png",2;
+		mes "[Tris]";
+		mes "Forgive the disruption, adventurers.";
+		mes "Losing fighters is never easy, but we can't afford division right now.";
+		ep21_main = 8;
+		close;
+	}
+
+	if (ep21_main == 8) {
+		cutin "ep21_tris01.png",2;
+		mes "[Tris]";
+		mes "Let me introduce you to our commanders properly.";
+		next;
+		mes "[Tris]";
+		mes "You have combat skills — that much is clear.";
+		mes "People like you are always needed.";
+		mes "I want you to join the Richard Mercenary Group.";
+		next;
+		mes "[Tris]";
+		mes "They're one of our strongest units. Tan will escort you.";
+		mes "Talk to him when you're ready.";
+		ep21_main = 9;
+		erasequest 12706;
+		setquest 12707;
+		close2;
+		cutin "",255;
+		navigateto("jor_mbase",60,155);
+		end;
+	}
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 9-10
+// Map: jor_mbase ~60,155  NPC: Tan
+// Story: Tan escorts us but is suspicious
+//============================================================
+jor_mbase,60,155,3	script	Tan#ep21_escort	4_EP21_TAN,{
+	if (ep21_main < 9) {
+		mes "[Tan]";
+		mes "...";
+		close;
+	}
+	if (ep21_main > 10) {
+		mes "[Tan]";
+		mes "The mercenary office is ahead. Keep up.";
+		close;
+	}
+
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "...So you're the ones Tris wants me to bring to Richard.";
+	next;
+	mes "[Tan]";
+	mes "I don't trust you.";
+	mes "Appearing out of nowhere, claiming to be from beyond the barrier...";
+	mes "It's suspicious.";
+	next;
+	select("We'll go right away.");
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "...Fine.";
+	mes "Keep up and don't cause trouble.";
+	ep21_main = 10;
+	erasequest 12707;
+	setquest 12708;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",305,102);
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main == 9" );
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 10-11 (auto trigger near mercenary office)
+// Map: jor_mbase 305,102
+//============================================================
+jor_mbase,300,97,0	script	#ep21_trigger_office01	HIDDEN_WARP_NPC,8,8,{
+	end;
+OnTouch:
+	if (ep21_main != 10) end;
+	if (getcharid(0) == 0) end;
+
+	ep21_main = 11;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "That building there — that's the Richard Mercenary Group's office.";
+	mes "You need to find Richard inside.";
+	next;
+	cutin "",255;
+	mes "[ The office appears empty. ]";
+	cutin "ep21_lehar01.png",2;
+	mes "[Lehar]";
+	mes "There's someone over there. Go speak to them.";
+	close2;
+	cutin "",255;
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 12-14
+// Map: jor_mbase 313,121 (Mercenary Office entrance portal)
+// NPC: ??? mysterious man
+//============================================================
+jor_mbase,313,121,5	script	???#ep21_office	4_EP21_GUNTER,{
+	if (ep21_main < 11) {
+		mes "[???]";
+		mes "...This isn't a place for guests.";
+		close;
+	}
+	if (ep21_main > 12) {
+		mes "[???]";
+		mes "Richard's room is in the Central Barracks. Upper floors.";
+		close;
+	}
+
+	mes "[???]";
+	mes "...";
+	mes "You're looking for the Mercenary King?";
+	next;
+	mes "[???]";
+	mes "Richard isn't here.";
+	mes "If you need to see him, go to the Central Barracks. His room is on the upper floors.";
+	next;
+	select("Tan sent us.");
+	mes "[???]";
+	mes "...Tan, huh. That at least tells me something.";
+	mes "Go on then. Central Barracks.";
+	ep21_main = 12;
+	erasequest 12708;
+	setquest 12709;
+	close2;
+	navigateto("jor_mbase",203,190);
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 15-16
+// Map: jor_mbase 203,190 (Central Barracks exterior)
+// NPC: Room trigger / Valdaris
+//============================================================
+jor_mbase,203,190,0	script	#ep21_barracks_check	HIDDEN_WARP_NPC,3,3,{
+	end;
+OnTouch:
+	if (ep21_main != 12) end;
+	if (getcharid(0) == 0) end;
+	ep21_main = 13;
+	mes "[ You search for Richard's room. ]";
+	mes "[ The room is empty. You check the next door. ]";
+	next;
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "What is this? Who are you people, and what are you doing in the barracks?";
+	next;
+	select("Tan sent us.");
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "...Tan? Then you're with the resistance.";
+	mes "But Richard is not available at this moment.";
+	mes "Go back to the mercenary office. I'll be there shortly.";
+	erasequest 12709;
+	setquest 12710;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",313,121);
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 17-20
+// Map: jor_mbase 313,121 (Mercenary Office - registration)
+//============================================================
+jor_mbase,313,121,5	script	Valdaris#ep21_01	4_EP21_VALDARIS,{
+	if (ep21_main < 13) {
+		mes "[Valdaris]";
+		mes "We are not accepting visitors at this time.";
+		close;
+	}
+	if (ep21_main > 15) {
+		mes "[Valdaris]";
+		mes "Welcome to the Richard Mercenary Group. Follow me for the orientation.";
+		close;
+	}
+
+	if (ep21_main == 13) {
+		cutin "ep21_valdaris01.png",2;
+		mes "[Valdaris]";
+		mes "Richard is not here.";
+		mes "Before you can meet him, you need to complete our registration process.";
+		next;
+		mes "[Valdaris]";
+		mes "The application forms are on the table over there. Fill them out first.";
+		ep21_main = 14;
+		close2;
+		cutin "",255;
+		end;
+	}
+
+	if (ep21_main == 14) {
+		cutin "ep21_valdaris01.png",2;
+		mes "[Valdaris]";
+		mes "You have the forms? Let me see them.";
+		next;
+		mes "[Valdaris]";
+		mes "...Old style forms. These aren't specific to one mercenary group.";
+		mes "They're general combat volunteer applications.";
+		next;
+		mes "[Valdaris]";
+		mes "But they'll do. Welcome to the Richard Mercenary Group.";
+		mes "You are now officially part of our roster.";
+		ep21_main = 15;
+		erasequest 12710;
+		setquest 12711;
+		close2;
+		cutin "",255;
+		end;
+	}
+	end;
+}
+
+
+jor_mbase,308,130,0	script	Application Forms#ep21	HIDDEN_WARP_NPC,3,3,{
+	end;
+OnTouch:
+	if (ep21_main != 14) end;
+	if (getcharid(0) == 0) end;
+	mes "[ You find a stack of old application forms. ]";
+	mes "[ These are general volunteer registration documents — not specific to any one group. ]";
+	next;
+	mes "[ You fill out the forms and bring them to Valdaris. ]";
+	close;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 21-25
+// NPC: Tan + Valdaris - base tour
+//============================================================
+jor_mbase,313,125,3	script	Tan#ep21_tour	4_EP21_TAN,{
+	if (ep21_main < 15) {
+		mes "[Tan]";
+		mes "...";
+		close;
+	}
+	if (ep21_main > 16) {
+		mes "[Tan]";
+		mes "Keep moving.";
+		close;
+	}
+
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "...They passed the registration process?";
+	next;
+	cutin "ep21_valdaris01.png",0;
+	mes "[Valdaris]";
+	mes "They did. And they come recommended by Tris herself.";
+	mes "Let me show them around the base.";
+	next;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "...I still don't trust them.";
+	next;
+	ep21_main = 16;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",290,125);
+	end;
+}
+
+
+jor_mbase,290,125,0	script	#ep21_tour_trigger01	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnTouch:
+	if (ep21_main != 16) end;
+	if (getcharid(0) == 0) end;
+	ep21_main = 17;
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "This base was built in a rush, I'll admit.";
+	mes "The resistance didn't have time for comfort.";
+	next;
+	mes "[Valdaris]";
+	mes "The supplies ahead are from the Wigner Merchant Group.";
+	mes "They've been a key partner in keeping us provisioned.";
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",245,128);
+	end;
+}
+
+
+jor_mbase,245,128,0	script	#ep21_tour_trigger02	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnTouch:
+	if (ep21_main != 17) end;
+	if (getcharid(0) == 0) end;
+	ep21_main = 18;
+	mes "[ Children approach, calling out for Valdaris. ]";
+	next;
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "Ah — these children. They're under our protection.";
+	mes "Rescued from the Jormungandr Cult's controlled territories.";
+	next;
+	mes "[Valdaris]";
+	mes "The area here is designated for temporary residents.";
+	mes "It's the safest part of the base.";
+	next;
+	mes "[Valdaris]";
+	mes "Come — the training grounds are this way.";
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",147,108);
+	end;
+}
+
+
+jor_mbase,147,108,0	script	#ep21_tour_trigger03	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnTouch:
+	if (ep21_main != 18) end;
+	if (getcharid(0) == 0) end;
+	ep21_main = 19;
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "The training grounds. Open to everyone in the resistance.";
+	next;
+	mes "[ Sounds of something unusual come from nearby soldiers. ]";
+	next;
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "What is that? I need to investigate.";
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",120,90);
+	end;
+}
+
+
+jor_mbase,120,90,0	script	#ep21_tour_trigger04	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnTouch:
+	if (ep21_main != 19) end;
+	if (getcharid(0) == 0) end;
+	ep21_main = 20;
+	mes "[ A man is being beaten badly near the training grounds. ]";
+	mes "[ It's Richard. ]";
+	next;
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "Richard!! Stop this right now!";
+	next;
+	mes "[Valdaris]";
+	mes "I need to bring him back to his room immediately.";
+	mes "Follow me to the barracks.";
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",203,190);
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 28-31
+// Map: jor_mbase barracks interior - Valdaris, Nerius, Richard
+//============================================================
+jor_mbase,203,195,0	script	#ep21_barracks_enter02	HIDDEN_WARP_NPC,4,4,{
+	end;
+OnTouch:
+	if (ep21_main != 20) end;
+	if (getcharid(0) == 0) end;
+	ep21_main = 21;
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "Explain yourself, Nerius! Why was Richard being attacked like that?!";
+	next;
+	mes "[Nerius]";
+	mes "...He wanted it.";
+	next;
+	cutin "ep21_valdaris01.png",2;
+	mes "[Valdaris]";
+	mes "He wanted it?!";
+	close2;
+	cutin "",255;
+	end;
+}
+
+
+jor_mbase,215,210,5	script	Richard#ep21_01	4_EP21_RICHARD,{
+	if (ep21_main < 21) {
+		mes "[Richard]";
+		mes "...Come back later.";
+		close;
+	}
+	if (ep21_main > 22) {
+		mes "[Richard]";
+		mes "Talk to Lee. He'll show you the rest of the base.";
+		close;
+	}
+
+	if (ep21_main == 21) {
+		cutin "ep21_richard01.png",2;
+		mes "[Richard]";
+		mes "...Ha. You look surprised.";
+		next;
+		mes "[Richard]";
+		mes "I'm writing a book. A tactical combat manual.";
+		mes "Illustrations are key — and real stances shown in actual combat are far more accurate than poses.";
+		next;
+		mes "[Richard]";
+		mes "So I asked Nerius to hit me.";
+		mes "Lee should be drawing the illustrations right now.";
+		ep21_main = 22;
+		close;
+	}
+
+	if (ep21_main == 22) {
+		cutin "ep21_richard01.png",2;
+		mes "[Richard]";
+		mes "Lee is in the next room. Go speak to him.";
+		mes "He'll take you on the rest of the tour while Valdaris and I talk.";
+		close;
+	}
+	end;
+}
+
+
+jor_mbase,219,210,5	script	Lee#ep21_01	4_EP21_LEE,{
+	if (ep21_main < 22) {
+		mes "[Lee]";
+		mes "I'm working! Don't disturb me.";
+		close;
+	}
+	if (ep21_main > 23) {
+		mes "[Lee]";
+		mes "Come on, I'll show you the training area.";
+		close;
+	}
+
+	if (ep21_main == 22) {
+		cutin "ep21_lee01.png",2;
+		mes "[Lee]";
+		mes "Done! Here — look at this illustration.";
+		next;
+		mes "[Lee]";
+		mes "Perfect, isn't it? That stance, the weight distribution...";
+		mes "I've been waiting for a real combat demonstration.";
+		next;
+		mes "[Lee]";
+		mes "By the way — I'm Lee. You must be the new recruits.";
+		mes "Richard asked me to show you around. Come on, through here.";
+		ep21_main = 23;
+		erasequest 12711;
+		setquest 12712;
+		close2;
+		navigateto("jor_mbase",215,215);
+		end;
+	}
+	end;
+}
+
+
+jor_mbase,215,215,5	script	Lee#ep21_02	4_EP21_LEE,{
+	if (ep21_main < 23) {
+		mes "[Lee]";
+		mes "Keep up.";
+		close;
+	}
+	if (ep21_main > 24) {
+		mes "[Lee]";
+		mes "That's the full tour. Go find Tris now.";
+		close;
+	}
+
+	cutin "ep21_lee01.png",2;
+	mes "[Lee]";
+	mes "Let me tell you about Galaxia.";
+	next;
+	mes "[Lee]";
+	mes "She appeared out of nowhere and tore through nearly our entire mercenary group.";
+	mes "Single-handedly.";
+	mes "The armor you see hanging in that room? Hers — what's left of it.";
+	next;
+	mes "[Lee]";
+	mes "After that, we rebuilt. Richard made sure of it.";
+	next;
+	mes "[ Tan appears. ]";
+	cutin "ep21_tan01.png",0;
+	mes "[Tan]";
+	mes "That's enough.";
+	mes "They've seen what they need to see. Go find Tris now.";
+	ep21_main = 24;
+	getitem 1001618,30;	// Wigner Merchant Guild Voucher x30
+	//add_reputation_points(6, 30);
+	erasequest 12712;
+	setquest 12713;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",80,170);
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST STEP 36 (unlock Alberta arc + kill quest)
+// Map: jor_mbase ~80,170  NPC: Tris
+//============================================================
+jor_mbase,80,170,5	script	Tris#ep21_02	4_EP21_TRIS,{
+	if (ep21_main < 24) {
+		mes "[Tris]";
+		mes "You haven't completed the tour yet.";
+		close;
+	}
+	if (ep21_main > 26) {
+		mes "[Tris]";
+		mes "Head to Alberta port. Walter Sailor will take you.";
+		close;
+	}
+
+	if (ep21_main == 24) {
+		cutin "ep21_tris01.png",2;
+		mes "[Tris]";
+		mes "Good. How did it go?";
+		next;
+		mes "[Tris]";
+		mes "I see. Richard and his team are valuable.";
+		next;
+		mes "[Tris]";
+		mes "Now — we have assignments. Nillem, you'll head to Alberta. They need a wizard there.";
+		mes "Lehar, I'm sending you to the Wigner Merchant Group. They're coordinating refugee relief.";
+		next;
+		mes "[Tris]";
+		mes "As for you — I need you to make contact with someone first.";
+		next;
+		mes "[ Tris activates a magical device. A voice crackles through it. ]";
+		next;
+		cutin "ep21_heine01.png",2;
+		mes "[Heine]";
+		mes "Oh! It connected. Wonderful.";
+		next;
+		switch( select("...Bearable.", "Who is this?") ) {
+		case 1:
+		case 2:
+			break;
+		}
+		next;
+		cutin "ep21_heine01.png",2;
+		mes "[Heine]";
+		mes "I sent supplies ahead to Alberta — they're waiting for the resistance.";
+		mes "You'll need to receive them.";
+		next;
+		mes "[Heine]";
+		mes "But in return, I need something from you personally.";
+		mes "A Bright Eye. Fresh — not from storage. It must come directly from the creature.";
+		next;
+		switch( select("Is that person you, Tris?", "Fine.") ) {
+		case 1:
+		case 2:
+			break;
+		}
+		next;
+		cutin "ep21_heine01.png",2;
+		mes "[Heine]";
+		mes "Ha. I like this one.";
+		next;
+		mes "[Heine]";
+		mes "Enjoy the text — I've left instructions with Tris. Do read them carefully.";
+		next;
+		mes "[Heine]";
+		mes "Kill 10 Skipskipper and collect 1 Bright Eye from them.";
+		mes "Then bring it back here before heading to Alberta.";
+		ep21_main = 25;
+		setquest 12714;	// Kill 10x Skipskipper
+		close2;
+		cutin "",255;
+		navigateto("jor_mbase",161,341);
+		end;
+	}
+
+	if (ep21_main == 25) {
+		if (checkquest(12714,HUNTING) < 10 || countitem(1001641) < 1) {
+			cutin "ep21_tris01.png",2;
+			mes "[Tris]";
+			mes "You need 10 Skipskipper kills and a Bright Eye before we can proceed.";
+			mes "Talk to Walter Sailor to get to the Raised Land.";
+			close;
+		}
+		cutin "ep21_tris01.png",2;
+		mes "[Tris]";
+		mes "You've got the Bright Eye. Well done.";
+		mes "I'll transmit it to Heine.";
+		next;
+		mes "[Tris]";
+		ep21_main = 26;
+		erasequest 12714;
+		setquest 12715;
+		getitem 1001618,30;	// Wigner Merchant Guild Voucher x30
+		//add_reputation_points(6, 35);
+		close;
+	}
+
+	if (ep21_main == 26) {
+		cutin "ep21_tris01.png",2;
+		mes "[Tris]";
+		mes "Now head to Alberta. Walter Sailor at jor_mbase 333,148 will take you by boat.";
+		erasequest 12715;
+		setquest 12716;
+		close2;
+		cutin "",255;
+		navigateto("jor_mbase",333,148);
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main == 24" );
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main == 25 && checkquest(12714,HUNTING) >= 10 && countitem(1001641) >= 1" );
+	end;
+}
+
+
+//============================================================
+// Walter Sailor (Raised Land boat)
+//============================================================
+jor_mbase,161,341,3	script	Walter Sailor#ep21_raise	4_EP21_M_WORKER_A,{
+	if (ep21_main < 25) {
+		mes "[Walter Sailor]";
+		mes "We're not taking passengers right now.";
+		close;
+	}
+	mes "[Walter Sailor]";
+	mes "Heading to the Raised Land? Hop on.";
+	next;
+	select("Take me to the Raised Land.");
+	warp "jor_raise2",150,150;
+	end;
+}
+
+jor_raise2,100,26,3	script	Hidden Boat#ep21	HIDDEN_NPC,{
+	mes "[ A small boat, hidden in the rocks. ]";
+	next;
+	select("Return to base.");
+	warp "jor_mbase",161,341;
+	end;
+}
+
+
+//============================================================
+// Walter Sailor (Alberta route)
+//============================================================
+jor_mbase,333,148,3	script	Walter Sailor#ep21_albe	4_EP21_M_WORKER_A,{
+	if (ep21_main < 26) {
+		mes "[Walter Sailor]";
+		mes "We don't have space for additional passengers.";
+		close;
+	}
+	mes "[Walter Sailor]";
+	mes "Destination: Alberta port. Ready?";
+	next;
+	select("Let's go.");
+	warp "jor_albe",227,130;
+	end;
+}
+
+
+//============================================================
+// MAIN QUEST - ALBERTA ARC (Steps 40-55)
+// Map: jor_albe
+//============================================================
+jor_albe,227,130,5	script	Nillem#ep21_albe	4_M_NILLEM,{
+	if (ep21_main < 26) {
+		mes "[Nillem]";
+		mes "I'm still getting settled here.";
+		close;
+	}
+	if (ep21_main > 27) {
+		mes "[Nillem]";
+		mes "Things are moving fast here in Alberta.";
+		close;
+	}
+
+	if (ep21_main == 26) {
+		cutin "ep21_nillem01.png",2;
+		mes "[Nillem]";
+		mes "Oh! You're here too.";
+		next;
+		mes "[ A sailor approaches, overloading Nillem with documents. ]";
+		next;
+		mes "[ Sailor: Megas ]";
+		mes "\"You — you're the wizard they sent?\"";
+		mes "\"Stop chatting and get to work. Head to the beach and find something to do.\"";
+		next;
+		cutin "ep21_nillem01.png",2;
+		mes "[Nillem]";
+		mes "I... yes sir. Ah. Sorry — go to Yohan at the beach. He assigns the work here.";
+		ep21_main = 27;
+		erasequest 12716;
+		setquest 12717;
+		close2;
+		cutin "",255;
+		navigateto("jor_albe",227,117);
+		end;
+	}
+	end;
+}
+
+
+jor_albe,227,117,0	script	#ep21_yohan_trigger	HIDDEN_WARP_NPC,4,4,{
+	end;
+OnTouch:
+	if (ep21_main != 27) end;
+	if (getcharid(0) == 0) end;
+	ep21_main = 28;
+	cutin "ep21_yohan01.png",2;
+	mes "[Yohan]";
+	mes "New volunteers? Good. We have cargo that needs moving.";
+	mes "There are marked locations across town — deliver to each one.";
+	next;
+	mes "[ Destinations are marked on your map. ]";
+	setquest 12718;	// Cargo delivery quest
+	close2;
+	cutin "",255;
+	end;
+}
+
+
+// Cargo delivery - Walter Sailor on the docks
+jor_albe,146,224,3	script	Walter Sailor#ep21_dock1	4_EP21_M_WORKER_A,{
+	if (ep21_main != 28 || checkquest(12718) < 0) {
+		mes "[Walter Sailor]";
+		mes "Nothing for you here.";
+		close;
+	}
+	mes "[Walter Sailor]";
+	mes "Cargo received. Good. Everyone starts at the bottom here.";
+	mes "It's how things work — think of it as a ladder.";
+	next;
+	setquest 12719;
+	close;
+}
+
+jor_albe,120,145,0	script	#ep21_cargo_warehouse	HIDDEN_WARP_NPC,4,4,{
+	end;
+OnTouch:
+	if (ep21_main != 28) end;
+	if (checkquest(12719) < 0) end;
+	if (getcharid(0) == 0) end;
+	mes "[ Walter Sailor inside accepts your cargo delivery. ]";
+	setquest 12720;
+	close;
+}
+
+
+// Return to Yohan for dirt-cleaning task
+jor_albe,227,117,3	script	Yohan#ep21_01	4_EP21_M_WORKER_A,{
+	if (ep21_main < 28) {
+		mes "[Yohan]";
+		mes "Not now.";
+		close;
+	}
+	if (ep21_main > 29) {
+		mes "[Yohan]";
+		mes "Good work.";
+		close;
+	}
+
+	if (ep21_main == 28 && checkquest(12720) > 0) {
+		cutin "ep21_yohan01.png",2;
+		mes "[Yohan]";
+		mes "Cargo delivered. Good.";
+		mes "Next problem — all that traffic has left dirt everywhere in town.";
+		mes "Clean up 4 dirt piles. Locations marked.";
+		ep21_main = 29;
+		erasequest 12717;
+		erasequest 12718;
+		erasequest 12719;
+		erasequest 12720;
+		setquest 12721;	// Clean 4 dirt piles
+		close;
+	}
+	mes "[Yohan]";
+	mes "Finish the deliveries first.";
+	close;
+}
+
+
+// Dirt pile hidden warp triggers (4 locations from wiki)
+jor_albe,205,132,0	script	Dirt Pile#ep21_01	HIDDEN_WARP_NPC,2,2,{
+	end;
+OnTouch:
+	if (ep21_main != 29 || checkquest(12721) < 0) end;
+	if (getcharid(0) == 0) end;
+	setquest 12722;
+	mes "[ Dirt pile cleaned. ]";
+	close;
+}
+
+jor_albe,189,166,0	script	Dirt Pile#ep21_02	HIDDEN_WARP_NPC,2,2,{
+	end;
+OnTouch:
+	if (ep21_main != 29 || checkquest(12721) < 0) end;
+	if (checkquest(12722) < 0) end;
+	if (getcharid(0) == 0) end;
+	setquest 12723;
+	mes "[ Dirt pile cleaned. ]";
+	close;
+}
+
+jor_albe,174,139,0	script	Dirt Pile#ep21_03	HIDDEN_WARP_NPC,2,2,{
+	end;
+OnTouch:
+	if (ep21_main != 29 || checkquest(12721) < 0) end;
+	if (checkquest(12723) < 0) end;
+	if (getcharid(0) == 0) end;
+	setquest 12724;
+	mes "[ Dirt pile cleaned. ]";
+	close;
+}
+
+jor_albe,143,210,0	script	Dirt Pile#ep21_04	HIDDEN_WARP_NPC,2,2,{
+	end;
+OnTouch:
+	if (ep21_main != 29 || checkquest(12721) < 0) end;
+	if (checkquest(12724) < 0) end;
+	if (getcharid(0) == 0) end;
+	setquest 12725;
+	mes "[ Dirt pile cleaned. ]";
+	close;
+}
+
+
+// Back to Yohan after cleaning
+jor_albe,227,117,5	script	Yohan#ep21_02	4_EP21_M_WORKER_A,{
+	if (ep21_main != 29 || checkquest(12725) < 0) {
+		mes "[Yohan]";
+		mes "Keep working.";
+		close;
+	}
+	cutin "ep21_yohan01.png",2;
+	mes "[Yohan]";
+	mes "Town looks better. Now — back to the warehouse.";
+	mes "There's another task waiting for you.";
+	ep21_main = 30;
+	erasequest 12721;
+	erasequest 12722;
+	erasequest 12723;
+	erasequest 12724;
+	erasequest 12725;
+	setquest 12726;	// Warehouse letter delivery
+	close2;
+	cutin "",255;
+	navigateto("jor_albe",120,145);
+	end;
+}
+
+
+//============================================================
+// Iana Operta - letter delivery
+//============================================================
+jor_albe,120,140,5	script	Iana Operta#ep21_01	4_EP21_IANA,{
+	if (ep21_main < 30) {
+		mes "[Iana]";
+		mes "I'm busy right now.";
+		close;
+	}
+	if (ep21_main > 31) {
+		mes "[Iana]";
+		mes "Both letters delivered. Thank you.";
+		close;
+	}
+
+	if (ep21_main == 30) {
+		cutin "ep21_iana01.png",2;
+		mes "[Iana Operta]";
+		mes "You're here for the warehouse job? Good timing.";
+		mes "I need two letters delivered.";
+		next;
+		mes "[Iana Operta]";
+		mes "First, go to Professor Sanguin — he's in the building at the north end of town.";
+		mes "Second, Patissier Edel. She runs a small shop on the west side.";
+		next;
+		mes "[Iana Operta]";
+		mes "These aren't trivial errands. Deliver both and bring me the replies.";
+		ep21_main = 31;
+		setquest 12727;	// Letter to Professor Sanguin
+		setquest 12728;	// Letter to Patissier Edel
+		close;
+	}
+	end;
+}
+
+
+// First letter: Professor Sanguin (jor_albe 200,107)
+jor_albe,200,107,5	script	Professor Sanguin#ep21_01	4_EP21_EPESTO,{
+	if (ep21_main != 31 || checkquest(12727) < 0) {
+		mes "[Professor Sanguin]";
+		mes "I'm conducting research. Please come back another time.";
+		close;
+	}
+	cutin "ep21_sanguin01.png",2;
+	mes "[Professor Sanguin]";
+	mes "A letter from Iana?";
+	next;
+	mes "[Professor Sanguin]";
+	mes "...Interesting. Your name is mentioned in here as well.";
+	mes "Give me a moment.";
+	next;
+	mes "[Professor Sanguin]";
+	mes "Here — a written reply. Make sure Iana receives it.";
+	completequest 12727;
+	close;
+}
+
+
+// Second letter: Patissier Edel (jor_albe 60,237)
+jor_albe,60,237,5	script	Patissier Edel#ep21_01	4_EP21_F_WORKER_A,{
+	if (ep21_main != 31 || checkquest(12728) < 0) {
+		mes "[Patissier Edel]";
+		mes "Welcome. Are you here to buy something?";
+		close;
+	}
+	cutin "ep21_edel01.png",2;
+	mes "[Patissier Edel]";
+	mes "A letter? For me?";
+	mes "I'm Edel. What's your business?";
+	next;
+	switch( select("We're delivering this letter from Iana.", "We're just passing through.") ) {
+	case 1:
+		mes "[Patissier Edel]";
+		mes "Ah, from Iana. Of course.";
+		next;
+		mes "[Patissier Edel]";
+		mes "Tell her the shipment she's been waiting on has been delayed.";
+		mes "But I'll make sure it arrives before the week is out.";
+		completequest 12728;
+		break;
+	case 2:
+		mes "[Patissier Edel]";
+		mes "...Then I suggest you pass through somewhere else.";
+		mes "This shop is for customers.";
+		// Wrong option - no quest progress
+		break;
+	}
+	close;
+}
+
+
+// Return to Iana - both letters done - introduced to Maristella Walter
+jor_albe,120,140,5	script	Iana Operta#ep21_02	4_EP21_IANA,{
+	if (ep21_main != 31) {
+		mes "[Iana]";
+		mes "Have you delivered both letters yet?";
+		close;
+	}
+	if (checkquest(12727) != 2 || checkquest(12728) != 2) {
+		cutin "ep21_iana01.png",2;
+		mes "[Iana Operta]";
+		mes "Both letters need replies before you come back.";
+		mes "Professor Sanguin is at 200,107. Patissier Edel is on the west side at 60,237.";
+		close;
+	}
+	cutin "ep21_iana01.png",2;
+	mes "[Iana Operta]";
+	mes "Both replies received. Good work.";
+	next;
+	mes "[Iana Operta]";
+	mes "I told you these weren't trivial errands.";
+	mes "There's someone I want you to meet.";
+	next;
+	mes "[ Iana leads you to a woman waiting nearby. ]";
+	next;
+	cutin "ep21_maristella01.png",0;
+	mes "[Maristella Walter]";
+	mes "...";
+	next;
+	cutin "ep21_iana01.png",2;
+	mes "[Iana Operta]";
+	mes "This is Maristella Walter. She's been asking around about the ghost ship.";
+	next;
+	mes "[Iana Operta]";
+	mes "Her father — Walter — was a sailor. He may have been on that ship.";
+	mes "We need to find its location. That's why I needed those letters delivered.";
+	mes "Both Sanguin and Edel had information I needed to piece together.";
+	next;
+	cutin "ep21_maristella01.png",0;
+	mes "[Maristella Walter]";
+	mes "...Please. Find the ship.";
+	ep21_main = 32;
+	erasequest 12726;
+	erasequest 12727;
+	erasequest 12728;
+	setquest 12729;
+	getitem 1001618,40;	// 40x Wigner Merchant Guild Voucher (step 56 reward)
+	//add_reputation_points(6, 40);
+	close2;
+	cutin "",255;
+	navigateto("jor_albe",194,200);
+	end;
+}
+
+
+//============================================================
+// STEP 57: Walter Sailor (Alberta → Lunaphoma return boat)
+//============================================================
+jor_albe,194,200,3	script	Walter Sailor#ep21_return	4_EP21_M_WORKER_A,{
+	if (ep21_main < 32) {
+		mes "[Walter Sailor]";
+		mes "The boat to Lunaphoma leaves from here.";
+		close;
+	}
+	mes "[Walter Sailor]";
+	mes "Heading back to Lunaphoma?";
+	next;
+	select("Yes.");
+	warp "jor_mbase",333,148;
+	end;
+}
+
+
+//============================================================
+// STEP 58: Ivan at Lunaphoma - directs to Lehar
+//============================================================
+jor_mbase,240,277,3	script	Ivan Wigner#ep21_03	4_EP21_IVAN,{
+	if (ep21_main < 32) {
+		mes "[Ivan]";
+		mes "...";
+		close;
+	}
+	if (ep21_main > 32) {
+		mes "[Ivan]";
+		mes "Go talk to Lehar. He heard something about the ghost ship.";
+		close;
+	}
+
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "The ghost ship? I've heard things, but nothing I can confirm.";
+	next;
+	mes "[Ivan]";
+	mes "...Lehar might know more. He's been working with the Wigner Group kitchen. People talk while they eat.";
+	next;
+	mes "[Ivan]";
+	mes "Go ask him. He's over there helping with the meals.";
+	erasequest 12729;
+	setquest 12734;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",214,306);
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main == 32" );
+	end;
+}
+
+
+//============================================================
+// STEP 59: Lehar cooking - hears ghost ship rumors
+//============================================================
+jor_mbase,214,306,3	script	Lehar#ep21_cook	4_EP19_LEHAR,{
+	if (ep21_main != 32 || checkquest(12734) < 0) {
+		mes "[Lehar]";
+		mes "...Try the rice. It's good, I promise.";
+		close;
+	}
+
+	cutin "ep21_lehar01.png",2;
+	mes "[Lehar]";
+	mes "Oh! You're here. Good timing — help me with this.";
+	next;
+	mes "[Lehar]";
+	mes "The Wigner Group volunteers are starving. I've been cooking all morning.";
+	next;
+	mes "[ You help Lehar prepare meals. Everyone praises the rice. ]";
+	next;
+	cutin "ep21_lehar01.png",2;
+	mes "[Lehar]";
+	mes "...While we were serving, I heard something. Two men talking quietly — about a ghost ship.";
+	next;
+	mes "[Lehar]";
+	mes "They stopped when they noticed me. But I caught enough.";
+	mes "Go back to Ivan. Tell him what I heard.";
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",193,287);
+	end;
+}
+
+
+//============================================================
+// STEP 60-61: Ivan + Lyriq (eyewitness)
+//============================================================
+jor_mbase,193,287,3	script	Ivan Wigner#ep21_04	4_EP21_IVAN,{
+	if (ep21_main != 32 || checkquest(12734) < 0) {
+		mes "[Ivan]";
+		mes "...";
+		close;
+	}
+
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "Several people saw that ship. But one man saw it closest.";
+	mes "His name is Lyriq. Ask Lehar to introduce you.";
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",191,306);
+	end;
+}
+
+
+jor_mbase,191,306,5	script	Lyriq#ep21_01	4_EP21_M_WORKER_B,{
+	if (ep21_main != 32 || checkquest(12734) < 0) {
+		mes "[Lyriq]";
+		mes "...Do I know you?";
+		close;
+	}
+
+	cutin "ep21_lehar01.png",0;
+	mes "[Lehar]";
+	mes "Lyriq, these are friends of mine. They're asking about the ghost ship.";
+	next;
+	mes "[Lyriq]";
+	mes "...I saw it at dawn. Heavy fog. A massive black hull, moving without wind.";
+	next;
+	mes "[Lyriq]";
+	mes "No crew visible. No lights.";
+	mes "But I heard something — like someone knocking from inside the hull.";
+	next;
+	mes "[Lyriq]";
+	mes "I don't know what's on that ship. But it's not nothing.";
+	next;
+	mes "[ You thank Lyriq and return to Ivan. ]";
+	erasequest 12734;
+	setquest 12735;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",237,281);
+	end;
+}
+
+
+//============================================================
+// STEP 62: Ivan - wants to join, needs to send package to Lalaila first
+//============================================================
+jor_mbase,237,281,3	script	Ivan Wigner#ep21_05	4_EP21_IVAN,{
+	if (ep21_main != 32 || checkquest(12735) < 0) {
+		mes "[Ivan]";
+		mes "...";
+		close;
+	}
+
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "I want to join this mission.";
+	mes "But first — deliver this package to my sister in Alberta. Lalaila, building at 100,238.";
+	next;
+	mes "[Ivan]";
+	mes "Don't let her open it in front of you.";
+	erasequest 12735;
+	setquest 12736;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",333,148);
+	end;
+}
+
+
+//============================================================
+// STEP 64-66: Alberta - Lalaila Wigner + dusty box
+//============================================================
+jor_albe,100,238,3	script	Lalaila Wigner#ep21_albe	4_EP21_LALAILA,{
+	if (ep21_main != 32 || checkquest(12736) < 0) {
+		mes "[Lalaila]";
+		mes "You're from Lunaphoma?";
+		close;
+	}
+
+	cutin "ep21_lalaila01.png",2;
+	mes "[Lalaila Wigner]";
+	mes "A package from Ivan?";
+	next;
+	mes "[Lalaila Wigner]";
+	mes "I've had people watching over him. He doesn't know that.";
+	next;
+	mes "[ Lalaila opens the package quietly. ]";
+	next;
+	mes "[Lalaila Wigner]";
+	mes "His knuckles. He told me to throw them away years ago.";
+	mes "I refused. I kept them.";
+	next;
+	mes "[Lalaila Wigner]";
+	mes "Take them back to him. And take this letter to Maristella Walter — she's in the nearby building.";
+	mes "Don't read it.";
+	setquest 12737;
+	close;
+}
+
+
+jor_albe,100,250,0	script	Dusty Box#ep21	HIDDEN_WARP_NPC,3,3,{
+	end;
+OnTouch:
+	if (ep21_main != 32 || checkquest(12736) < 0) end;
+	if (getcharid(0) == 0) end;
+	mes "[ A dusty box. Inside are well-maintained knuckles — someone has been caring for them. ]";
+	mes "[ Lalaila wraps them carefully. ]";
+	close;
+}
+
+
+//============================================================
+// STEP 67-68: Maristella Walter receives letter - only smiles
+//============================================================
+jor_albe,120,146,3	script	Maristella Walter#ep21_letter	4_EP21_MARISTELLA,{
+	if (ep21_main != 32 || checkquest(12737) < 0) {
+		mes "[Maristella Walter]";
+		mes "...";
+		close;
+	}
+
+	cutin "ep21_maristella01.png",2;
+	mes "[Maristella Walter]";
+	mes "...";
+	next;
+	mes "[ You hand her the letter from Lalaila. ]";
+	next;
+	mes "[ She reads it quietly. ]";
+	next;
+	mes "[ She doesn't say anything. ]";
+	mes "[ She just smiles. ]";
+	completequest 12736;
+	completequest 12737;
+	getitem 1001618,10;
+	//add_reputation_points(6, 5);
+	close2;
+	cutin "",255;
+	navigateto("jor_albe",194,200);
+	end;
+}
+
+
+//============================================================
+// STEP 69-70: Back to Lunaphoma - Ivan confirms infiltration plan
+//============================================================
+jor_mbase,237,281,5	script	Ivan Wigner#ep21_06	4_EP21_IVAN,{
+	if (ep21_main != 32 || checkquest(12736) != 2) {
+		mes "[Ivan]";
+		mes "...Did you see her?";
+		close;
+	}
+
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "...You gave her the letter. Good.";
+	next;
+	mes "[Ivan]";
+	mes "We'll infiltrate through the north of the Raised Land. Meet at the rendezvous point.";
+	ep21_main = 33;
+	erasequest 12736;
+	erasequest 12737;
+	setquest 12738;
+	getitem 1001618,40;
+	//add_reputation_points(6, 40);
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",161,341);
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main == 32 && checkquest(12736) == 2" );
+	end;
+}
+
+
+//============================================================
+// STEP 71-85: Temple Arc
+// Raised Land → jor_raise1 322,64 bushes → Ivan → jor_tmple1
+//============================================================
+jor_raise1,322,64,0	script	#ep21_bushes_01	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnTouch:
+	if (ep21_main != 33 || checkquest(12738) < 0) end;
+	if (getcharid(0) == 0) end;
+	warp "jor_crk_p",150,150;	// TODO: verify warp destination
+	end;
+}
+
+
+jor_crk_p,150,150,0	script	#ep21_ivan_rendezvous	HIDDEN_WARP_NPC,4,4,{
+	end;
+OnTouch:
+	if (ep21_main != 33 || checkquest(12738) < 0) end;
+	if (getcharid(0) == 0) end;
+	ep21_main = 34;
+	erasequest 12738;
+	setquest 12739;
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "There's a temple ahead. Human-built — or at least, it looks that way.";
+	mes "The only way to find out what's inside is to go in.";
+	next;
+	mes "[ Jormungand Church Temple unlocked. ]";
+	close2;
+	cutin "",255;
+	navigateto("jor_raise1",152,316);
+	end;
+}
+
+
+jor_tmple1,170,62,0	script	#ep21_temple_safe01	HIDDEN_WARP_NPC,4,4,{
+	end;
+OnTouch:
+	if (ep21_main != 34) end;
+	if (getcharid(0) == 0) end;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "First safe point. Our priority is ghost ship location. Let's ask around carefully.";
+	close2;
+	cutin "",255;
+	navigateto("jor_tmple1",103,180);
+	end;
+}
+
+
+jor_tmple1,103,180,5	script	Temple Believer#ep21_01	4_EP21_M_WORKER_A,{
+	if (ep21_main != 34) {
+		mes "[Believer]";
+		mes "...The prayers are ongoing.";
+		close;
+	}
+	mes "[Believer]";
+	mes "The ghost ship? I serve only the Jormungandr. That is all that matters.";
+	next;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "Their faith is too strong. Asking about escaping would only cause trouble here.";
+	mes "Let's check further in.";
+	close2;
+	cutin "",255;
+	navigateto("jor_tmple1",181,235);
+	end;
+}
+
+
+jor_tmple1,181,235,5	script	Temple Believer#ep21_02	4_EP21_M_WORKER_B,{
+	if (ep21_main != 34) {
+		mes "[Believer]";
+		mes "...";
+		close;
+	}
+	mes "[Believer]";
+	mes "...Are you here to take me to the second floor?";
+	mes "That's where they bring the ones who ask too many questions.";
+	next;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "The second floor. We need to find a way up there.";
+	close2;
+	cutin "",255;
+	navigateto("jor_tmple1",229,270);
+	end;
+}
+
+
+jor_tmple1,229,270,5	script	Temple Believer#ep21_03	4_EP21_F_WORKER_A,{
+	if (ep21_main != 34) {
+		mes "[Believer]";
+		mes "...";
+		close;
+	}
+	mes "[Believer]";
+	mes "The second floor needs priest registration. But the priests have disappeared lately.";
+	next;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "Priests are gone. We can't get registered. Let's regroup with Ivan.";
+	close2;
+	cutin "",255;
+	navigateto("jor_tmple1",170,62);
+	end;
+}
+
+
+jor_tmple1,170,62,5	script	Ivan Wigner#ep21_temple	4_EP21_IVAN,{
+	if (ep21_main != 34 || checkquest(12739) < 0) {
+		mes "[Ivan]";
+		mes "We need to regroup.";
+		close;
+	}
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "Nothing concrete. Yohan got the same wall on the other side.";
+	mes "We need more information before we can proceed. Back to Lunaphoma.";
+	ep21_main = 35;
+	erasequest 12739;
+	setquest 12740;
+	close2;
+	cutin "",255;
+	warp "jor_mbase",161,341;
+	end;
+}
+
+
+//============================================================
+// STEP 87: Tris at jor_mbase 142,264
+//============================================================
+jor_mbase,142,264,3	script	Tris#ep21_04	4_EP21_TRIS,{
+	if (ep21_main < 35) {
+		mes "[Tris]";
+		mes "Keep at it.";
+		close;
+	}
+	if (ep21_main > 36) {
+		mes "[Tris]";
+		mes "Nadoyo is at the small boat. Go meet him.";
+		close;
+	}
+
+	if (ep21_main == 35) {
+		cutin "ep21_tris01.png",2;
+		mes "[Tris]";
+		mes "Nothing from the temple. No escapees. No ghost ship intel.";
+		next;
+		mes "[Tris]";
+		mes "...I'm frustrated. But there's an informant incoming — he may have inside access.";
+		mes "Go to the small boat at 124,33. Meet him there.";
+		ep21_main = 36;
+		erasequest 12740;
+		setquest 12741;
+		getitem 1001618,15;
+		//add_reputation_points(6, 15);
+		close2;
+		cutin "",255;
+		navigateto("jor_mbase",124,33);
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main == 35" );
+	end;
+}
+
+
+//============================================================
+// STEP 88-90: Small boat → Nadoyo + Tan → Ivan afraid
+//============================================================
+jor_mbase,124,33,3	script	Small Boat#ep21	4_WOODBOX,{
+	if (ep21_main != 36 || checkquest(12741) < 0) {
+		mes "[ A small boat by the dock. ]";
+		close;
+	}
+	mes "[ A man is waiting beside the small boat. ]";
+	next;
+	warp "jor_crk_p",72,76;
+	end;
+}
+
+
+jor_crk_p,72,76,5	script	Nadoyo#ep21_01	4_EP21_NADOYO,{
+	if (ep21_main != 36 || checkquest(12741) < 0) {
+		mes "[Nadoyo]";
+		mes "...You shouldn't be here.";
+		close;
+	}
+
+	cutin "ep21_nadoyo01.png",2;
+	mes "[Nadoyo]";
+	mes "There's someone in the temple who wants to escape.";
+	mes "He has everything — ghost ship location, second floor layout.";
+	next;
+	mes "[Nadoyo]";
+	mes "But to reach him, you need someone who can pass the cult's appearance check.";
+	mes "Tall. Long black hair. Similar to Tan's build. Disguised as a high-ranking priest.";
+	next;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "...I can think of exactly one person who fits that.";
+	mes "And I was hoping I wouldn't have to say his name.";
+	next;
+	cutin "ep21_ivan01.png",0;
+	mes "[Ivan]";
+	mes "...Who?";
+	close2;
+	cutin "",255;
+	navigateto("jor_crk_p",80,80);
+	end;
+}
+
+
+jor_crk_p,80,80,5	script	Ivan Wigner#ep21_07	4_EP21_IVAN,{
+	if (ep21_main != 36) {
+		mes "[Ivan]";
+		mes "...";
+		close;
+	}
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "...I know who Tan means. And I really hoped we wouldn't need him.";
+	mes "Come back to Lunaphoma.";
+	close2;
+	cutin "",255;
+	warp "jor_mbase",161,341;
+	end;
+}
+
+
+//============================================================
+// STEP 92: Ivan + Wilhelm at jor_mbase 163,295
+//============================================================
+jor_mbase,163,295,3	script	Ivan Wigner#ep21_08	4_EP21_IVAN,{
+	if (ep21_main != 36) {
+		mes "[Ivan]";
+		mes "...He's around here somewhere.";
+		close;
+	}
+
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "Wilhelm.";
+	next;
+	cutin "ep21_wilhelm01.png",0;
+	mes "[Wilhelm]";
+	mes "...No.";
+	next;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "There's someone inside who wants out. They won't get another chance.";
+	mes "And you're the only one who can pass their inspection at the door.";
+	next;
+	cutin "ep21_wilhelm01.png",0;
+	mes "[Wilhelm]";
+	mes "...One person. I go in to find one person. That's all.";
+	next;
+	cutin "ep21_ivan01.png",2;
+	mes "[Ivan]";
+	mes "That's all we're asking.";
+	ep21_main = 37;
+	erasequest 12741;
+	setquest 12742;
+	close2;
+	cutin "",255;
+	navigateto("jor_mbase",161,341);
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main == 36" );
+	end;
+}
+
+jor_mbase,165,295,5	script	Wilhelm#ep21_recruit	4_EP21_WILHELM,{
+	if (ep21_main != 36) {
+		mes "[Wilhelm]";
+		mes "...";
+		close;
+	}
+	mes "[Wilhelm]";
+	mes "Talk to Ivan first.";
+	close;
+}
+
+
+//============================================================
+// STEP 93-96: Raised Land → bushes → Nadoyo + Wilhelm plan
+//============================================================
+jor_raise1,322,64,0	script	#ep21_bushes_02	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnTouch:
+	if (ep21_main != 37 || checkquest(12742) < 0) end;
+	if (getcharid(0) == 0) end;
+	warp "jor_crk_p",153,153;	// TODO: verify exact destination
+	end;
+}
+
+
+jor_crk_p,153,153,5	script	Tan#ep21_plan	4_EP21_TAN,{
+	if (ep21_main != 37 || checkquest(12742) < 0) {
+		mes "[Tan]";
+		mes "Wait for the others.";
+		close;
+	}
+
+	cutin "ep21_nadoyo01.png",0;
+	mes "[Nadoyo]";
+	mes "Here's the plan. Wilhelm disguises as High Priest Reno.";
+	mes "The priest wants to escape — I've confirmed it.";
+	next;
+	cutin "ep21_wilhelm01.png",2;
+	mes "[Wilhelm]";
+	mes "I know how they speak. How they move.";
+	mes "...I spent too long among them.";
+	next;
+	cutin "ep21_nadoyo01.png",0;
+	mes "[Nadoyo]";
+	mes "The priest will help us reach the second floor. Then we get the ghost ship location.";
+	next;
+	cutin "ep21_tan01.png",2;
+	mes "[Tan]";
+	mes "Then let's move.";
+	ep21_main = 38;
+	erasequest 12742;
+	setquest 12743;
+	getitem 1001618,15;
+	//add_reputation_points(6, 15);
+	close2;
+	cutin "",255;
+	navigateto("jor_raise1",152,316);
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main == 37" );
+	end;
+}
+
+
+//============================================================
+// STEP 98+: Second temple infiltration with Wilhelm (jor_tmple1 229,266)
+// TODO: Wiki kepotong di step 98. Steps 98 ke atas belum diketahui.
+// Ghost Ship Captain instance masuk setelah arc ini selesai.
+// ep21_main 38+ adalah placeholder.
+//============================================================
+
+
+//============================================================
+// POST-FINAL-BATTLE: Episode completion
+// Entry NPC (Ilze#Con1) is in instance_final_battle.txt
+// Instance map script (1@ep21b) is in instance_final_battle.txt
+// After player clears Final Battle instance and returns
+//============================================================
+luna_sf2,260,50,5	script	Ilze#ep21_post	4_EP21_ILSE,{
+	if (ep21_main < 35) {
+		mes "[Ilze]";
+		mes "The portal is still open. Go when you're ready.";
+		close;
+	}
+	if (ep21_main > 36) {
+		mes "[Ilze]";
+		mes "You've done it. The path is clear now.";
+		close;
+	}
+
+	// Check if Final Battle was completed (quest 12646 is the cooldown quest set after Miaole#02 rewards)
+	if (checkquest(12646) < 0 && checkquest(12650) < 0 && checkquest(12651) < 0) {
+		cutin "ep21_ilse_heine01.png",2;
+		mes "[Ilze]";
+		mes "Not done yet. Miaole is waiting inside.";
+		close;
+	}
+
+	cutin "ep21_ilse_heine01.png",2;
+	mes "[Ilze]";
+	mes "You did it.";
+	next;
+	mes "[Ilze]";
+	mes "The fusion has been severed.";
+	mes "Lasgand's power is no longer rooting itself here in the past.";
+	next;
+	cutin "ep21_nyar01.png",0;
+	mes "[Nyar]";
+	mes "The rift is stabilizing.";
+	mes "We can return.";
+	next;
+	cutin "ep21_lehar01.png",2;
+	mes "[Lehar]";
+	mes "Then it's over? We actually changed something?";
+	next;
+	cutin "ep21_nyar01.png",0;
+	mes "[Nyar]";
+	mes "...What we changed here will echo forward.";
+	mes "Whether it is enough — we will only know in time.";
+	next;
+	cutin "ep21_ilse_heine01.png",2;
+	mes "[Ilze]";
+	mes "Then let's go home.";
+	next;
+	ep21_main = 100;
+	erasequest 12732;
+	completequest 12733;	// Episode 21 complete
+	getitem 1001618,30;	// Wigner Merchant Guild Voucher x30
+	getexp2 200000000,0;
+	getexp 0,30000000;
+	//add_reputation_points(6, 100);
+	next;
+	cutin "",255;
+	mes "[ Episode 21: Age of Heroes - Complete ]";
+	close;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main >= 35 && ep21_main < 100 && checkquest(12646) >= 0" );
+	end;
+}
+
+
+//============================================================
+// EPISODE CLEAR STATE SETTER (for Episode 21 Clear Ticket)
+//============================================================
+-	script	ep21_clear_ticket_handler	-1,{
+	end;
+OnInit:
+	// Used by Episode Clear Ticket (item 1001215) to set ep21_main = 100
+	// Ticket item script should call: ep21_main = 100; completequest 12733;
+	end;
+}
+
+
+//============================================================
+// DAILY QUESTS - TODO
+//============================================================
+// Daily quests belum di-generate karena data sumber tidak tersedia.
+// Perlu dilengkapi berdasarkan video guide / quest ID asli dari server.
+//
+// Daftar daily quest EP21 (dari wiki.midgardtales.com/Episode_21):
+//   1. Daily Supply Procurement  - NPC: Mandel      (/navi jor_mbase 217/172) - Unlock: selesai Supply Procurement
+//   2. Cleanse Raised Land       - NPC: Wilheim     (/navi jor_mbase 140/201) - Unlock: selesai Lugenburg Brothers  - Quest ID: 17777
+//   3. Daily Food Procurement    - NPC: ?           - Unlock: ?
+//   4. Assist Valdaris           - NPC: Valdaris    - Unlock: ?
+//   5. Overlooked Efforts        - NPC: ?           - Unlock: ?
+//   6. Message Delivered by Scent- NPC: ?           - Unlock: ?
+//   7. Counseling Request        - NPC: ?           - Unlock: ?
+//
+// Yang perlu dilengkapi per daily quest:
+//   - Koordinat NPC lengkap
+//   - Quest ID (cooldown dan tracking)
+//   - Tugas (kill quest / item / delivery)
+//   - Reward (item, reputation, exp)
+//   - Kondisi unlock (ep21_main berapa / side quest mana)
+//============================================================
+
+
+//============================================================
+// SIDE QUEST A: Supply Procurement
+// Available after ep21_main >= 15 (joined mercenary group)
+//============================================================
+jor_mbase,170,170,3	script	Quartermaster Brek#ep21_sq	4_EP21_M_WORKER_A,{
+	if (ep21_main < 15) {
+		mes "[Brek]";
+		mes "We don't have assignments for outsiders.";
+		close;
+	}
+
+	if (ep21_sidequest_1 == 0) {
+		mes "[Brek]";
+		mes "Good timing. I need someone to gather supplies.";
+		mes "We're running low on a specific herb that grows on the Raised Land.";
+		mes "Bring me 30 Calm Herb. Can you manage that?";
+		next;
+		select("I'll get them.");
+		mes "[Brek]";
+		mes "The herbs grow near the edge of the Raised Land. Shouldn't be hard to spot.";
+		ep21_sidequest_1 = 1;
+		setquest 12770;
+		close;
+	}
+
+	if (ep21_sidequest_1 == 1) {
+		if (countitem(1001034) < 30) {	// Using existing item ID from instance rewards
+			mes "[Brek]";
+			mes "Not yet. I need 30 herbs. Keep looking.";
+			close;
+		}
+		mes "[Brek]";
+		mes "That's all of them. Good work.";
+		delitem 1001034,30;
+		ep21_sidequest_1 = 2;
+		erasequest 12770;
+		setquest 12771;
+		getitem 1001618,20;
+		getexp2 5000000,0;
+		close;
+	}
+
+	if (ep21_sidequest_1 == 2) {
+		mes "[Brek]";
+		mes "The supplies are sorted. Thanks to you.";
+		close;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main >= 15 && ep21_sidequest_1 == 0" );
+	end;
+}
+
+
+//============================================================
+// SIDE QUEST B: Lugenburg Brothers
+// Available after ep21_main >= 20 (Alberta arc)
+//============================================================
+jor_albe,160,152,3	script	Lugenburg Elder#ep21_sq	4_EP21_M_WORKER_A,{
+	if (ep21_main < 20) {
+		mes "[Lugenburg Elder]";
+		mes "I'm sorry, I'm not up for conversation right now.";
+		close;
+	}
+
+	if (ep21_sidequest_2 == 0) {
+		mes "[Lugenburg Elder]";
+		mes "Adventurer. You look capable.";
+		mes "I'm looking for my brother. He went into the Raised Land three days ago and hasn't returned.";
+		next;
+		select("I'll find him.");
+		mes "[Lugenburg Elder]";
+		mes "His name is Fredric Lugenburg. Last known location was the eastern part of the Raised Land.";
+		mes "Please — he's all I have left.";
+		ep21_sidequest_2 = 1;
+		setquest 12780;
+		close;
+	}
+
+	if (ep21_sidequest_2 == 1) {
+		mes "[Lugenburg Elder]";
+		mes "Any news of my brother?";
+		close;
+	}
+
+	if (ep21_sidequest_2 == 2) {
+		mes "[Lugenburg Elder]";
+		mes "He's safe... thank the gods.";
+		mes "Thank you, adventurer. I won't forget this.";
+		erasequest 12780;
+		setquest 12781;
+		ep21_sidequest_2 = 3;
+		getitem 1001618,25;
+		getexp2 8000000,0;
+		close;
+	}
+
+	if (ep21_sidequest_2 >= 3) {
+		mes "[Lugenburg Elder]";
+		mes "My brother is home safe. That's everything to me.";
+		close;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "ep21_main >= 20 && ep21_sidequest_2 == 0" );
+	end;
+}
+
+jor_raise2,200,195,3	script	Fredric Lugenburg#ep21_sq	4_EP21_M_WORKER_A,{
+	if (ep21_sidequest_2 != 1) {
+		mes "[Fredric]";
+		mes "Just passing through.";
+		close;
+	}
+	mes "[Fredric]";
+	mes "...Who are you? Did my brother send you?";
+	next;
+	select("Your brother is worried.");
+	mes "[Fredric]";
+	mes "I... I got lost. I was trying to gather intelligence on the cult's movements, but the terrain here is treacherous.";
+	mes "Lead me back, and I'll follow.";
+	ep21_sidequest_2 = 2;
+	close2;
+	navigateto("jor_albe",160,150);
+	end;
+}
+
+
+// EOF

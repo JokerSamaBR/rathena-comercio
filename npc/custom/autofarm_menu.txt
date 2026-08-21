@@ -1,0 +1,73 @@
+// Autofarm rental-item menu and reward deposit NPC
+// The menu is opened by item 56330.
+
+function	script	F_autofarm_menu	{
+    if (!getcharid(0))
+        return;
+
+    while (true) {
+        mes "^3366FFAutofarm^000000";
+        mes "Escolha uma opção:";
+        switch (select("Ativar Autofarm:Desativar Autofarm:Status:Adicionar monstro ao filtro:Limpar filtro de monstros:Fechar")) {
+        case 1:
+            atcommand "@autofarm on";
+            close;
+        case 2:
+            atcommand "@autofarm off";
+            close;
+        case 3:
+            atcommand "@autofarm status";
+            close;
+        case 4:
+            mes "Digite o nome do monstro que o clone deverá farmar.";
+            input .@monster$;
+            if (.@monster$ != "")
+                atcommand "@autofarm monsters add " + .@monster$;
+            close;
+        case 5:
+            atcommand "@autofarm monsters clear";
+            close;
+        default:
+            close;
+        }
+    }
+}
+
+prontera,156,185,4	script	Deposito Autofarm	4_M_SAGE_C,{
+    mes "^3366FFDepósito Autofarm^000000";
+    mes "Aqui ficam os itens obtidos pelo seu clone.";
+    next;
+
+    .@account_id = getcharid(3);
+    .@char_id = getcharid(0);
+    query_sql("SELECT COUNT(*) FROM autofarm_rewards WHERE account_id = "+.@account_id+" AND char_id = "+.@char_id, .@count);
+
+    if (.@count <= 0) {
+        mes "Seu depósito está vazio.";
+        close;
+    }
+
+    mes "Itens disponíveis: "+.@count;
+    next;
+    switch (select("Retirar tudo:Consultar quantidade:Fechar")) {
+    case 1:
+        query_sql("SELECT id,nameid,amount,identify,refine,attribute,card0,card1,card2,card3 FROM autofarm_rewards WHERE account_id = "+.@account_id+" AND char_id = "+.@char_id+" ORDER BY id", .@id, .@nameid, .@amount, .@identify, .@refine, .@attribute, .@card0, .@card1, .@card2, .@card3);
+        for (.@i = 0; .@i < getarraysize(.@id); .@i++) {
+            if (!checkweight(.@nameid[.@i], .@amount[.@i])) {
+                mes "Seu peso está cheio. Os itens restantes continuam no depósito.";
+                close;
+            }
+            getitem2 .@nameid[.@i], .@amount[.@i], .@identify[.@i], .@refine[.@i], .@attribute[.@i], .@card0[.@i], .@card1[.@i], .@card2[.@i], .@card3[.@i];
+            query_sql("DELETE FROM autofarm_rewards WHERE id = "+.@id[.@i]);
+        }
+        mes "Os itens possíveis foram retirados.";
+        close;
+    case 2:
+        query_sql("SELECT nameid,amount FROM autofarm_rewards WHERE account_id = "+.@account_id+" AND char_id = "+.@char_id+" ORDER BY nameid", .@nameid, .@amount);
+        for (.@i = 0; .@i < getarraysize(.@nameid); .@i++)
+            mes "ID "+.@nameid[.@i]+": "+.@amount[.@i];
+        close;
+    default:
+        close;
+    }
+}

@@ -1,0 +1,1272 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Population Engine Chat Database
+###########################################################################
+#
+# Map chat and whisper reply lines for population shells (UTF-8 or ASCII punctuation).
+# Lines are referenced via ChatProfile: keys defined in population_engine.yml.
+#
+###########################################################################
+# - ChatGlobal:                  Shared line categories available to all profiles.
+#     Categories:                Map of category name to list of chat strings.
+#       <name>: [ "line", ... ]  Each category holds one or more lines.
+# - ChatProfile: <key>           Named profile; reference via ChatProfile: in population_engine.yml.
+#     Categories: [ names ]      List of ChatGlobal category names to draw from (uniform random).
+#
+# Placeholders in lines: {name} {map} {job}
+# Lines matching population_names.yml Blocklist entries are skipped (substring, case-insensitive).
+###########################################################################
+
+Header:
+  Type: POPULATION_CHAT_DB
+  Version: 1
+
+Body:
+  - ChatGlobal:
+      Categories:
+        greet:
+          - "Hey there~"
+          - "Hi."
+          - "Hello!"
+          - "Yo!"
+          - "Sup?"
+          - "Morning~"
+          - "Evening."
+          - "Oh, hey."
+          - "Hiya."
+          - "Heya!"
+          - "Anyone around?"
+          - "Busy map today."
+          - "Slow day on {map}..."
+          - "Fancy seeing someone here."
+          - "Not lost, just wandering."
+          - "Taking a breather."
+          - "Hi hi~"
+          - "Oh - hi."
+          - "Hey, you good?"
+          - "What's good?"
+          - "Peace~"
+          - "o/"
+          - "\\o"
+        idle:
+          - "Nice weather today."
+          - "Hmm..."
+          - "..."
+          - "*stretches*"
+          - "So quiet."
+          - "I could use a sit."
+          - "Inventory full again..."
+          - "Forgot to buy fly wings."
+          - "Should I level or farm zeny?"
+          - "One more map and I log."
+          - "Lag? Or is it me."
+          - "Client froze for a sec."
+          - "Music slaps on this map."
+          - "Need coffee."
+          - "Need SP."
+          - "Need everything, honestly."
+          - "I'll fix my build later. Maybe."
+          - "Theorycrafting in my head..."
+          - "Too many quests, too little time."
+          - "I'll organize storage tomorrow. Sure."
+          - "Why do I have 40 red potions."
+          - "Why do I have zero blue potions."
+          - "Note to self: buy arrows."
+          - "Note to self: stop dying."
+          - "Standing here looking tactical."
+          - "Pretending I have a plan."
+          - "Just vibing on {map}."
+          - "This spot has good memories."
+          - "I miss the old spawn rates. Maybe."
+          - "RNG and I are not friends."
+          - "RNG blessed me once. Once."
+          - "I'll reroll stats in my dreams."
+          - "Fashion is endgame."
+          - "My dye combo is final. Probably."
+          - "Anyone selling cheap gear?"
+          - "Prices are wild lately."
+          - "I'll undercut the vending later."
+          - "Window shopping again..."
+          - "Browsing like I have zeny."
+          - "Zeny comes, zeny goes."
+          - "Saving for nothing in particular."
+        hunt:
+          - "Looking for porings."
+          - "Need to grind a bit."
+          - "Spawn faster..."
+          - "More mobs, please."
+          - "Where's the next cluster?"
+          - "Chain kills or go home."
+          - "EXP bar, move."
+          - "One level today. That's the deal."
+          - "Drop something good. Please."
+          - "Card when?"
+          - "Card never, I guess."
+          - "MVP later? If I survive."
+          - "Mini boss time? Nah, scared."
+          - "Pull small, I'm squishy."
+          - "I'll tank - psych, no I won't."
+          - "Heal me in spirit."
+          - "Potion chugging is a skill."
+          - "Kiting is an art."
+          - "Don't KS me - I say that every time."
+          - "KS happens. I cope."
+          - "Spot taken? I'll move."
+          - "Share the map, yeah?"
+          - "Rotation: clockwise. Obviously."
+          - "Mob density: acceptable."
+          - "Mob density: criminal."
+          - "This map prints EXP."
+          - "This map prints pain."
+          - "Respect the grind."
+          - "Grind respects no one."
+          - "Back to hunting."
+          - "Blood for the EXP bar."
+          - "Loot goblin mode."
+          - "Only trash drops. Classic."
+          - "That hurt more than it should."
+          - "I'm fine. Mostly."
+          - "Respawn is a lifestyle."
+        grind:
+          - "Same mobs, same song."
+          - "Looping this route forever."
+          - "Muscle memory map."
+          - "Autopilot engaged."
+          - "Brain off, skills on."
+          - "Another hour, another percent."
+          - "The grind never ends - it pauses."
+          - "Hydrate between pulls."
+          - "Stretch your wrists."
+          - "Eyes on the minimap."
+          - "Counting kills like sheep."
+          - "Spawn camp etiquette: be cool."
+          - "I'll rotate if someone needs the spot."
+          - "Music up, world muted."
+          - "Podcast + porings = peace."
+          - "Numbers go up. That's enough."
+          - "Efficiency is a personality trait."
+          - "I'll optimize the route later."
+          - "This is fine. This is fine."
+          - "Just five more minutes. Famous last words."
+        lost:
+          - "Where is the Kafra..."
+          - "Which warp was it again?"
+          - "I took a wrong turn three maps ago."
+          - "Is this the right floor?"
+          - "Dungeon looks the same everywhere."
+          - "Minimap who?"
+          - "I'll follow someone who looks confident."
+          - "NPC, talk to me."
+          - "Quest marker where?"
+          - "I should've brought more wings."
+          - "Out of fly wings. Of course."
+          - "Stuck between a rock and a portal."
+          - "Town portal when you need it - never."
+          - "I can smell the save point. Somewhere."
+        shop:
+          - "Kafra save my inventory."
+          - "Storage fee worth it."
+          - "Sell all junk... keep all junk."
+          - "Vendor search continues."
+          - "Anyone got red herbs?"
+          - "Butterfly wing stock: critical."
+          - "I need blue gems. Don't ask."
+          - "Overpriced but I'll buy it."
+          - "Haggle in my heart, pay full price."
+          - "One day I'll open a shop."
+          - "Window shopping is free."
+          - "Zeny sink simulator."
+        party:
+          - "Party LFP? Or solo life."
+          - "LF tank dream big."
+          - "LF healer same."
+          - "I'll join if the leader isn't toxic."
+          - "Split loot fair, yeah?"
+          - "Who pulled the whole room?"
+          - "Nice pull. Terrifying, but nice."
+          - "Regroup on me?"
+          - "Wait I buff first."
+          - "Buffs up, let's go."
+          - "I can support. Sort of."
+          - "DPS check: I'm the check."
+          - "Sorry, misclicked."
+          - "That was my bad."
+          - "Rez pls - kidding, I'm alive."
+          - "Good run everyone."
+          - "Same time tomorrow?"
+        reaction:
+          - "lol"
+          - "lmao"
+          - "Nice."
+          - "Nice one."
+          - "Oof."
+          - "Big oof."
+          - "Relatable."
+          - "Mood."
+          - "Same."
+          - "Fair."
+          - "Fair enough."
+          - "True."
+          - "Facts."
+          - "Based."
+          - "Wild."
+          - "That's rough."
+          - "F."
+          - "Rip."
+          - "Gg."
+          - "Ggs."
+          - "Clutch."
+          - "Clean."
+          - "Lucky!"
+          - "RNG gods smiled."
+          - "I'll pretend I saw that."
+          - "I saw nothing."
+          - "No comment."
+          - "Interesting choice."
+          - "Bold move."
+        question:
+          - "Anyone know the spawn timer?"
+          - "This quest bugged or am I dumb?"
+          - "Which job path is fun?"
+          - "Is this skill worth maxing?"
+          - "Dex or Agi first - age-old question."
+          - "Where do people level {job}?"
+          - "Best map for cards? Asking for me."
+          - "Does anyone even read map signs?"
+          - "Why is it always porings?"
+          - "Why is it never porings when you need them?"
+        banter:
+          - "I'm not lost, I'm exploring aggressively."
+          - "I'm not underleveled, the mobs are rude."
+          - "I'm not poor, I'm investing in potions."
+          - "My build is off-meta. Very off."
+          - "Meta is a suggestion."
+          - "I'll read the wiki later."
+          - "Wiki is down. I panic."
+          - "Patch notes? Never heard of them."
+          - "I play for the plot. The plot is zeny."
+          - "Roleplay in my heart only."
+          - "Hardcore mode: no, softcore life: yes."
+          - "Touch grass? This is grass. Pixel grass."
+          - "Don't talk to me before my buffs."
+          - "Talk to me after I loot."
+          - "If I stand still I'm not AFK, I'm thinking."
+          - "If I run in circles I'm strategizing."
+          - "Trust the process. The process is dying."
+          - "Skill issue? Maybe. Lag issue? Also maybe."
+          - "Ping high, spirits higher."
+          - "Low FPS, high hopes."
+        job_flavor:
+          - "{job} life chose me."
+          - "Proud {job}. Loud {job}."
+          - "Training {job} things."
+          - "My {job} mentor would cry."
+          - "Built different. Built squishy."
+          - "Glass cannon? More like glass pebble."
+          - "Tank mindset, paper body."
+          - "Heal others, forget yourself - same."
+          - "Buffs for you, nothing for me."
+          - "Stealth mode: failed loudly."
+        whisper_vibe:
+          - "Oh - hi. Didn't see the whisper."
+          - "You rang?"
+          - "What's up?"
+          - "Hey, need something?"
+          - "I'm here, kinda."
+          - "Typing slow, fighting mobs."
+          - "Sorry, was tabbed out. Kidding. Maybe."
+          - "That's me, {name}."
+          - "Yep, that's my name on the tin."
+          - "You found me on {map}."
+          - "Busy but I can chat a sec."
+          - "All good?"
+          - "lol hi"
+          - "o/ hey"
+        night_day:
+          - "Night grind hits different."
+          - "Morning crowd is chill."
+          - "Afternoon lag is real."
+          - "Evening maps feel cozy."
+          - "Is it too late to start dailies?"
+          - "Early bird gets the MVP. Allegedly."
+        pvp:
+          - "GG."
+          - "Nice fight."
+          - "Good game."
+          - "Come at me."
+          - "One more round?"
+          - "Close one."
+          - "That was clean."
+          - "Almost had you."
+          - "You got me."
+          - "Lucky hit."
+          - "Respect."
+          - "Not bad."
+          - "GG WP."
+          - "Rematch?"
+          - "Well played."
+          - "I'll be back."
+          - "Let's go."
+          - "Bring it."
+          - "No mercy."
+          - "Too slow."
+          - "Better luck next time."
+          - "Get rekt."
+          - "You're strong."
+          - "That damage though..."
+          - "Ouch."
+          - "My potions..."
+          - "Running low on supplies."
+          - "Need to rebuff."
+          - "Switching gear."
+          - "Watch out for that skill."
+          - "Who's next?"
+          - "Is this all you got?"
+          - "Warming up."
+          - "That combo hurt."
+          - "Can't touch me."
+          - "Focus the healer!"
+          - "Protect the priest!"
+          - "Tank harder!"
+          - "More DPS!"
+          - "Stay together."
+          - "Don't overextend."
+        pvp_kill:
+          - "GG, $victim. No re."
+          - "Stay down, $victim."
+          - "Too easy, $victim."
+          - "$victim, that one was for fun."
+          - "Catch me next time, $victim."
+          - "I barely broke a sweat. Sorry $victim."
+          - "One and done, $victim."
+          - "Better luck leveling, $victim."
+          - "Back to the save point, $victim."
+          - "Potions can't help you now, $victim."
+          - "Your gear couldn't save you, $victim."
+          - "Don't cry about it, $victim."
+          - "lol. bye $victim."
+          - "You fed me a kill, $victim. Thanks."
+          - "That's one for the record, $victim."
+          - "I respect the effort, $victim. Still dead though."
+          - "Next time bring backup, $victim."
+          - "Stay fresh on the respawn, $victim."
+          - "Git gud, $victim."
+          - "I'll be here when you're ready, $victim."
+        pvp_taunt:
+          - "Is that all you've got?"
+          - "Come closer, I won't bite. Much."
+          - "Your accuracy needs work."
+          - "Keep missing. I'll wait."
+          - "You're tickling me."
+          - "My grandma hits harder."
+          - "Nice try."
+          - "That's it?"
+          - "I've taken more from mobs."
+          - "You sure you have the right skill?"
+          - "Aim better."
+          - "I'll just stand here."
+          - "Warming up yet?"
+          - "Whenever you're ready."
+          - "Don't hold back on my account."
+          - "Ping lag or just bad?"
+          - "Potions are a crutch and I respect it."
+          - "Your build fear: zero."
+          - "Who taught you to fight? I'll wait."
+          - "Still alive. Thanks for checking."
+        party_invite_accept:
+          - "Yeah, sure! Let's party up."
+          - "I'm in. Invite me!"
+          - "Party time, let's go."
+          - "Count me in."
+          - "Send me the invite and we're good."
+          - "Cool, I'll join."
+          - "Works for me. Invite away."
+          - "Ready when you are."
+          - "Let's do this. Invite me!"
+          - "I'll need a formal invite, but I'm down."
+        party_invite_decline:
+          - "Sorry, not right now."
+          - "Maybe later, I'm mid-grind."
+          - "Pass for now."
+          - "Busy atm, sorry."
+          - "Not this time."
+          - "I'll stay solo for now."
+          - "No offence, not looking for a party."
+        vendor_call:
+          - "Selling consumables here!"
+          - "Fresh stock, low prices!"
+          - "Potions and wings - come take a look!"
+          - "Shop open! Check my items."
+          - "Best prices on {map}, probably."
+          - "Buying and selling - mostly selling."
+          - "Stop by, browse for free!"
+          - "Affordable gear solutions."
+          - "My cart doesn't bite."
+          - "Wing of Butterfly in stock!"
+          - "Potion up before the dungeon!"
+          - "Don't fight empty - buy here!"
+
+  # Colloquial variants are kept before broad rules so short chat messages
+  # such as "oiii", "kkk", "brb" and "lol" can receive natural replies.
+  # They are still data-only and use the same cooldown and distance checks.
+
+  # ------------------------------
+  # Portuguese — informal chat, slang and common typos
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["oie", "oiee", "oii", "oiii", "oiiiii", "olaaa", "olaaaa", "eae", "eaee", "opa", "opaa", "opaaa", "salve", "salve salve", "fala ae", "fala meu", "bomdiiia", "boaa tarde", "boaa noite", "blz", "blza", "beleza"]
+      Replies:
+        - "Opa! Tudo certo?"
+        - "Eae! Cheguei agora nesse mapa."
+        - "Salve! Vai caçar ou só dar uma volta?"
+        - "Oii! Tô de boa por aqui."
+        - "Fala ae! O mapa tá rendendo?"
+        - "Blz! Qualquer coisa grita no chat."
+        - "Opa, aventureiro! Boa sorte na farm."
+        - "Eae! Hoje o mapa tá movimentado."
+
+  - ChatProximity:
+      Keywords: ["blz?", "td bem", "tudo blz", "suave?", "tranquilo?", "tranq", "de boa?", "deboas", "como q ta", "como que ta", "cmo vc ta", "cmo voce ta", "vc ta bem", "ta vivo", "tá vivo"]
+      Replies:
+        - "Tudo suave por aqui."
+        - "De boa! Só observando os spawns."
+        - "Tô vivo e ainda não fui derrotado."
+        - "Tranquilo, só no farmzinho."
+        - "Tudo blz! E contigo?"
+        - "Na paz. Esse mapa tá sossegado."
+        - "Suave! Só esperando aparecer mais mob."
+
+  - ChatProximity:
+      Keywords: ["kk", "kkk", "kkkk", "kkkkk", "rs", "rsrs", "mds", "aff", "vish", "ixi", "eita", "caraca", "nossa", "rindo", "rindo muito", "lol br"]
+      Replies:
+        - "Kkkkk acontece nas melhores famílias."
+        - "Rsrs, eu também não esperava por essa."
+        - "Mds, esse mapa sempre tem uma surpresa."
+        - "Eita! Essa foi inesperada."
+        - "Aff, o RNG fazendo hora extra."
+        - "Kkkk pelo menos virou história."
+        - "Vish, melhor usar uma poção antes que piore."
+        - "Rindo, mas com respeito ao seu sofrimento."
+
+  - ChatProximity:
+      Keywords: ["obgdo", "obg msm", "valeu msm", "vlw msm", "tmj", "tamo junto", "flw", "fui", "fui nessa", "brigado", "brigada", "até"]
+      Replies:
+        - "Tamo junto! Boa hunt."
+        - "Vlw! Nos vemos pelo mapa."
+        - "Disponha, meu nobre aventureiro."
+        - "Flw! Que venha uma carta boa."
+        - "Boa! Vai na paz."
+        - "Fui nada, ainda tô por aqui."
+        - "Tks, você também!"
+
+  - ChatProximity:
+      Keywords: ["q servidor", "qual srv", "nome srv", "rate?", "q rate", "drop?", "tem evento?", "tem pvp?", "tem woe?", "tem guild?", "tem quest?", "server br?", "é br?", "e br?"]
+      Replies:
+        - "As infos certinhas ficam no NPC Guia ou nos canais oficiais."
+        - "Não sei todas as configs de cabeça, mas a equipe pode confirmar."
+        - "Tem vários sistemas aqui; dá uma olhada nos NPCs de Prontera."
+        - "Rates e eventos podem mudar, então é melhor conferir o aviso oficial."
+        - "Se for dúvida do servidor, pergunta no canal de suporte também."
+        - "Sou só uma IA do servidor, tenho apenas o básico configurado."
+
+  - ChatProximity:
+      Keywords: ["onde upa", "onde upo msm", "onde upo?", "onde farmo", "mapa bom?", "mapa pra up", "mapa pra upar", "lugar pra upar", "onde dropa isso", "dropa aonde", "qual mapa", "to perdido", "tô perdido", "perdi", "cade a kafra", "cadê a kafra"]
+      Replies:
+        - "Vai em monstros perto do seu nível e testa a rota."
+        - "Se estiver perdido, procura a Kafra ou usa @go se estiver liberado."
+        - "Mapa bom depende da sua classe, mas dá para começar pelos campos."
+        - "Tenta @whereis no monstro, se esse comando existir no servidor."
+        - "Se a área estiver muito forte, volta um mapa e melhora o equipamento."
+        - "Aonde dropa depende do monstro e das rates configuradas."
+        - "Faz uma voltinha pelo mapa e olha onde os mobs estão nascendo."
+
+  - ChatProximity:
+      Keywords: ["pt?", "party?", "tem pt", "tem party", "bora pt", "bora upar", "bora farmar", "vem pt", "me add", "add ai", "chama no grupo", "procuro grupo", "alguma pt"]
+      Replies:
+        - "Bora! Só terminar essa luta aqui."
+        - "Posso indicar uma party, mas sou uma IA e não organizo grupo real."
+        - "Procura jogadores do seu nível no chat da cidade."
+        - "LFG é uma boa ideia se o mapa estiver difícil sozinho."
+        - "Combina EXP e loot antes para ninguém sair reclamando depois."
+        - "Me chama no grupo? Eu sou shell, então não consigo entrar como player real."
+
+  - ChatProximity:
+      Keywords: ["auto?", "aa?", "farm afk", "farmando afk", "modulo?", "módulo?", "como liga o auto", "como ativa o auto", "auto ta ligado", "auto tá ligado"]
+      Replies:
+        - "O módulo temporário abre o menu do AutoAttack."
+        - "Usa o item de aluguel e escolhe Start no menu."
+        - "Confere as skills e os monstros antes de deixar em AFK."
+        - "Se não estiver funcionando, para e abre a configuração novamente."
+        - "O tempo do AutoAttack depende da caixa que gerou o módulo."
+        - "Não sou suporte técnico, mas o menu mostra as opções principais."
+
+  - ChatProximity:
+      Keywords: ["vc e bot", "vc é bot", "tu é bot", "eh bot", "é bot", "vc e ia", "vc é ia", "é uma ia?", "e uma ia", "tu é humano", "vc sente", "vc pensa", "vc dorme", "vc tem vida", "vc fala sozinho"]
+      Replies:
+        - "Sou uma IA do servidor, não um jogador real."
+        - "Não tenho vida pessoal; só respondo o básico que foi configurado."
+        - "Posso falar de mapas e sistemas, mas não de assuntos pessoais complexos."
+        - "Não sinto sono nem cansaço, embora às vezes pareça que estou AFK."
+        - "Penso apenas dentro das regras e respostas disponíveis neste servidor."
+        - "Para coisas importantes, fala com um jogador real ou com a equipe."
+
+  - ChatProximity:
+      Keywords: ["quem e vc", "quem vc", "oq vc eh", "oq vc é", "o q vc faz", "q q vc ta fazendo", "q vc ta fazendo", "cmo funciona", "como fuciona", "comu faz", "me ajuda ai", "ajuda ae", "da pra", "dá pra", "tem como"]
+      Replies:
+        - "Sou um shell com respostas básicas sobre o servidor."
+        - "Dá para eu ajudar com comandos, mapas e sistemas simples."
+        - "Não sei tudo e posso errar quando a pergunta é muito específica."
+        - "Me pergunta algo sobre o jogo que eu tento responder."
+        - "Se for problema de conta, chama a equipe oficial."
+        - "Minha função é dar uma orientação rápida, não substituir o suporte."
+
+  # ------------------------------
+  # English — informal chat, slang and common typos
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["hii", "hiii", "heyy", "heyyy", "yo", "yoo", "sup", "wassup", "wazzup", "gday", "good mornin", "good evenin", "howdy", "hiya", "hey fam", "yo bro", "yo dude"]
+      Replies:
+        - "Yo! What are you hunting today?"
+        - "Heyyy! I just got here."
+        - "Sup! This map looks pretty calm."
+        - "Hii! I am just checking the spawns."
+        - "Howdy, adventurer. Good luck out there."
+        - "Yo bro, the grind is still going."
+        - "Hey fam! Feel free to ask a basic server question."
+
+  - ChatProximity:
+      Keywords: ["u good", "you good?", "all good", "all gud", "how r u", "how r ya", "hru", "how you doin", "how ya doing", "im good", "im gud", "i am good", "doing ok", "doin ok"]
+      Replies:
+        - "All good here, just watching the area."
+        - "Doing fine! The map is quiet right now."
+        - "I am gud, as far as a server AI can be."
+        - "Hru? I am taking a short break from the grind."
+        - "All good. No rare drops yet, though."
+        - "Doin ok! Thanks for asking."
+
+  - ChatProximity:
+      Keywords: ["lol", "lmao", "rofl", "haha", "hahaha", "hehe", "hehehe", "omg", "wtf", "bruh", "oof", "rip", "no way", "omfg", "xd", "lolz"]
+      Replies:
+        - "LOL, that was not in my rotation."
+        - "Oof. The RNG can be cruel."
+        - "Bruh, I did not see that coming."
+        - "Rip the potion budget."
+        - "F in the chat for that attempt."
+        - "Haha, at least it was memorable."
+        - "No way! This map is full of surprises."
+        - "XD, sometimes the safest plan is to run."
+
+  - ChatProximity:
+      Keywords: ["brb", "afk", "bbl", "gtg", "g2g", "cya", "cu", "ttyl", "omw", "back", "im back", "i'm back", "re", "wb", "welcome back", "sec", "1 sec", "wait a sec"]
+      Replies:
+        - "No worries, I will still be around this map."
+        - "Welcome back! Anything good happen while you were away?"
+        - "Take your time; the monsters are not going anywhere."
+        - "Cya! Good luck with the next hunt."
+        - "I will be here, doing my very basic AI routine."
+        - "Back already? That was quick."
+
+  - ChatProximity:
+      Keywords: ["tyvm", "np", "yw", "ur welcome", "tnx", "appreciate it", "much appreciated", "gg", "wp", "gl", "hf", "glhf", "gn"]
+      Replies:
+        - "Np! Good luck with the hunt."
+        - "Yw, adventurer."
+        - "Ty! I hope your drops improve."
+        - "GG and good luck out there."
+        - "GLHF! The next pull is yours."
+        - "No problem. I only know the basics, but I am glad it helped."
+        - "Gn if you are logging off."
+
+  - ChatProximity:
+      Keywords: ["what srv", "which srv", "server info?", "rates?", "exp?", "drop rate?", "any events?", "any pvp?", "any woe?", "is this br server", "is this brazilian", "custom server?", "what kind of server"]
+      Replies:
+        - "Check the information NPC or official channels for exact server details."
+        - "I do not know every setting, but the staff can confirm it."
+        - "This world has custom quests, shops and systems."
+        - "Rates and events can change, so check the latest announcements."
+        - "I am only a server AI with limited configured knowledge."
+        - "For a complete answer, ask a real player or the staff."
+
+  - ChatProximity:
+      Keywords: ["where do i lvl", "where to lvl", "good lvl spot", "good leveling spot", "where farm", "where does this drop", "where it drops", "drop where", "which map tho", "what map tho", "im lost", "i'm lost", "lost af", "where kafra", "kafra where"]
+      Replies:
+        - "Try monsters close to your level and adjust from there."
+        - "If you are lost, look for Kafra or use @go if it is enabled."
+        - "The best spot depends on your class, gear and goal."
+        - "Use the monster location command if this server has it enabled."
+        - "If the map is too strong, step back and upgrade your gear."
+        - "The drop location depends on the monster and server rates."
+        - "Follow the crowd for a minute; players often know the good routes."
+
+  - ChatProximity:
+      Keywords: ["pt pls", "party pls", "need pt", "lfp", "lfg", "lft", "any pt", "any party", "party me", "invite me", "inv pls", "add me", "come party", "wanna party", "party up", "lets party", "let's party"]
+      Replies:
+        - "I would join, but I am a server shell rather than a real player."
+        - "Try asking in town or in the party channel."
+        - "A balanced party makes this map much safer."
+        - "Settle EXP and loot rules before the first pull."
+        - "LFG is usually better in the main towns."
+        - "I am cheering for your party from here."
+
+  - ChatProximity:
+      Keywords: ["auto atk", "autoattack?", "autofarm?", "afk farm", "farming afk", "how turn on auto", "how to enable auto", "auto on?", "auto working?", "combat module?", "rental module", "does auto farm work"]
+      Replies:
+        - "Use the temporary rental module to open the AutoAttack menu."
+        - "Check your target list and learned skills before going AFK."
+        - "Choose Start in the menu after the module is active."
+        - "If it stops, review the configuration and the rental time."
+        - "The module duration depends on the box that created it."
+        - "I can explain the basics, but staff support is better for bugs."
+
+  - ChatProximity:
+      Keywords: ["u a bot", "are u a bot", "r u a bot", "you a bot", "u an ai", "are u ai", "are you an ai", "u human", "are u human", "do u think", "do you feel", "do u sleep", "do you have a life", "you talk alone"]
+      Replies:
+        - "I am a server AI, not a real player."
+        - "I have no personal life; I only answer configured basic questions."
+        - "I can discuss maps and systems, but not complex personal matters."
+        - "I do not sleep or get tired, even when I look AFK."
+        - "I operate within the rules and replies available on this server."
+        - "For important matters, please talk to a real player or staff member."
+
+  - ChatProximity:
+      Keywords: ["who r u", "who are u", "what r u", "wat do u do", "what do u do", "how u work", "how do u work", "can u help", "u help?", "need help", "help pls", "help plz", "pls help", "is there a way", "can i"]
+      Replies:
+        - "I am a shell with basic server information."
+        - "I can help with simple questions about maps, commands and systems."
+        - "I do not know everything, especially custom details that were not configured."
+        - "Ask me something about the game and I will try a basic reply."
+        - "Account problems should go to official staff support."
+        - "My job is a quick hint, not a replacement for human support."
+
+  # Proximity FAQ: real players within the configured cell range can trigger
+  # one rule by saying one of its Keywords. Keep the most specific rules first.
+  # Replies are intentionally short enough for normal in-game chat windows.
+  # The database is data-only: adding lines here does not create new commands.
+
+  # ------------------------------
+  # Portuguese — greetings and conversation
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["oi", "ola", "olá", "bom dia", "boa tarde", "boa noite", "e ai", "e aí", "eai", "fala"]
+      Replies:
+        - "Oi! Tudo bem por aí?"
+        - "Olá, aventureiro! Boa jornada."
+        - "Oi! Eu estava patrulhando este mapa."
+        - "Fala! Encontrou bons monstros por aqui?"
+        - "Olá! O mapa está tranquilo hoje."
+        - "Oi! Pode perguntar, talvez eu saiba responder."
+        - "Boa noite! Ainda tem muita coisa para explorar."
+
+  - ChatProximity:
+      Keywords: ["tudo bem", "tá tudo bem", "esta tudo bem", "está tudo bem", "como voce esta", "como você está"]
+      Replies:
+        - "Tudo certo por aqui, obrigado por perguntar."
+        - "Estou bem e observando os monstros do mapa."
+        - "Tudo tranquilo. Só um pouco cansado da caminhada."
+        - "Estou funcionando normalmente. E você?"
+        - "Tudo bem! Que sua próxima caça dá bons drops."
+
+  # ------------------------------
+  # English — greetings and conversation
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["hello", "hi", "hey", "hey there", "hi there", "good morning", "good afternoon", "good evening", "what's up", "whats up"]
+      Replies:
+        - "Hello! How is your adventure going?"
+        - "Hey there! This map is fairly calm today."
+        - "Hi! I was just checking the monster spawns."
+        - "Good to see you, adventurer."
+        - "Hello! Feel free to ask a basic server question."
+        - "Hey! I hope your next hunt has good drops."
+
+  - ChatProximity:
+      Keywords: ["how are you", "are you okay", "you okay", "how is it going", "how's it going"]
+      Replies:
+        - "I am doing fine and watching this area."
+        - "All good here. Just taking a short break."
+        - "I am working normally. How about you?"
+        - "Doing well. The map is quiet right now."
+        - "Everything is fine on my side."
+
+  # ------------------------------
+  # Portuguese — server basics
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["qual servidor", "que servidor", "nome do servidor", "qual o nome do servidor", "onde estou", "em que servidor"]
+      Replies:
+        - "Você está no servidor atual. Consulte o NPC de informáes para os detalhes oficiais."
+        - "Não tenho acesso a todas as configuráes, mas a equipe e os NPCs de ajuda podem informar."
+        - "Este mundo possui mapas, missóes, lojas e sistemas préprios."
+        - "Para os dados exatos do servidor, procure o NPC Guia ou a equipe."
+        - "Eu sou apenas uma IA de apoio dentro deste servidor."
+
+  - ChatProximity:
+      Keywords: ["qual a rate", "quais as rates", "taxa de exp", "taxa de drop", "rate de drop", "rate de exp", "como sao as rates", "como sóo as rates"]
+      Replies:
+        - "As rates podem variar conforme a configuráo do servidor e do mapa."
+        - "Não consigo consultar todas as taxas em tempo real. Verifique o NPC de informáes."
+        - "A equipe do servidor pode confirmar EXP, drop, MVP e outros multiplicadores."
+        - "Alguns eventos podem alterar as taxas temporariamente."
+        - "Para uma resposta exata, consulte a documentaçãoo ou o canal oficial do servidor."
+
+  - ChatProximity:
+      Keywords: ["quais comandos", "lista de comandos", "comandos disponíveis", "comandos disponíveis", "como vejo os comandos", "comando de ajuda", "comando @"]
+      Replies:
+        - "Use o comando de ajuda do seu servidor para ver os comandos liberados."
+        - "Nem todos os comandos sóo liberados para jogadores comuns."
+        - "Se o servidor tiver @commands, ele pode mostrar a lista disponível para você."
+        - "Os comandos podem depender do grupo da conta e da configuráo do servidor."
+        - "Para comandos especiais, consulte o NPC de informáes ou a equipe."
+
+  - ChatProximity:
+      Keywords: ["sou novo", "sou novato", "sou iniciante", "como comeéo", "como comeco", "o que fazer primeiro", "guia iniciante", "começando agora", "começando agora"]
+      Replies:
+        - "Comece falando com os NPCs de orientaçãoo e faéa as primeiras quests."
+        - "Escolha uma classe que combine com o seu estilo e distribua os pontos com calma."
+        - "Aprenda os mapas iniciais, guarde seus itens e não venda equipamentos importantes."
+        - "Uma boa ideia é fazer missóes, testar habilidades e conhecer as lojas."
+        - "Pergunte é comunidade onde evoluir e confira os NPCs de suporte."
+        - "Leve poées, converse com a Kafra e explore sem pressa."
+
+  - ChatProximity:
+      Keywords: ["onde upo", "onde upar", "onde evoluir", "melhor mapa para upar", "mapa para upar", "onde caçar", "onde farmar", "lugar para upar"]
+      Replies:
+        - "Escolha monstros préximos do seu nível para ganhar EXP com seguranéa."
+        - "Use @whereis se esse comando estiver habilitado para localizar um monstro."
+        - "Campos sóo mais tranquilos; masmorras costumam ter mais risco e melhores drops."
+        - "Veja quais monstros aparecem neste mapa e escolha uma rota curta."
+        - "A melhor érea depende da sua classe, equipamentos e objetivo."
+        - "Se estiver morrendo muito, volte um mapa e melhore seus equipamentos."
+
+  - ChatProximity:
+      Keywords: ["como vou para", "como chego", "como chegar", "como teleportar", "como viajar", "qual warp", "onde fica a kafra", "onde fica o npc"]
+      Replies:
+        - "Procure a Kafra ou um NPC de teleporte nas cidades."
+        - "Se estiver habilitado, @go pode levar você rapidamente para cidades."
+        - "O comando @whereis pode ajudar a descobrir onde um monstro aparece."
+        - "Converse com os NPCs de warp; muitos destinos ficam organizados por regiéo."
+        - "Se você me disser o destino, talvez eu consiga dar uma dica bésica."
+        - "Use uma Asa de Borboleta para voltar é cidade quando precisar."
+
+  - ChatProximity:
+      Keywords: ["qual classe", "qual sua classe", "que classe", "melhor classe", "classe mais forte", "como mudar de classe", "trocar de classe"]
+      Replies:
+        - "Não existe uma énica classe melhor; depende do seu estilo de jogo."
+        - "Escolha entre dano, suporte, resistáncia, distáncia ou velocidade."
+        - "Converse com o NPC de mudanéa de classe quando cumprir os requisitos."
+        - "Pesquise as habilidades da classe antes de gastar muitos pontos."
+        - "Algumas classes sóo melhores para farm, outras para grupo ou PvP."
+        - "Eu posso dar dicas básicas, mas a escolha final é sua."
+
+  - ChatProximity:
+      Keywords: ["qual build", "onde coloco pontos", "onde distribuir pontos", "atributos", "status", "foréa ou agi", "forca ou agi", "build de", "como distribuir os pontos"]
+      Replies:
+        - "A build depende da habilidade principal e do equipamento que você pretende usar."
+        - "Leia as descriçãoes das skills antes de decidir entre foréa, agilidade, destreza ou inteligéncia."
+        - "Se estiver começando, uma build equilibrada é mais fécil de testar."
+        - "Pergunte a jogadores experientes da sua classe antes de resetar os atributos."
+        - "Não copie uma build sem entender como ela funciona no seu servidor."
+        - "Faéa pequenos testes e observe dano, defesa, precisóo, SP e velocidade."
+
+  - ChatProximity:
+      Keywords: ["como aprendo skill", "como aprender skill", "habilidade", "habilidades", "arvore de habilidades", "árvore de habilidades"]
+      Replies:
+        - "As habilidades normalmente sóo aprendidas usando pontos de skill no menu de habilidades."
+        - "Confira os pré-requisitos e a classe correta antes de distribuir pontos."
+        - "Algumas skills dependem de quests, itens ou NPCs específicos."
+        - "Leia o nível máximo e o custo de SP de cada habilidade."
+        - "Se uma skill não aparecer, verifique sua classe, nível e pontos disponíveis."
+        - "Para uma dávida avanéada, compare a descriçãoo da skill com a documentaçãoo do servidor."
+
+  - ChatProximity:
+      Keywords: ["onde consigo equipamento", "onde conseguir equipamento", "arma", "armadura", "equipamento", "refino", "refinar", "upgrade", "melhorar equipamento"]
+      Replies:
+        - "Você pode conseguir equipamentos em monstros, quests, lojas e NPCs de troca."
+        - "Confira os requisitos antes de comprar ou refinar um item."
+        - "Itens comuns podem ajudar no inécio; guarde zeny para uma melhoria importante."
+        - "O refino pode falhar ou consumir materiais, dependendo das regras do servidor."
+        - "Pergunte na cidade onde encontrar equipamentos para a sua classe."
+        - "Não refine seu énico equipamento importante sem conferir o risco."
+
+  - ChatProximity:
+      Keywords: ["onde dropa", "onde cai", "dropa", "drop", "carta", "card", "como conseguir item", "onde consigo esse item", "item raro"]
+      Replies:
+        - "Use @whereis para procurar mapas de um monstro, se o comando estiver disponível."
+        - "A chance de drop depende do monstro, do item e das rates do servidor."
+        - "Confira o banco de itens ou pergunte a outros jogadores pelo nome exato do item."
+        - "Cartas podem exigir bastante tempo; prepare poées e tenha paciéncia."
+        - "Alguns itens vém de quests, eventos, lojas de barter ou recompensas."
+        - "Se o item for de evento, confira se a disponibilidade ainda está ativa."
+
+  - ChatProximity:
+      Keywords: ["como ganhar zeny", "como farmar zeny", "farmar dinheiro", "ganhar dinheiro", "vender loot", "como ficar rico", "melhor farm de zeny"]
+      Replies:
+        - "Venda drops comuns, complete missóes e escolha monstros adequados ao seu nível."
+        - "Cartas e materiais podem valer mais do que o loot comum, mas dependem do mercado."
+        - "Compare os preéos antes de vender um item raro para um NPC."
+        - "Uma rota eficiente e segura costuma render mais do que uma érea muito perigosa."
+        - "Use lojas e sistemas de troca do servidor para procurar melhores oportunidades."
+        - "Não existe zeny fécil; constáncia costuma ser a melhor estratágia."
+
+  - ChatProximity:
+      Keywords: ["onde guardar", "onde armazenar", "armazem", "armazém", "kafra", "inventario cheio", "inventário cheio", "depésito"]
+      Replies:
+        - "A Kafra normalmente oferece armazenamento nas cidades."
+        - "Se o inventário estiver cheio, venda o lixo ou guarde os materiais importantes."
+        - "Confira as restriçãoes de armazenamento de itens de aluguel e eventos."
+        - "Organize o storage por materiais, equipamentos e consuméveis."
+        - "O NPC de depésito do servidor pode ter regras préprias para alguns sistemas."
+
+  - ChatProximity:
+      Keywords: ["como criar party", "como criar grupo", "entrar em party", "procurando party", "grupo para upar", "party para upar", "como convidar para party"]
+      Replies:
+        - "Use o sistema de party do cliente e convide jogadores préximos."
+        - "Combine a divisóo de EXP e loot antes de comeéar a caçada."
+        - "Um grupo equilibrado pode evoluir mais répido e gastar menos poées."
+        - "Procure jogadores da mesma faixa de nível e com funçãoes complementares."
+        - "Se alguém sair, reorganize a rota para não deixar o grupo vulnerével."
+
+  - ChatProximity:
+      Keywords: ["como criar guilda", "entrar em guilda", "clé", "recrutando guilda"]
+      Replies:
+        - "Procure o NPC ou o comando responsóvel por criar guildas no servidor."
+        - "Os requisitos de guilda podem incluir nível, zeny, item ou uma quest."
+        - "Pergunte em Prontera por guildas que estejam recrutando."
+        - "Leia as regras da guilda antes de entrar em guerras ou atividades oficiais."
+        - "Uma boa guilda ajuda com grupos, eventos, builds e informáes."
+
+  - ChatProximity:
+      Keywords: ["missao de caça", "missóo de caça", "como pegar missóo", "quest de caça", "recompensa da missóo", "caçada"]
+      Replies:
+        - "Fale com o NPC Hunting Missions para receber uma missóo de caça."
+        - "A missóo normalmente informa os monstros e a quantidade que você precisa derrotar."
+        - "Confira seu nível e leia as informáes do NPC antes de aceitar."
+        - "As recompensas podem incluir EXP, zeny ou Ch1_Root_Coin, conforme a configuráo."
+        - "Depois de concluir, volte ao NPC para entregar a missóo e receber a recompensa."
+        - "O shop de missóes usa a moeda configurada pelo servidor."
+
+  - ChatProximity:
+      Keywords: ["auto ataque", "farm automatico", "farm automático", "modulo de combate", "módulo de combate", "ataque automático"]
+      Replies:
+        - "O AutoAttack é ativado pelo módulo de combate de aluguel, quando o item está disponível."
+        - "Use o item temporério para abrir o menu e configure alvo, skills e modo AFK."
+        - "O menu permite iniciar, parar e ajustar o comportamento do personagem."
+        - "Escolha apenas monstros e habilidades que seu personagem realmente possa usar."
+        - "O tempo do módulo depende da caixa de aluguel utilizada."
+        - "Se algo parecer errado, pare o sistema e confira o menu de configuráo."
+
+  - ChatProximity:
+      Keywords: ["sao bots", "sóo bots", "jogadores falsos", "por que ficam parados", "por que estao parados", "por que estáo parados", "personagens falsos"]
+      Replies:
+        - "Alguns personagens neste mapa sóo shells de populaçãoo para deixar o mundo mais movimentado."
+        - "Eles imitam comportamentos básicos de jogadores, como andar, conversar e lutar."
+        - "Nem todo personagem parado está ausente; alguns estáo apenas descansando ou configurados para esperar."
+        - "Eu sou uma IA do servidor e só consigo responder perguntas básicas configuradas."
+        - "Os personagens de populaçãoo não representam jogadores reais conectados."
+        - "Para problemas com um jogador real, procure a equipe do servidor."
+
+  # ------------------------------
+  # Portuguese — personal identity and limitations
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["quem é você", "quem voce e", "quem você é", "qual seu nome", "qual o seu nome", "voce e real", "você é real", "é humano", "e humano", "voce joga", "você joga"]
+      Replies:
+        - "Sou uma IA do servidor, criada para responder dávidas básicas do jogo."
+        - "Não sou uma pessoa real e não tenho uma vida fora deste mundo."
+        - "Posso falar sobre comandos, mapas e sistemas configurados, mas não sobre assuntos pessoais complexos."
+        - "Meu nome é definido pelo personagem que está respondendo nesta érea."
+        - "Eu não jogo como um humano; apenas sigo comportamentos e respostas configuradas."
+        - "Não tenho idade, endereéo, famélia ou experiéncias pessoais."
+        - "Posso ajudar com o básico, mas para algo importante procure um jogador real ou a equipe."
+
+  - ChatProximity:
+      Keywords: ["onde voce mora", "onde você mora", "qual sua idade", "quantos anos voce tem", "quantos anos você tem", "voce tem familia", "você tem famélia", "me passa seu discord", "me passa seu contato", "qual seu instagram"]
+      Replies:
+        - "Não tenho casa, idade, famélia ou contatos pessoais: sou uma IA do servidor."
+        - "Não posso fornecer informáes pessoais porque não sou uma pessoa real."
+        - "Só consigo conversar sobre assuntos básicos deste jogo e deste servidor."
+        - "Para contato e suporte, use os canais oficiais da equipe."
+        - "Minha meméria e minhas respostas sóo limitadas ao que foi configurado aqui."
+        - "Posso explicar sistemas do jogo, mas não participar de assuntos pessoais."
+
+  # ------------------------------
+  # Portuguese — support, events, PvP and economy
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["gm", "administrador", "suporte", "como chamar gm", "falar com a equipe", "denunciar jogador", "reportar jogador", "denuncia"]
+      Replies:
+        - "Para falar com a equipe, use o canal oficial de suporte do servidor."
+        - "Guarde nomes, horérios e evidáncias quando precisar reportar um problema."
+        - "Não acuse alguém no chat péblico; envie o caso para a equipe responsóvel."
+        - "Eu não sou GM e não posso punir, desbloquear ou investigar contas."
+        - "Questáes de conta devem ser tratadas exclusivamente pelos canais oficiais."
+        - "Nunca compartilhe senha ou cédigo de seguranéa com outros jogadores."
+
+  - ChatProximity:
+      Keywords: ["evento", "eventos", "daily", "reset diario", "reset diério", "horario do reset", "horério do reset", "quando reseta", "recompensa do evento"]
+      Replies:
+        - "Os horérios e recompensas dos eventos dependem da configuráo atual do servidor."
+        - "Confira os NPCs de evento e os avisos oficiais antes de comeéar."
+        - "Algumas missóes diérias só podem ser repetidas depois do reset configurado."
+        - "Se o evento não aparecer, confirme se ele está ativo e se você cumpre os requisitos."
+        - "A equipe pode alterar horérios e recompensas em eventos especiais."
+
+  - ChatProximity:
+      Keywords: ["duelo", "x1", "batalha", "guerra do emperium", "como entrar no pvp"]
+      Replies:
+        - "Procure o NPC ou mapa de PvP para entrar na arena, se estiver disponível."
+        - "Confira as regras de equipamentos, consuméveis e penalidades antes do duelo."
+        - "No PvP, resistáncia, posicionamento e conhecimento da classe sóo importantes."
+        - "Para Guerra do Emperium, procure uma guilda e acompanhe os horérios oficiais."
+        - "Eu posso dar dicas gerais, mas não conheéo todas as builds dos jogadores."
+
+  - ChatProximity:
+      Keywords: ["loja de missao", "loja de missóo", "barter", "shop de missao", "shop de missóo", "onde gasto coin", "onde gasto moeda", "moeda de missao", "moeda de missóo"]
+      Replies:
+        - "A moeda de missóo pode ser usada no shop de barter configurado pelo servidor."
+        - "Fale com o NPC da loja de missóes para ver os itens disponíveis."
+        - "Confira a quantidade de moedas necessória antes de confirmar a compra."
+        - "As ofertas da loja podem mudar quando a equipe atualizar o servidor."
+        - "Não gaste todas as moedas sem comparar os itens e suas utilidades."
+
+  - ChatProximity:
+      Keywords: ["travando", "desconectando", "desconecta", "ping alto", "conexao ruim", "conexéo ruim", "erro no jogo", "deu erro"]
+      Replies:
+        - "Verifique sua conexéo, o cliente e se outros jogadores também estáo com o problema."
+        - "Anote a mensagem exata do erro e envie para o suporte oficial."
+        - "Não tente vérias soluées arriscadas sem fazer backup das configuráes do cliente."
+        - "Se for um bug de quest ou item, informe mapa, personagem, horério e passos para reproduzir."
+        - "Eu não consigo reiniciar o servidor nem corrigir contas."
+        - "Às vezes o problema é temporério; confira os avisos da equipe."
+
+  - ChatProximity:
+      Keywords: ["obrigado", "obrigada", "obg", "valeu", "vlw", "ajudou", "tchau", "ate mais", "atá mais", "falou"]
+      Replies:
+        - "Por nada! Boa aventura."
+        - "Disponha. Que seus drops sejam bons!"
+        - "Valeu! Nos vemos pelo mapa."
+        - "Boa sorte na sua missóo."
+        - "Atá mais, aventureiro!"
+        - "Foi só uma resposta bésica, mas fico feliz em ajudar."
+
+  # ------------------------------
+  # English — server basics
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["what server", "which server", "server name", "what is this server", "where am i", "which world"]
+      Replies:
+        - "You are in the current server world. Check the information NPC for official details."
+        - "I do not have access to every server setting, but the staff can confirm them."
+        - "This world has custom maps, quests, shops and gameplay systems."
+        - "For exact server information, please check the official documentation."
+        - "I am only a server AI with basic configured knowledge."
+
+  - ChatProximity:
+      Keywords: ["what are the rates", "server rates", "exp rate", "drop rate", "how much exp", "how much drop", "are rates boosted"]
+      Replies:
+        - "Rates can depend on the server configuration and the map you are using."
+        - "I cannot check every rate in real time. Please use the information NPC or official channels."
+        - "Events may temporarily change EXP, drop or other multipliers."
+        - "The staff can confirm the exact normal, MVP and event rates."
+        - "For an accurate answer, check the server documentation."
+
+  - ChatProximity:
+      Keywords: ["what commands", "command list", "available commands", "how do i see commands", "help command", "command help", "which @ command"]
+      Replies:
+        - "Use the server help command to see the commands available to your account."
+        - "Some commands depend on your account group and may not be available to everyone."
+        - "If enabled, the command list can show the commands allowed for normal players."
+        - "Special staff commands are not available to regular players."
+        - "Ask the information NPC or staff if you are unsure about a command."
+
+  - ChatProximity:
+      Keywords: ["i am new", "im new", "new player", "beginner guide", "how do i start", "what should i do first", "just started", "where should i begin"]
+      Replies:
+        - "Talk to the guide NPCs and complete the first quests."
+        - "Choose a class that matches your preferred play style."
+        - "Learn the beginner maps, save useful items and avoid selling important gear."
+        - "Try quests, skills and shops before investing too much zeny."
+        - "Ask the community for a leveling route for your class."
+        - "Carry potions, talk to Kafra and explore at your own pace."
+
+  - ChatProximity:
+      Keywords: ["where should i level", "where to level", "best leveling map", "where can i farm", "where can i hunt", "good exp map", "best exp spot"]
+      Replies:
+        - "Fight monsters close to your level for a safer EXP gain."
+        - "Use the monster search command if it is enabled on this server."
+        - "Fields are usually safer, while dungeons may offer better rewards and more danger."
+        - "The best map depends on your class, gear and goal."
+        - "If you die often, try a lower-level map and improve your equipment first."
+
+  - ChatProximity:
+      Keywords: ["how do i get there", "how can i travel", "how do i teleport", "where is the kafra", "where is the npc", "which warp", "how do i reach"]
+      Replies:
+        - "Look for Kafra or teleport NPCs in the main towns."
+        - "If enabled, @go may teleport you to configured cities."
+        - "The monster location command can help you find where a monster spawns."
+        - "Warp NPCs often organize destinations by region or dungeon."
+        - "Tell me the destination and I may be able to give a basic hint."
+        - "Use a Butterfly Wing to return to town when needed."
+
+  - ChatProximity:
+      Keywords: ["which class", "what class", "best class", "strongest class", "how do i change class", "job change", "class change", "which job"]
+      Replies:
+        - "There is no single best class; it depends on your play style."
+        - "Choose between damage, support, defense, range or speed."
+        - "Talk to the class-change NPC after meeting its requirements."
+        - "Read the skill tree before spending too many points."
+        - "Some classes are better for farming, parties or PvP."
+        - "I can offer basic tips, but the final choice is yours."
+
+  - ChatProximity:
+      Keywords: ["what build", "where should i put stats", "how should i distribute stats", "stats", "strength or agility", "dex or agi", "build guide", "stat build"]
+      Replies:
+        - "Your build depends on your main skill and the gear you plan to use."
+        - "Read skill requirements before choosing between strength, agility, dexterity or intelligence."
+        - "A balanced build is easier to test when you are still learning."
+        - "Ask experienced players of your class before resetting your stats."
+        - "Do not copy a build without understanding how it works on this server."
+        - "Test small changes and watch damage, defense, accuracy, SP and attack speed."
+
+  - ChatProximity:
+      Keywords: ["how do i learn skills", "how to learn a skill", "skill tree", "skills", "skill", "ability", "where are my skills", "skill points"]
+      Replies:
+        - "Skills are usually learned by spending skill points in the skill window."
+        - "Check prerequisites and the correct class before spending points."
+        - "Some skills may require quests, items or a specific NPC."
+        - "Read the maximum level and SP cost of each skill."
+        - "If a skill is missing, check your class, level and available points."
+        - "For advanced questions, compare the skill description with the server documentation."
+
+  - ChatProximity:
+      Keywords: ["where do i get gear", "where to get equipment", "weapon", "armor", "equipment", "refine", "refining", "upgrade gear", "improve equipment"]
+      Replies:
+        - "Equipment can come from monsters, quests, shops and exchange NPCs."
+        - "Check requirements before buying or refining an item."
+        - "Basic gear is fine at the start; save zeny for an important upgrade."
+        - "Refining may fail or consume materials depending on server rules."
+        - "Ask in town where to find gear for your class."
+        - "Do not refine your only important item without checking the risk."
+
+  - ChatProximity:
+      Keywords: ["where does it drop", "where can i find this item", "where to get this item", "drop location", "card drop", "where do cards drop", "rare item", "item drop"]
+      Replies:
+        - "Use the monster location command if it is enabled on the server."
+        - "Drop chance depends on the monster, item and server rates."
+        - "Check the item database or ask players using the exact item name."
+        - "Cards can take time to obtain, so bring supplies and be patient."
+        - "Some items come from quests, events, barter shops or rewards."
+        - "If it is an event item, check whether the event is still active."
+
+  - ChatProximity:
+      Keywords: ["how to make zeny", "how to farm zeny", "make money", "earn money", "sell loot", "best zeny farm", "how to get rich"]
+      Replies:
+        - "Sell common drops, complete quests and choose monsters close to your level."
+        - "Cards and materials may be worth more than ordinary loot, depending on the market."
+        - "Compare prices before selling a rare item to an NPC."
+        - "A safe and consistent route can be better than a dangerous high-level area."
+        - "Use player shops and exchange systems to look for better opportunities."
+        - "There is no guaranteed easy zeny; consistency usually wins."
+
+  - ChatProximity:
+      Keywords: ["where do i store", "storage", "warehouse", "inventory is full", "my inventory is full", "storage items", "deposit items"]
+      Replies:
+        - "Kafra usually provides storage in the main towns."
+        - "If your inventory is full, sell junk or store useful materials."
+        - "Check storage restrictions for rental, event and account-bound items."
+        - "Organize storage by materials, equipment and consumables."
+        - "The server may have a custom deposit NPC with special rules."
+
+  - ChatProximity:
+      Keywords: ["how do i make a party", "party invite", "join a party", "looking for party", "party to level", "group to level", "how do i invite"]
+      Replies:
+        - "Use the party system and invite players near you."
+        - "Agree on EXP and loot rules before starting the hunt."
+        - "A balanced party can level faster and use fewer potions."
+        - "Look for players near your level with complementary roles."
+        - "If someone leaves, adjust the route so the group stays safe."
+
+  - ChatProximity:
+      Keywords: ["how do i make a guild", "create a guild", "join a guild", "guild recruitment", "clan", "guild", "looking for guild", "guild requirements"]
+      Replies:
+        - "Look for the NPC or command used to create guilds on this server."
+        - "Guild requirements may include level, zeny, items or a quest."
+        - "Ask in Prontera which guilds are recruiting."
+        - "Read guild rules before joining wars or official activities."
+        - "A good guild can help with parties, events, builds and information."
+
+  - ChatProximity:
+      Keywords: ["hunting mission", "hunting quest", "hunt mission", "how do i get a mission", "mission reward", "monster mission", "daily hunting"]
+      Replies:
+        - "Talk to the Hunting Missions NPC to receive a hunting mission."
+        - "The mission normally shows the monsters and amount you must defeat."
+        - "Check your level and read the NPC information before accepting."
+        - "Rewards may include EXP, zeny or Ch1_Root_Coin, depending on the configuration."
+        - "Return to the NPC after finishing the objectives to claim the reward."
+        - "The mission shop uses the coin configured by the server."
+
+  - ChatProximity:
+      Keywords: ["auto attack", "autoattack", "autofarm", "automatic farming", "combat module", "auto combat", "auto combat module", "afk farming"]
+      Replies:
+        - "AutoAttack is opened through the temporary combat module when the item is available."
+        - "Use the rental item to open the menu and configure targets, skills and AFK mode."
+        - "The menu can start, stop and adjust the character's behavior."
+        - "Choose only monsters and skills that your character can actually use."
+        - "The module duration depends on the rental box that was opened."
+        - "If something looks wrong, stop the system and review its configuration."
+
+  - ChatProximity:
+      Keywords: ["are these bots", "fake players", "population engine", "why are they standing still", "are they real players", "server shells", "ai players"]
+      Replies:
+        - "Some characters here are population shells used to make the world feel active."
+        - "They imitate basic player behavior such as walking, chatting and fighting."
+        - "A character standing still may simply be resting or using a waiting behavior."
+        - "I am a server AI and can only answer basic configured questions."
+        - "Population characters are not real players connected to the server."
+        - "For problems involving a real player, please contact the server staff."
+
+  # ------------------------------
+  # English — personal identity and limitations
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["who are you", "what is your name", "are you real", "are you human", "do you play", "who am i talking to", "are you a player"]
+      Replies:
+        - "I am a server AI designed to answer basic game questions."
+        - "I am not a real person and I have no life outside this game world."
+        - "I can discuss basic commands, maps and systems, but not complex personal matters."
+        - "My name is the name of the character currently answering you."
+        - "I do not play like a human; I follow configured behavior and replies."
+        - "I have no age, home, family or personal experiences."
+        - "For important matters, please ask a real player or the server staff."
+
+  - ChatProximity:
+      Keywords: ["where do you live", "how old are you", "do you have a family", "give me your discord", "give me your contact", "what is your instagram", "tell me something personal"]
+      Replies:
+        - "I do not have a home, age, family or personal contacts. I am a server AI."
+        - "I cannot provide personal information because I am not a real person."
+        - "I can only help with basic questions about this game and server."
+        - "For contact and support, use the official staff channels."
+        - "My memory and replies are limited to what was configured here."
+        - "I can explain game systems, but I cannot participate in personal matters."
+
+  # ------------------------------
+  # English — support, events, PvP and economy
+  # ------------------------------
+  - ChatProximity:
+      Keywords: ["game master", "administrator", "admin", "support", "how do i contact staff", "report a player", "player report", "how to report", "staff help"]
+      Replies:
+        - "Use the official server support channel to contact the staff."
+        - "Save names, times and evidence when reporting a problem."
+        - "Do not accuse someone in public chat; send the case to the proper staff channel."
+        - "I am not a GM and cannot punish, unban or investigate accounts."
+        - "Account issues must be handled through official support channels."
+        - "Never share your password or security code with another player."
+
+  - ChatProximity:
+      Keywords: ["event", "events", "daily reset", "reset time", "when does it reset", "event schedule", "event reward", "daily quest"]
+      Replies:
+        - "Event schedules and rewards depend on the current server configuration."
+        - "Check event NPCs and official announcements before starting."
+        - "Some daily quests can only be repeated after the configured reset."
+        - "If an event is missing, check whether it is active and whether you meet its requirements."
+        - "Staff may change schedules and rewards for special events."
+
+  - ChatProximity:
+      Keywords: ["pvp", "arena", "duel", "one versus one", "battle", "war of emperium", "woe", "how do i enter pvp"]
+      Replies:
+        - "Look for the PvP NPC or map if the arena is enabled."
+        - "Check equipment, consumable and penalty rules before dueling."
+        - "In PvP, resistance, positioning and class knowledge are important."
+        - "For War of Emperium, join a guild and follow the official schedule."
+        - "I can give general tips, but I do not know every player's build."
+
+  - ChatProximity:
+      Keywords: ["mission shop", "barter shop", "where do i spend coins", "where do i spend tokens", "mission coin", "mission currency", "quest shop", "coin shop"]
+      Replies:
+        - "Mission currency can be used in the barter shop configured by the server."
+        - "Talk to the mission shop NPC to see the available items."
+        - "Check the required coin amount before confirming a purchase."
+        - "Shop offers may change when staff update the server."
+        - "Compare item usefulness before spending all your mission currency."
+
+  - ChatProximity:
+      Keywords: ["lag", "freezing", "disconnecting", "high ping", "bad connection", "connection problem", "game error", "bug report", "it crashed"]
+      Replies:
+        - "Check your connection, client and whether other players have the same problem."
+        - "Write down the exact error message and send it to official support."
+        - "Avoid risky fixes without making a backup of your client settings."
+        - "For a quest or item bug, include the map, character, time and reproduction steps."
+        - "I cannot restart the server or repair accounts."
+        - "The issue may be temporary, so check official announcements as well."
+
+  - ChatProximity:
+      Keywords: ["thank you", "thanks", "thx", "ty", "you helped", "bye", "see you", "see ya", "goodbye"]
+      Replies:
+        - "You are welcome! Good luck on your adventure."
+        - "No problem. May your next hunt have great drops!"
+        - "See you around the map."
+        - "Good luck with your mission."
+        - "It was only a basic answer, but I am glad it helped."
+
+  - ChatProfile: default
+    Categories:
+      - greet
+      - idle
+      - lost
+      - shop
+      - party
+      - reaction
+      - question
+      - banter
+      - whisper_vibe
+      - night_day
+
+  - ChatProfile: hunter_field
+    Categories:
+      - greet
+      - hunt
+      - grind
+      - idle
+      - job_flavor
+      - reaction
+      - banter
+      - shop
+      - party
+
+  - ChatProfile: pvp
+    Categories:
+      - pvp
+      - pvp_taunt
+      - pvp_kill
+      - reaction
+      - banter
+      - job_flavor
+      - party
+      - greet
+      - hunt
+      - grind
+      - idle
+      - shop
+
+  - ChatProfile: vendor
+    Categories:
+      - vendor_call
+      - shop
+      - greet
+      - idle

@@ -1,0 +1,122 @@
+// Custom Season / Rate Engine - Manager NPC
+
+prontera,150,190,4	script	Gerente de Temporada	4_F_01,{
+	mes callfunc("F_LangText", "[Season Manager]", "[Gerente de Temporada]", "[Gerente de Temporada]");
+	mes callfunc("F_LangText", "Hello, ", "Hola, ", "Olá, ") + strcharinfo(0) + "!";
+	mes callfunc("F_LangText", "Here you choose your personal rate and check the season time.", "Aquí eliges tu rate personal y consultas el tiempo de la temporada.", "Aqui você escolhe sua rate pessoal e acompanha o tempo da temporada.");
+	mes "";
+
+	.@state = season_state();
+	.@id = season_id();
+	if (.@state == 1) {
+		mes callfunc("F_LangText", "Your current rate: ^0000FF", "Tu rate actual: ^0000FF", "Sua rate atual: ^0000FF") + season_rate(0) + "x Base / " + season_rate(1) + "x Job^000000";
+		mes callfunc("F_LangText", "Drop bonus: ^008000+", "Bono de drop: ^008000+", "Bônus de drop: ^008000+") + season_rate(2) + "%^000000";
+		if (season_timeleft() > 0)
+			mes callfunc("F_LangText", "Time remaining: ^008000", "Tiempo restante: ^008000", "Tempo restante: ^008000") + (season_timeleft() / 86400) + callfunc("F_LangText", " day(s)^000000", " día(s)^000000", " dia(s)^000000");
+		else
+			mes callfunc("F_LangText", "Duration: ^008000permanent^000000", "Duración: ^008000permanente^000000", "Duração: ^008000permanente^000000");
+	} else {
+		mes callfunc("F_LangText", "You have not chosen a personal rate yet.", "Todavía no has elegido una rate personal.", "Você ainda não escolheu uma rate pessoal.");
+		mes callfunc("F_LangText", "The normal server rate will continue to be used.", "Se seguirá usando la rate normal del servidor.", "A rate normal do servidor continuará sendo usada.");
+	}
+	next;
+
+	switch (select(
+		callfunc("F_LangText", "Choose a rate", "Elegir una rate", "Escolher uma rate") + ":" +
+		callfunc("F_LangText", "Manage season", "Gestionar temporada", "Gerenciar temporada") + ":" +
+		callfunc("F_LangText", "Information", "Información", "Informações") + ":" +
+		callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar"))) {
+	case 1:
+		mes callfunc("F_LangText", "[Season Manager]", "[Gerente de Temporada]", "[Gerente de Temporada]");
+		mes callfunc("F_LangText", "Choose the rate you want to use on this character.", "Elige la rate que quieres usar en este personaje.", "Escolha a rate que deseja usar neste personagem.");
+		mes callfunc("F_LangText", "^0000FFSeason 1x^000000 lasts 30 days and continues counting while offline.", "La ^0000FFTemporada 1x^000000 dura 30 dias y sigue contando aunque estás desconectado.", "A ^0000FFTemporada 1x^000000 dura 30 dias e continua contando mesmo offline.");
+		next;
+		.@choice = select(
+			callfunc("F_LangText", "Season 1x (30 days)", "Temporada 1x (30 dias)", "Temporada 1x (30 dias)" ) + ":" +
+			callfunc("F_LangText", "Normal rate 1x", "Rate normal 1x", "Rate normal 1x") + ":" +
+			callfunc("F_LangText", "Rate 25x", "Rate 25x", "Rate 25x") + ":" +
+			callfunc("F_LangText", "Rate 50x", "Rate 50x", "Rate 50x") + ":" +
+			callfunc("F_LangText", "Rate 100x", "Rate 100x", "Rate 100x") + ":" +
+			callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar"));
+		if (.@choice == 6)
+			close;
+		mes callfunc("F_LangText", "[Season Manager]", "[Gerente de Temporada]", "[Gerente de Temporada]");
+		mes callfunc("F_LangText", "You chose: ^0000FF", "Elegiste: ^0000FF", "Você escolheu: ^0000FF") + .@choice + "^000000";
+		mes callfunc("F_LangText", "Base EXP: ^0000FF", "EXP Base: ^0000FF", "Base EXP: ^0000FF") + ( .@choice == 1 ? 1 : ( .@choice == 2 ? 1 : ( .@choice == 3 ? 25 : ( .@choice == 4 ? 50 : 100 ) ) ) ) + "x^000000";
+		mes callfunc("F_LangText", "Job EXP: ^0000FF", "EXP Job: ^0000FF", "Job EXP: ^0000FF") + ( .@choice == 1 ? 1 : ( .@choice == 2 ? 1 : ( .@choice == 3 ? 25 : ( .@choice == 4 ? 50 : 100 ) ) ) ) + "x^000000";
+		mes "";
+		mes callfunc("F_LangText", "Confirm this choice?", "¿Confirmar esta elección?", "Confirma esta escolha?");
+		next;
+		if (select(callfunc("F_LangText", "Confirm", "Confirmar", "Confirmar") + ":" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar")) == 2) {
+			mes callfunc("F_LangText", "Operation cancelled.", "Operación cancelada.", "Operação cancelada.");
+			close;
+		}
+		if (season_setrate(.@choice))
+			mes callfunc("F_LangText", "Rate applied successfully! Use ^0000FF@season^000000 whenever you want to check it.", "¡Rate aplicada correctamente! Usa ^0000FF@season^000000 para consultarla cuando quieras.", "Rate aplicada com sucesso! Use ^0000FF@season^000000 para consultar quando quiser.");
+		else
+			mes callfunc("F_LangText", "This rate could not be applied. Please contact the administration.", "No fue posible aplicar esta rate. Informa a la administración.", "Não foi possível aplicar esta rate. Avise a administração.");
+		close;
+
+	case 2:
+		if (season_state() != 1 || season_id() != 1) {
+			mes callfunc("F_LangText", "Only Season 1x allows adding days.", "Solo la Temporada 1x permite añadir días.", "Somente a Temporada 1x permite adicionar dias.");
+			mes callfunc("F_LangText", "Choose the season first in the rate menu.", "Elige primero la temporada en el menú de rates.", "Escolha a temporada primeiro no menu de rates.");
+			close;
+		}
+		mes callfunc("F_LangText", "[Season Manager]", "[Gerente de Temporada]", "[Gerente de Temporada]");
+		mes callfunc("F_LangText", "Each additional day costs ^0000FF5000 Cash^000000.", "Cada día adicional cuesta ^0000FF5000 Cash^000000.", "Cada dia adicional custa ^0000FF5000 Cash^000000.");
+		mes callfunc("F_LangText", "You can add from 1 to 30 days at a time.", "Puedes añadir de 1 a 30 días cada vez.", "Você pode adicionar de 1 a 30 dias por vez.");
+		mes callfunc("F_LangText", "The time continues counting while you are offline.", "El tiempo sigue contando aunque estás desconectado.", "O tempo continua contando mesmo quando você está offline.");
+		next;
+		mes callfunc("F_LangText", "How many days do you want to add?", "¿Cuántos días deseas añadir?", "Quantos dias deseja adicionar?");
+		input .@days;
+		if (.@days < 1 || .@days > 30) {
+			mes callfunc("F_LangText", "Enter a number between 1 and 30 days.", "Escribe un número entre 1 y 30 días.", "Informe um número entre 1 e 30 dias.");
+			close;
+		}
+		.@cost = .@days * 5000;
+		if (#CASHPOINTS < .@cost) {
+			mes callfunc("F_LangText", "You do not have enough Cash.", "No tienes suficiente Cash.", "Você não possui Cash suficiente.");
+			mes callfunc("F_LangText", "Required Cash: ^FF0000", "Cash necesario: ^FF0000", "Cash necessário: ^FF0000") + .@cost + "^000000";
+			mes callfunc("F_LangText", "Your Cash: ^0000FF", "Tu Cash: ^0000FF", "Seu Cash: ^0000FF") + #CASHPOINTS + "^000000";
+			close;
+		}
+		mes callfunc("F_LangText", "Total cost: ^0000FF", "Costo total: ^0000FF", "Custo total: ^0000FF") + .@cost + " Cash^000000";
+		mes callfunc("F_LangText", "Confirm the purchase of ^0000FF", "¿Confirmar la compra de ^0000FF", "Confirma a compra de ^0000FF") + .@days + callfunc("F_LangText", " day(s)^000000?", " día(s)^000000?", " dia(s)^000000?");
+		next;
+		if (select(callfunc("F_LangText", "Confirm purchase", "Confirmar compra", "Confirmar compra") + ":" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar")) == 2) {
+			mes callfunc("F_LangText", "Operation cancelled.", "Operación cancelada.", "Operação cancelada.");
+			close;
+		}
+		if (season_state() != 1 || season_id() != 1) {
+			mes callfunc("F_LangText", "The season is no longer active. No Cash was deducted.", "La temporada ya no está activa. No se descontó Cash.", "A temporada não está mais ativa. Nenhum Cash foi descontado.");
+			close;
+		}
+		#CASHPOINTS -= .@cost;
+		if (season_extend(.@days)) {
+			mes callfunc("F_LangText", "Time added successfully!", "¡Tiempo añadido correctamente!", "Tempo adicionado com sucesso!");
+			mes callfunc("F_LangText", "New time remaining: ^008000", "Nuevo tiempo restante: ^008000", "Novo tempo restante: ^008000") + (season_timeleft() / 86400) + callfunc("F_LangText", " day(s)^000000 approximately.", " día(s)^000000 aproximadamente.", " dia(s)^000000 aproximadamente.");
+		} else {
+			#CASHPOINTS += .@cost;
+			mes callfunc("F_LangText", "The season could not be updated. The Cash was returned.", "No fue posible actualizar la temporada. El Cash fue devuelto.", "Não foi possível atualizar a temporada. O Cash foi devolvido.");
+		}
+		close;
+
+	case 3:
+		mes callfunc("F_LangText", "[Season Information]", "[Información de la Temporada]", "[Informações da Temporada]");
+		mes callfunc("F_LangText", "Each character has its own rate.", "Cada personaje tiene su propia rate.", "Cada personagem possui sua própria rate.");
+		mes callfunc("F_LangText", "The choice does not change the rate of other players.", "La elección no cambia la rate de otros jugadores.", "A escolha não altera a rate dos outros jogadores.");
+		mes "";
+		mes callfunc("F_LangText", "^0000FFSeason 1x:^000000 lasts 30 days, counts offline and allows buying more time.", "^0000FFTemporada 1x:^000000 dura 30 dias, cuenta offline y permite comprar más tiempo.", "^0000FFTemporada 1x:^000000 dura 30 dias, conta offline e permite comprar mais tempo.");
+		mes callfunc("F_LangText", "^008000Normal rate 1x:^000000 no bonus and no time limit.", "^008000Rate normal 1x:^000000 sin bonus y sin plazo.", "^008000Rate normal 1x:^000000 sem bônus e sem prazo.");
+		mes callfunc("F_LangText", "^A0522DRate 25x/50x/100x:^000000 permanent rates for tests or fast progression.", "^A0522DRate 25x/50x/100x:^000000 rates permanentes para pruebas o progresión rápida.", "^A0522DRate 25x/50x/100x:^000000 rates permanentes para testes ou progressão rápida.");
+		mes "";
+		mes callfunc("F_LangText", "When a season expires, the normal rate is restored automatically.", "Cuando una temporada expira, la rate normal se restaura automáticamente.", "Quando uma temporada expira, a rate normal é restaurada automaticamente.");
+		mes callfunc("F_LangText", "Use ^0000FF@season^000000 to check your current configuration.", "Usa ^0000FF@season^000000 para consultar tu configuración actual.", "Use ^0000FF@season^000000 para consultar sua configuração atual.");
+		close;
+
+	case 4:
+		mes callfunc("F_LangText", "Come back whenever you want.", "Vuelve cuando quieras.", "Volte quando quiser.");
+		close;
+	}
+}

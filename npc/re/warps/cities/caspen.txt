@@ -1,0 +1,104 @@
+caspen,96,205,0	warp	casp-2	1,1,casp_chc,101,63
+casp_chc,101,60,0	warp	casp-2-1	1,1,caspen,99,205
+ 
+casp_in02,79,76,0	warp	casp-2-2	1,1,caspen,94,263
+caspen,91,263,0	warp	casp-3	1,1,casp_in02,79,79
+ 
+casp_in02,52,47,0	warp	casp-1-1	1,1,casp_in02,109,45
+casp_in02,109,43,0	warp	casp-1-2	1,1,casp_in02,51,44
+ 
+casp_in02,114,42,0	warp	casp-1-3	1,1,casp_in02,186,47
+casp_in02,186,45,0	warp	casp-1-4	1,1,casp_in02,114,44
+ 
+//SALLE AU TRESORS
+casp_in02,186,61,0	script	Bibliothèque#tresor	CLEAR_NPC,{
+	mes "Il semble avoir un passage secret";
+	next;
+	warp "casp_in02",134,43;
+	end;
+}
+casp_in02,133,49,0	warp	casp-5	1,1,casp_in02,185,61
+ 
+casp_in02,61,43,0	warp	casp-6	1,1,casp_in02,68,43
+casp_in02,66,43,0	warp	casp-7	1,1,casp_in02,58,43
+ 
+casp_in02,42,43,0	warp	casp-8	1,1,casp_in02,35,43
+casp_in02,37,43,0	warp	casp-9	1,1,casp_in02,45,43
+ 
+caspen,59,277,0	warp	casp-10	1,1,casp_fild01,173,43
+casp_fild01,173,40,0	warp	casp-11	1,1,caspen,62,273
+ 
+casp_in01,82,187,0	warp	casp-12	1,1,casp_in01,75,187
+casp_in01,77,187,0	warp	casp-13	1,1,casp_in01,85,187
+casp_in01,57,178,0	warp	casp-14	1,1,caspen,167,233
+caspen,170,236,0	warp	casp-15	1,1,casp_in01,57,182
+ 
+casp_in01,177,264,0	warp	casp-16	1,1,caspen,137,235
+caspen,137,238,0	warp	casp-17	1,1,casp_in01,177,266
+ 
+casp_in01,174,180,0	warp	casp-18	1,1,caspen,107,194
+caspen,107,191,0	warp	casp-19	1,1,casp_in01,174,183
+ 
+casp_in01,160,199,0	warp	casp-20	1,1,casp_in01,262,194
+casp_in01,262,197,0	warp	casp-21	1,1,casp_in01,163,196
+ 
+casp_in01,191,199,0	warp	casp-22	1,1,casp_in01,231,195
+casp_in01,232,197,0	warp	casp-23	1,1,casp_in01,190,196
+ 
+casp_in01,53,240,0	warp	casp-24	1,1,caspen,151,202
+caspen,151,199,0	warp	casp-25	1,1,casp_in01,53,242
+ 
+casp_in01,109,240,0	warp	casp-26	1,1,caspen,136,202
+caspen,136,199,0	warp	casp-27	1,1,casp_in01,109,242
+ 
+casp_in01,253,264,0	warp	casp-28	1,1,caspen,158,263
+caspen,158,267,0	warp	casp-29	1,1,casp_in01,253,267
+ 
+casp_in01,261,275,0	warp	casp-30	1,1,casp_in01,268,275
+casp_in01,266,275,0	warp	casp-31	1,1,casp_in01,258,275
+ 
+casp_in02,51,24,0	warp	casp-32	1,1,caspen,121,262
+caspen,121,266,0	warp	casp-33	1,1,casp_in02,51,26
+ 
+casp_in02,39,72,0	warp	casp-34	1,1,caspen,96,195
+caspen,96,191,0	warp	casp-35	1,1,casp_in02,39,74
+ 
+casp_in02,91,110,0	warp	casp-36	1,1,caspen,116,229
+caspen,116,232,0	warp	casp-37	1,1,casp_in02,91,112
+ 
+casp_in02,86,169,0	warp	casp-38	1,1,casp_in02,79,169
+casp_in02,81,169,0	warp	casp-39	1,1,casp_in02,88,169
+ 
+casp_in02,105,169,0	warp	casp-40	1,1,casp_in02,112,169
+casp_in02,110,169,0	warp	casp-41	1,1,casp_in02,103,169
+ 
+casp_in02,95,154,0	warp	casp-42	1,1,caspen,110,159
+caspen,110,162,0	warp	casp-43	1,1,casp_in02,95,156
+ 
+casp_in02,49,129,0	warp	casp-44	1,1,casp_in02,56,129
+casp_in02,54,129,0	warp	casp-45	1,1,casp_in02,47,129
+ 
+casp_in02,39,114,0	warp	casp-46	1,1,caspen,151,179
+caspen,151,176,0	warp	casp-47	1,1,casp_in02,39,116
+ 
+casp_in02,127,114,0	warp	casp-48	1,1,caspen,124,176
+caspen,128,176,0	warp	casp-49	1,1,casp_in02,127,116
+ 
+casp_in02,147,133,0	warp	casp-50	1,1,casp_in02,189,132
+casp_in02,189,128,0	warp	casp-51	1,1,casp_in02,147,130
+ 
+casp_in02,157,154,0	warp	casp-52	1,1,caspen,125,124
+caspen,123,122,0	warp	casp-53	1,1,casp_in02,154,156
+ 
+caspen,59,277,0	warp	caspenf1	1,1,casp_fild01,173,44
+casp_fild01,173,40,0	warp	caspenf1-1	1,1,caspen,63,272
+casp_fild01,267,293,0	warp	caspenf2	1,1,casp_fild02,71,57
+casp_fild02,68,57,0	warp	caspenf2-1	1,1,casp_fild01,263,293
+casp_fild02,139,142,0	warp	caspenf3	1,1,casp_cave,10,79
+casp_cave,7,79,0	warp	caspenf3-1	1,1,casp_fild02,139,137
+ 
+casp_dun02,132,107,0	warp	caspenf5	1,1,casp_dun01,276,265
+casp_dun01,279,262,0	warp	caspenf5-1	1,1,casp_dun02,133,110
+ 
+casp_cave,86,47,0	warp	caspenf4	1,1,casp_dun01,25,38
+casp_dun01,23,36,0	warp	caspenf4-1	1,1,casp_cave,80,47

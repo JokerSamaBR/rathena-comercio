@@ -1,0 +1,95 @@
+//warp dari kota sampe dalam dungeon dah
+uknw_ruin,263,235,0	warp	uknw1	1,1,ygg_roots,40,121
+uknw_ruin,36,245,0	warp	uknw2	1,1,uknw_ruin2,31,247
+uknw_ruin2,34,247,0	warp	uknw3	1,1,uknw_ruin,32,245
+
+//ygg_edge
+ygg_edge,33,117,4	script	Land of Darkness	GATE_SKYBLUE,2,2,{
+	warp "ygg_roots",328,146;
+	end;
+}
+ygg_roots,329,151,4	script	Ashwood Village	GATE_SKYBLUE,2,2,{
+	warp "ygg_edge",39,117;
+	end;
+}
+ygg_roots,349,249,4	script	Outer Volund Valley	GATE_SKYBLUE,2,2,{
+	warp "mu_fild01",99,159;
+	end;
+}
+mu_fild01,92,159,0	warp	roots1	1,1,ygg_roots,345,250
+ygg_roots,36,122,4	script	Distorted Brimir	GATE_SKYBLUE,2,2,{
+	warp "uknw_ruin",260,236;
+	end;
+}
+
+hem_fild,207,27,0	script	Twisted Land of Darkness	GATE_SKYBLUE,2,2,{
+	warp "ygg_roots",156,231;
+	end;
+}
+ygg_roots,157,234,4	script	Destroyed Geffen Field	GATE_SKYBLUE,2,2,{
+	warp "hem_fild",208,20;
+	end;
+}
+
+ygg_roots,149,345,4	script	Erosion Site	GATE_SKYBLUE,2,2,{
+	warp "ch1fild1",117,23;
+	end;
+}
+
+ch1fild1,121,15,4	script	Darkland	GATE_SKYBLUE,2,2,{
+	warp "ygg_roots",147,339;
+	end;
+}
+
+hem_fild,34,193,0	warp	ruinG	1,1,ch1_geffen,203,119
+ch1_geffen,217,120,	warp	gef_fild	1,1,hem_fild,35,191
+
+ch1_geffen,120,122,4	script	Destroyed Verus	21634,2,2,{
+	warp "hem_dun01",24,90;
+	end;
+}
+
+hem_dun01,21,88,0	warp	keruingef	1,1,ch1_geffen,120,117
+
+
+hem_fild,133,337,4	script	Geffenia - West	21634,2,2,{
+	warp "ch1_gfn03",145,33;
+	end;
+}
+ch1_gfn03,145,28,0	warp	kehemfild	1,1,hem_fild,135,331
+
+hem_fild,231,288,4	script	Geffenia - East	21634,2,2,{
+	warp "ch1_gfn01",60,166;
+	end;
+}
+ch1_gfn01,61,172,0	warp	kehemfild2	1,1,hem_fild,231,295
+
+hem_fild,334,188,4	script	Valkyrie Realm	21634,2,2,{
+	warp "hem_dun02",66,170;
+	end;
+}
+hem_dun02,63,170,1	warp	kehemfild3	1,1,hem_fild,329,188
+
+ygg_edge,263,243,4	script	Midgard Kingdom	GATE_SKYBLUE,2,2,{
+	warp "prt_fild05",353,246;
+	end;
+}
+prt_fild05,353,252,4	script	World Tree	10620,1,1,{
+	warp "ygg_edge",251,231;
+	end;
+}
+
+ygg_edge,165,139,4	warp	kedalambuah	1,1,ygg_fruit,73,116
+ygg_fruit,71,114,4	warp	keeluar	1,1,ygg_edge,168,137
+ygg_edge,72,154,4	warp	kedalambuah1	1,1,ygg_fruit,101,71
+ygg_fruit,99,70,4	warp	keluar2	1,1,ygg_edge,73,151
+ygg_edge,150,127,4	warp	kedalambuah2	1,1,ygg_fruit,67,70
+ygg_fruit,66,68,4	warp	keluar3	1,1,ygg_edge,148,131
+ygg_edge,55,192,4	warp	kedalambuah3	1,1,ygg_fruit,136,75
+ygg_fruit,132,72,4	warp	keluar4	1,1,ygg_edge,58,190
+ygg_edge,89,184,4	warp	kedalambuah4	1,1,ygg_fruit,33,70
+ygg_fruit,31,69,4	warp	keluar5	1,1,ygg_edge,89,187
+ygg_edge,138,210,4	warp	kedalambuah5	1,1,ygg_fruit,160,118
+ygg_fruit,117,166,4	warp	keluar6	1,1,ygg_edge,196,118
+ygg_edge,198,120,4	warp	kedalambuah6	1,1,ygg_fruit,118,170
+ygg_fruit,157,117,4	warp	keluar7	1,1,ygg_edge,141,208

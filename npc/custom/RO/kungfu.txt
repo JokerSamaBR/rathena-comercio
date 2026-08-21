@@ -1,0 +1,115 @@
+// Zhen: Manual Barter System for Kung Fu Coins
+prontera,156,226,5	script	Zhen	10608,{
+	mes "[Zhen]";
+	mes callfunc("F_LangText", "Welcome! You can trade your [Collab] Kung Fu Coins for some exclusive items.", "¡Bienvenido! Puedes cambiar tus Monedas Kung Fu [Collab] por objetos exclusivos.", "Bem-vindo! Você pode trocar suas Moedas Kung Fu [Collab] por itens exclusivos.");
+	mes callfunc("F_LangText", "Pick an item or check your coins!", "¡Elige un objeto o consulta tus monedas!", "Escolha um item ou consulte suas moedas!");
+	next;
+	switch(select(callfunc("F_LangText", "Open Shop", "Abrir tienda", "Abrir loja") + ":" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar"))) {
+		case 1:
+			close2; // Close dialog before opening shop
+			callshop "barter_zhen", 1; // Open barter shop
+			end; // Stop script after opening shop
+		case 2:
+			mes "[Zhen]";
+			mes callfunc("F_LangText", "Come back anytime if you want to trade for armor!", "¡Vuelve cuando quieras cambiar por armaduras!", "Volte quando quiser trocar por armaduras!");
+			close; // Properly close dialog
+	}
+}
+
+// Shifu: Trade Jellopy for Kung Fu Coins
+prontera,153,224,5	script	Shifu	10607,{
+	mes "[Shifu]";
+	mes callfunc("F_LangText", "Greetings, young warrior! To master the art of trading with Zhen, you will need [Collab] Kung Fu Coins.", "¡Saludos, joven guerrero! Para dominar el arte de comerciar con Zhen, necesitarás Monedas Kung Fu [Collab].", "Saudações, jovem guerreiro! Para dominar a arte de negociar com Zhen, você precisará de Moedas Kung Fu [Collab].");
+	mes callfunc("F_LangText", "I can help you get some. Bring me 10 Jellopy, and I will trade them for 1 Kung Fu Coin!", "Puedo ayudarte a conseguirlas. Tráeme 10 Jellopy y los cambiaré por 1 Moneda Kung Fu.", "Posso ajudar você a conseguir algumas. Traga-me 10 Jellopy e eu trocarei por 1 Moeda Kung Fu!");
+	next;
+	switch(select(callfunc("F_LangText", "Trade Jellopy for Coins", "Cambiar Jellopy por monedas", "Trocar Jellopy por moedas") + ":" + callfunc("F_LangText", "Check Coin Balance", "Consultar saldo de monedas", "Consultar saldo de moedas") + ":" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar"))) {
+		case 1:
+			mes "[Shifu]";
+			mes callfunc("F_LangText", "Do you have 10 Jellopy? Let us make the trade!", "¿Tienes 10 Jellopy? ¡Hagamos el intercambio!", "Você tem 10 Jellopy? Vamos fazer a troca!");
+			if (countitem(909) < 10) {
+				mes callfunc("F_LangText", "You do not have enough Jellopy. Come back with 10!", "No tienes suficiente Jellopy. ¡Vuelve con 10!", "Você não possui Jellopy suficiente. Volte com 10!");
+				close;
+			}
+			delitem 909, 10;
+			getitem 1001886, 1;
+			mes callfunc("F_LangText", "Here is your [Collab] Kung Fu Coin! Train hard and trade with Zhen!", "¡Aquí está tu Moneda Kung Fu [Collab]! ¡Entrena duro y comercia con Zhen!", "Aqui está sua Moeda Kung Fu [Collab]! Treine bastante e negocie com Zhen!");
+			close;
+		case 2:
+			mes "[Shifu]";
+			mes callfunc("F_LangText", "You currently have ", "Actualmente tienes ", "Você possui atualmente ") + countitem(1001886) + callfunc("F_LangText", " [Collab] Kung Fu Coin(s).", " Moneda(s) Kung Fu [Collab].", " Moeda(s) Kung Fu [Collab].");
+			mes callfunc("F_LangText", "Keep collecting Jellopy to get more!", "¡Sigue recolectando Jellopy para conseguir más!", "Continue coletando Jellopy para conseguir mais!");
+			close;
+		case 3:
+			mes "[Shifu]";
+			mes callfunc("F_LangText", "No trade, no gain! Return when you are ready.", "¡Sin intercambio no hay ganancia! Regresa cuando estás listo.", "Sem troca, sem ganho! Volte quando estiver pronto.");
+			close;
+	}
+}
+
+// Po: Daily Story for 1 Kung Fu Coin
+prontera,158,224,5	script	Po	10603,{
+	mes "[Po]";
+	mes callfunc("F_LangText", "Yo, what is up? I am Po, the Dragon Warrior! Want to hear a quick story about my totally awesome journey?", "¡Hola! Soy Po, el Guerrero Dragón. ¿Quieres escuchar una historia rápida sobre mi increíble viaje?", "E aí! Eu sou Po, o Guerreiro Dragão! Quer ouvir uma história rápida sobre minha jornada incrível?");
+	mes callfunc("F_LangText", "I only tell it once a day, but you will get a shiny [Collab] Kung Fu Coin if you listen!", "Solo la cuento una vez al día, ¡pero recibirás una brillante Moneda Kung Fu [Collab] si escuchas!", "Eu conto essa história apenas uma vez por dia, mas você receberá uma brilhante Moeda Kung Fu [Collab] se ouvir!");
+	next;
+	if (select(callfunc("F_LangText", "Listen to Po's story", "Escuchar la historia de Po", "Ouvir a história do Po") + ":" + callfunc("F_LangText", "Not now, Po", "Ahora no, Po", "Agora não, Po")) == 2) {
+		mes "[Po]";
+		mes callfunc("F_LangText", "Aww, no dumplings for you then! Come back when you are ready!", "¡Oh, entonces no habrá dumplings para ti! ¡Vuelve cuando estás listo!", "Ah, então nada de dumplings para você! Volte quando estiver pronto!");
+		close;
+	}
+	// Check if player already got the coin today
+	if (getd("KungFuCoin_" + strcharinfo(0)) >= gettime(DT_DAYOFYEAR)) {
+		mes "[Po]";
+		mes callfunc("F_LangText", "Whoa, I already told you a story today! My throat is sore from all that awesomeness.", "¡Vaya, ya te conté una historia hoy! Me duele la garganta de tanta grandeza.", "Uau, eu já contei uma história para você hoje! Minha garganta está doendo de tanta grandiosidade.");
+		mes callfunc("F_LangText", "Come back tomorrow for another epic tale!", "¡Vuelve mañana para otra historia épica!", "Volte amanhã para outra história épica!");
+		close;
+	}
+	mes "[Po]";
+	mes callfunc("F_LangText", "Alright, here is the deal! I was just a noodle-slurping panda working at my dad's shop, dreaming of kung fu.", "¡De acuerdo, esta es la historia! Era un panda que comía fideos y trabajaba en la tienda de mi padre, soñando con el kung fu.", "Certo, é o seguinte! Eu era apenas um panda que comia macarrão e trabalhava na loja do meu pai, sonhando com kung fu.");
+	mes callfunc("F_LangText", "Then—BAM!—I got picked as the Dragon Warrior! Me! Can you believe it?", "¡Y entonces, de repente, fui elegido como el Guerrero Dragón! ¡Yo! ¿Puedes creerlo?", "Então, de repente, fui escolhido como o Guerreiro Dragão! Eu! Dá para acreditar?");
+	mes callfunc("F_LangText", "I trained with Shifu, fought bad guys, and saved the Valley of Peace. Oh, and I ate like a million dumplings!", "Entrené con Shifu, luché contra villanos y salvé el Valle de la Paz. ¡Ah, y comí como un millón de dumplings!", "Treinei com Shifu, lutei contra vilões e salvei o Vale da Paz. Ah, e comi uns milhões de dumplings!");
+	mes callfunc("F_LangText", "Pretty legendary, right?", "Bastante legendario, ¿verdad?", "Muito lendário, não acha?");
+	next;
+	mes "[Po]";
+	mes callfunc("F_LangText", "Thanks for listening! Here is a [Collab] Kung Fu Coin for being an awesome fan!", "¡Gracias por escuchar! ¡Aquí tienes una Moneda Kung Fu [Collab] por ser un fan increíble!", "Obrigado por ouvir! Aqui está uma Moeda Kung Fu [Collab] por ser um fã incrível!");
+	getitem 1001886, 1; // Gives 1 [Collab] Kung Fu Coin
+	setd "KungFuCoin_" + strcharinfo(0), gettime(DT_DAYOFYEAR); // Marks coin received for today
+	close;
+}
+
+prontera,147,170,5	script	Knuckles	22244,{
+	mes "[Knuckles]";
+	mes callfunc("F_LangText", "Hey there, speedster! Trade your Rings, Bookmarks, and Reading Cards for awesome Sonic-themed items!", "¡Hola, veloz! ¡Cambia tus anillos, marcadores y tarjetas de lectura por objetos increíbles de Sonic!", "Olá, velocista! Troque seus anéis, marcadores e cartões de leitura por itens incríveis do Sonic!");
+	mes callfunc("F_LangText", "What do you want to do?", "¿Qué quieres hacer?", "O que você deseja fazer?");
+	next;
+	switch(select(callfunc("F_LangText", "Open Shop", "Abrir tienda", "Abrir loja") + ":" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar"))) {
+		case 1:
+			close2; // Close dialog before opening shop
+			callshop "barter_knuckles", 1; // Open barter shop
+			end; // Stop script after opening shop
+		case 2:
+			mes "[Knuckles]";
+			mes callfunc("F_LangText", "Come back when you are ready to trade!", "¡Vuelve cuando estás listo para comerciar!", "Volte quando estiver pronto para negociar!");
+			close; // Properly close dialog
+	}
+}
+
+// NPC Script for LoVA Card Exchange
+// NPC Name: Robin
+
+prontera,147,174,5	script	Robin	4_4job_robin,{
+	mes "[Robin]";
+	mes callfunc("F_LangText", "Hello, adventurer! I am the exchanger for special LoVA cards.", "¡Hola, aventurero! Soy el encargado de cambiar cartas especiales de LoVA.", "Olá, aventureiro! Sou o responsável pela troca de cartas especiais de LoVA.");
+	mes callfunc("F_LangText", "You can trade 20 [Event] Phantom's Seal (ID: 25504) to obtain one of the following cards:", "Puedes cambiar 20 Sellos Fantasma [Evento] (ID: 25504) para obtener una de las siguientes cartas:", "Você pode trocar 20 Selos do Fantasma [Evento] (ID: 25504) para obter uma das seguintes cartas:");
+	next;
+	switch(select(callfunc("F_LangText", "Open Shop", "Abrir tienda", "Abrir loja") + ":" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar"))) {
+		case 1:
+			close2; // Close dialog before opening shop
+			callshop "barter_lova", 1; // Open barter shop
+			end; // Stop script after opening shop
+		case 2:
+			mes "[Robin]";
+			mes callfunc("F_LangText", "Alright, come back anytime if you want to exchange cards!", "De acuerdo, ¡vuelve cuando quieras cambiar cartas!", "Certo, volte quando quiser trocar cartas!");
+			close; // Properly close dialog
+	}
+}

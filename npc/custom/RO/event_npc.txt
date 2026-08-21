@@ -1,0 +1,16 @@
+casp_in01,178,276,4	script	Gatcha Girl	4_F_PINKWOMAN,{
+    mes callfunc("F_LangText", "[Gatcha Girl]", "[Chica Gatcha]", "[Garota Gatcha]");
+    mes callfunc("F_LangText", "Hello, I have something that might interest you. Care to check my stuff?", "Hola, tengo algo que puede interesarte. ¿Quieres ver mis objetos?", "Olá, tenho algo que pode interessar você. Quer ver meus itens?");
+    next;
+    switch(select(callfunc("F_LangText", "Open Shop", "Abrir tienda", "Abrir loja") + ":" + callfunc("F_LangText", "Cancel", "Cancelar", "Cancelar"))) {
+        case 1:
+            close2; // Tutup dialog sebelum membuka shop
+            callshop "gatcha_met", 1; // Membuka barter shop
+            end; //
+        case 2:
+            mes callfunc("F_LangText", "[Gatcha Girl]", "[Chica Gatcha]", "[Garota Gatcha]");
+            mes callfunc("F_LangText", "Come back when you're ready to trade!", "¡Vuelve cuando estés listo para comerciar!", "Volte quando estiver pronto para negociar!");
+            close; //
+    }
+}
+        

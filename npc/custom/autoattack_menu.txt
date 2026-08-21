@@ -1,0 +1,972 @@
+function	script	F_autoattacktoggle	{
+//10000 = 10 seconds
+#aa_duration = 28800000;
+goto(main_menu);
+close3;
+
+main_menu:
+	.@menu$ = callfunc("F_LangText", "[^FF7700AutoAttack Configuration^000000", "[^FF7700Configuración de AutoAttack^000000", "[^FF7700Configuração do AutoAttack^000000");
+    // Cutin exibido somente quando o AutoAttack esta desligado.
+	mes .@menu$;
+	if (!aa_getstate())
+		cutin "BotiAtivando.bmp",2;
+	mes callfunc("F_LangText", "^00AAFFHow it works^000000", "^00AAFFCómo funciona^000000", "^00AAFFComo funciona^000000");
+	mes callfunc("F_LangText", "Configure AutoAttack your way", "Configura el AutoAttack a tu manera", "Configure o AutoAttack do seu jeito");
+	mes callfunc("F_LangText", "or use normal mode with only", "o usa el modo normal con solo", "ou use o modo normal com apenas");
+	mes callfunc("F_LangText", "basic attacks.", "ataques básicos.", "ataques básicos.");
+	mes " ";
+	mes callfunc("F_LangText", "You can also activate ^00AAFFAFK mode^000000", "También puedes activar el modo ^00AAFFAFK^000000", "Você também pode ativar o modo ^00AAFFAFK^000000");
+	mes callfunc("F_LangText", "with AutoAttack enabled and keep farming", "con AutoAttack activado y seguir farmeando", "com o AutoAttack ligado e continuar farmando");
+	mes callfunc("F_LangText", "even after leaving the game.", "incluso después de salir del juego.", "mesmo após sair do jogo.");
+	next;
+	
+	if(!rentalcountitem(56330)){
+		mes callfunc("F_LangText", "You need an Auto-Combat Module to use this feature", "Necesitas un Módulo de Auto-Combate para usar esta función", "Você precisa de um Módulo de Auto-Combate para usar este recurso");
+		close;
+	}
+	
+	.@main_menu = select(aa_getstate()?callfunc("F_LangText", "[Stop]", "[Detener]", "[Parar]"):callfunc("F_LangText", "[Start]", "[Iniciar]", "[Iniciar]"),callfunc("F_LangText", "[Configuration]", "[Configuración]", "[Configuração]"),callfunc("F_LangText", "[AFK Mode]", "[Modo AFK]", "[Modo AFK]"),callfunc("F_LangText", "[Cancel]", "[Cancelar]", "[Cancelar]"));
+	switch(.@main_menu){
+		case 1:
+			if(aa_getstate())
+				sc_end SC_AUTOATTACK;
+			else
+				autoattack_fromitem(56330);
+			break;
+		case 2:
+			goto(config_menu);
+			break;
+		case 3:
+			atcommand "@afk";
+			break;
+		case 4:
+			// Cancel - mantido o comportamento original
+			break;
+	}
+	close3;
+
+config_menu:
+	clear;
+	.@menu$ = callfunc("F_LangText", "[AutoAttack Configuration]", "[Configuración de AutoAttack]", "[Configuração do AutoAttack]");
+	mes .@menu$;
+	mes callfunc("F_LangText", "Choose a category to adjust AutoAttack.", "Elige una categoría para ajustar el AutoAttack.", "Escolha uma categoria para ajustar o AutoAttack.");
+	mes callfunc("F_LangText", "Select Return when you want to go back.", "Selecciona Volver cuando quieras regresar.", "Selecione Voltar quando quiser retornar.");
+	
+	// To disable an option, comment the line
+	menu	callfunc("F_LangText", "Return", "Volver", "Voltar"),main_menu,
+				" ~ " + callfunc("F_LangText", "Regeneration", "Regeneración", "Regeneração"),regeneration_menu,
+				" ~ " + callfunc("F_LangText", "Attack Skills", "Habilidades de ataque", "Skills de ataque"),attackskills_menu,
+				" ~ " + callfunc("F_LangText", "Buff Skills", "Habilidades de buff", "Skills de buff"),buffskills_menu,
+				" ~ " + callfunc("F_LangText", "Buff Items", "Objetos de buff", "Itens de buff"),buffitems_menu,
+				" ~ " + callfunc("F_LangText", "Monster Selection", "Selección de monstruos", "Seleção de monstros"),monsters_menu,
+				" ~ " + callfunc("F_LangText", "Items Pickup Selection", "Selección de objetos", "Seleção de itens"),pickupitems_menu,
+				" ~ " + callfunc("F_LangText", "Teleport", "Teletransporte", "Teleporte"),teleport_menu,
+				" ~ " + callfunc("F_LangText", "Other configurations", "Otras configuraciones", "Outras configurações"),others_menu,
+				" ~ " + callfunc("F_LangText", "Reset all", "Restablecer todo", "Redefinir tudo"),reset_all;
+	close3;
+
+pickupitems_menu:
+	clear;
+	.@menu$ = "[Items Pickup Selection]";
+
+	mes .@menu$;
+	mes "Defina quais itens o personagem deve recolher.";
+	mes "Você pode escolher todos, uma lista ou nenhum.";
+	mes "--- Current configuration ---";
+	mes "Select the items to pick up";
+	mes aa_getautoattackstring(13,0);
+
+	.@pickupitems_menu = select("Pick up configuration","Add an item","Remove an item","Clear the list","[Cancel]");
+
+	switch(.@pickupitems_menu){
+		case 1:
+			.@pickup_config_choice = 0;
+			// every item = 0
+			// on the list = 1
+			// no item = 2
+			switch(aa_getautoattackint(9,0)){
+				case 0:
+					.@pickupitems_config_menu  = select("Pick up only items on the list","Don't pick up any item","[Cancel]");
+					switch(.@pickupitems_config_menu){
+						case 1:
+							.@pickup_config_choice = 1;
+							break;
+						case 2 :
+							.@pickup_config_choice = 2;
+							break;
+						case 3 :
+							goto(pickupitems_menu);
+							break;
+					}
+						
+					break;
+				case 1:
+					.@pickupitems_config_menu  = select("Pick up every items","Don't pick up any item","[Cancel]");
+					switch(.@pickupitems_config_menu){
+						case 1:
+							.@pickup_config_choice = 0;
+							break;
+						case 2 :
+							.@pickup_config_choice = 2;
+							break;
+						case 3 :
+							goto(pickupitems_menu);
+							break;
+					}
+					break;
+				case 2:
+					.@pickupitems_config_menu  = select("Pick up every items","Pick up only items on the list","[Cancel]");
+					switch(.@pickupitems_config_menu){
+						case 1:
+							.@pickup_config_choice = 0;
+							break;
+						case 2 :
+							.@pickup_config_choice = 1;
+							break;
+						case 3 :
+							goto(pickupitems_menu);
+							break;
+					}
+					break;				
+			}
+			aa_setautoattack("20;" + .@pickup_config_choice);
+			break;
+		case 2:
+			clear;
+			mes .@menu$;
+			mes "Enter the id of the item to add on the list (20 max)";
+			do {
+				input .@itempickup_id;
+			} while(.@itempickup_id < 1);
+
+			aa_setautoattack("21;1;" + .@itempickup_id);
+
+			break;
+		case 3:
+			if(aa_getautoattackint(17,0) > 0){
+				mes "Enter the id of the item to delete from the list";
+
+				do {
+					input .@itempickup_id;
+				} while(.@itempickup_id < 1);
+				aa_setautoattack("21;0;" + .@itempickup_id);
+			} else {
+				clear;
+				mes .@menu$;
+				mes "Sorry, you don't have any item of this list";
+				next;
+			}
+
+			break;
+		case 4:
+			aa_setautoattack("21;-1;0");
+			break;
+
+		case 5:
+			goto(config_menu);
+			break;
+	}
+
+	goto(pickupitems_menu);
+	close3;
+
+others_menu:
+	clear;
+	.@menu$ = "[Others configurations]";
+
+	mes .@menu$;
+	mes "Ajuste comportamentos extras do AutoAttack.";
+	mes "Use estas opções para personalizar sua rotina.";
+	//mes "--- Current configuration ---";
+	//mes aa_getautoattackstring(9,0);
+	//mes aa_getautoattackstring(8,0);
+	//mes aa_getautoattackstring(10,0);
+	//mes aa_getautoattackstring(11,0);
+
+	.@others_menu = select(
+	aa_getautoattackint(7,0)?"^008000(ON)^000000 Token of Siegfried":"^FF0000(OFF)^000000 Token of Siegfried"
+	,aa_getautoattackint(6,0)?"^008000(ON)^000000 Return to save point":"^FF0000(OFF)^000000 Return to save point"
+	,aa_getautoattackint(8,0)?"^008000(ON)^000000 Auto accept party request":"^FF0000(OFF)^000000 Auto accept party request"
+	,aa_getautoattackint(10,0)?"^008000(ON)^000000 Priorize loot over fight":"^FF0000(OFF)^000000 Priorize loot over fight"
+	,aa_getautoattackint(11,0)==1?"^FF0000(OFF)^000000 Melee attack":"^008000(ON)^000000 Melee attack"
+	,aa_getautoattackint(11,0)==2?"^008000(ON)^000000 Melee attack only when SP below 100sp":"^FF0000(OFF)^000000 Melee attack only when SP below 100sp"
+	,aa_getautoattackint(16,0)?"^008000(ON)^000000 Ignore aggressive monster if not in the list":"^FF0000(OFF)^000000 Ignore aggressive monster if not in the list"
+	,"Configure action when autoattack stop"
+	,"[Cancel]"
+	);
+	switch(.@others_menu){
+		case 1:
+			if(aa_getautoattackint(7,0))
+				aa_setautoattack("11;0");
+			else
+				aa_setautoattack("11;1");
+			break;
+		case 2:
+			if(aa_getautoattackint(6,0))
+				aa_setautoattack("9;0");
+			else
+				aa_setautoattack("9;1");
+			break;
+		case 3:
+			if(aa_getautoattackint(8,0))
+				aa_setautoattack("12;0");
+			else
+				aa_setautoattack("12;1");
+			break;
+		case 4:
+			if(aa_getautoattackint(10,0))
+				aa_setautoattack("13;0");
+			else
+				aa_setautoattack("13;1");
+			break;
+		case 5:
+			if(aa_getautoattackint(11,0) == 1)
+				aa_setautoattack("7;0");
+			else
+				aa_setautoattack("7;1");
+			break;
+		case 6:
+			if(aa_getautoattackint(11,0) == 2)
+				aa_setautoattack("7;0");
+			else
+				aa_setautoattack("7;2");
+			break;
+		case 7:
+			if(aa_getautoattackint(16,0))
+				aa_setautoattack("18;0");
+			else
+				aa_setautoattack("18;1");
+			break;
+		case 8:
+			goto(action_on_end_menu);
+			break;
+		case 9:
+			goto(config_menu);
+			break;
+	}
+	goto(others_menu);
+
+	close3;
+
+action_on_end_menu:
+	clear;
+	.@menu$ = "[Action when autoattack stop]";
+
+	mes .@menu$;
+	mes "--- Current configuration ---";
+	mes "Veja abaixo a configuração atual desta rotina.";
+	mes aa_getautoattackstring(4,0); // status hp sp
+
+	mes "Escolha o que acontecer? quando a rotina terminar.";
+	.@action_on_end_menu = select(
+	aa_getautoattackint(18,0) == 0?"^008000[x]^000000 Do nothing":"[ ] Do nothing"
+	,aa_getautoattackint(18,0) == 1?"^008000[x]^000000 Teleport to save point":"[ ] Teleport to save point"
+	,aa_getautoattackint(18,0) == 2?"^008000[x]^000000 Logout":"[ ] Logout"
+	,"[Cancel]"
+	);
+
+	switch(.@action_on_end_menu){
+		case 1:
+			if(aa_getautoattackint(18,0) != 0)
+				aa_setautoattack("22;0");
+			break;
+		case 2:
+			if(aa_getautoattackint(18,0) != 1)
+				aa_setautoattack("22;1");
+			break;
+		case 3:
+			if(aa_getautoattackint(18,0) != 2)
+				aa_setautoattack("22;2");
+			break;
+		case 4:
+			clear;
+			goto(others_menu);
+			break;
+	}
+
+	clear;
+	goto(others_menu);
+	close3;
+
+reset_all:
+	clear;
+	.@menu$ = "[Reset settings]";
+	mes .@menu$;
+	mes "Esta op??o restaura as configurações padrão.";
+	mes "Use somente se quiser começar novamente.";
+	
+	.@reset_menu = select("Confirm the reset of all settings","[Cancel]");
+
+	switch(.@reset_menu){
+		case 1:
+			aa_setautoattack("10;0");
+			break;
+	}
+
+	goto(config_menu);
+	close3;
+
+monsters_menu:
+	.@mobs_page = 0;
+
+monsters_menu_page:
+	clear;
+	.@menu$ = callfunc("F_LangText", "[Monster Selection]", "[Selección de monstruos]", "[Seleção de monstros]");
+
+	mes .@menu$;
+	mes callfunc("F_LangText", "Choose the monsters AutoAttack should not attack.", "Elige los monstruos que el AutoAttack no debe atacar.", "Escolha os monstros que o AutoAttack não deve atacar.");
+	mes callfunc("F_LangText", "The list only shows monsters from the current map.", "La lista solo muestra monstruos del mapa actual.", "A lista mostra apenas monstros do mapa atual.");
+	mes "--- Current configuration ---";
+	mes "Select here the monsters that you don't want to attack";
+	mes callfunc("F_LangText", "Only monsters currently spawned on this map are listed.", "Solo se muestran los monstruos que aparecen actualmente en este mapa.", "Somente monstros que aparecem atualmente neste mapa são listados.");
+	deletearray .@mobs_menu_ids;
+	.@mobs_menu_list$ = "";
+	mes aa_getautoattackstring(12,0,.@mobs_page);
+
+	.@mobs_total = .@mobs_menu_total;
+	.@mobs_page_size = .@mobs_menu_page_size;
+	.@mobs_count = getarraysize(.@mobs_menu_ids);
+	if(.@mobs_count > 0) .@mobs_count--;
+
+	if(.@mobs_count == 0){
+		clear;
+		mes .@menu$;
+		mes callfunc("F_LangText", "Sorry, there are no monsters on this map.", "Lo siento, no hay monstruos en este mapa.", "Desculpe, não h? monstros neste mapa.");
+		next;
+		goto(config_menu);
+	}
+
+	.@mobs_page_count = (.@mobs_total + .@mobs_page_size - 1) / .@mobs_page_size;
+	.@mobs_menu_list$ = "[Cancel]:" + .@mobs_menu_list$;
+	if(.@mobs_page > 0)
+		.@mobs_menu_list$ += ":[Previous Page]";
+	if(.@mobs_page + 1 < .@mobs_page_count)
+		.@mobs_menu_list$ += ":[Next Page]";
+
+	.@i = select(.@mobs_menu_list$);
+	if(.@i == 1)
+		goto(config_menu);
+
+	.@i--;
+	if(.@i <= .@mobs_count){
+		if(.@mobs_menu_state[.@mobs_menu_ids[.@i]])
+			aa_setautoattack("19;"+ .@mobs_menu_ids[.@i] + ";0");
+		else
+			aa_setautoattack("19;"+ .@mobs_menu_ids[.@i] + ";1");
+		goto(monsters_menu_page);
+	}
+
+	.@navigation_index = .@mobs_count + 1;
+	if(.@mobs_page > 0 && .@i == .@navigation_index){
+		.@mobs_page--;
+		goto(monsters_menu_page);
+	}
+	if(.@mobs_page + 1 < .@mobs_page_count && .@i == .@navigation_index + (.@mobs_page > 0)){
+		.@mobs_page++;
+		goto(monsters_menu_page);
+	}
+
+	goto(config_menu);
+	close3;
+
+teleport_menu:
+	clear;
+	.@menu$ = "[Teleport]";
+
+	mes .@menu$;
+	mes "--- Current configuration ---";
+	mes "Configure o teleporte para procurar segurança ou monstros.";
+	mes "Use estas opções para evitar ficar preso sem alvos.";
+	mes aa_getautoattackstring(6,0);
+
+	.@teleport_menu = select(
+	aa_getautoattackint(12,0)?"^FF0000(OFF)^000000 Enable fly wing to teleport":"^008000(ON)^000000 Enable fly wing to teleport"
+	,aa_getautoattackint(13,0)?"^FF0000(OFF)^000000 Enable teleport skill to teleport":"^008000(ON)^000000 Enable teleport skill to teleport"
+	,"Set the minimum HP value for emergency teleport"
+	,"Adjust the teleport delay if no monster is encountered within that time"
+	,"Adjust the max number of monster that can target you before being teleported"
+	,"[Cancel]"
+	);
+	
+	switch(.@teleport_menu){
+		case 1:
+			if(aa_getautoattackint(12,0))
+				aa_setautoattack("4;0");
+			else
+				aa_setautoattack("4;1");
+			break;
+		case 2:
+			if(aa_getautoattackint(13,0))
+				aa_setautoattack("6;0");
+			else
+				aa_setautoattack("6;1");
+			break;
+		case 3:
+			do {
+				clear;
+				mes .@menu$;
+				mes "Choose the minimum hp % for emergency teleport)";
+				mes "Min value is 5, Max value is 90 (0 to disable it)";
+				input .@teleport_minhpvalue;
+			} while(.@teleport_minhpvalue != 0 && (.@teleport_minhpvalue < 5 || .@teleport_minhpvalue > 90));
+			aa_setautoattack("16;"+.@teleport_minhpvalue);
+			break;
+		case 4:
+			do {
+				clear;
+				mes .@menu$;
+				mes "Adjust the teleport delay (in seconds) if no monster is encountered within that time";
+				mes "Min value is 2, Max value is 600 (0 to disable it)";
+				input .@teleport_delayvalue;
+			} while(.@teleport_delayvalue != 0 && (.@teleport_delayvalue < 2 || .@teleport_delayvalue > 600));
+			.@teleport_delayvalue = .@teleport_delayvalue * 1000;
+			aa_setautoattack("17;"+.@teleport_delayvalue);
+			break;
+		case 5:
+			do {
+				clear;
+				mes .@menu$;
+				mes "Adjust the max number of monster that can target you before being teleported";
+				mes "Max value is 30 (0 to disable it)";
+				input .@monster_surround;
+			} while(.@monster_surround != 0 && (.@monster_surround < 0 || .@monster_surround > 30));
+			aa_setautoattack("23;"+.@monster_surround);
+			break;
+		case 6:
+			goto(config_menu);
+			break;
+	}
+
+	goto(teleport_menu);
+	close3;
+
+regeneration_menu:
+	mes "Clear menu";
+	clear;
+	.@menu$ = "[Regeneration]";
+	
+	mes .@menu$;
+	mes "Configure cura, poções e descanso para manter o personagem ativo.";
+	menu		callfunc("F_LangText", "Return", "Volver", "Voltar"),config_menu,
+			" ~ Auto-Heal",heal_menu,
+			" ~ HP / SP Potions",potion_menu,
+			" ~ Sit to Rest",sit_regen_menu;
+	close3;
+
+heal_menu:
+	clear;
+	.@menu$ = "[Auto-Heal]";
+
+	mes .@menu$;
+	mes "--- Current configuration ---";
+	mes "You can add / modify or remove the following skills";
+	mes "Escolha quando o AutoAttack deve usar habilidades de cura.";
+	setarray .@lheal_skill[0],28,2051,2043;
+
+	.@healskill_menu1$ = "";
+	.@j = 0;
+	
+	// Check if the player have the skills
+	for (.@i = 0; .@i < getarraysize(.@lheal_skill); .@i++){
+		if(getskilllv(.@lheal_skill[.@i]))
+			.@lheal_skill2[.@j++] = .@lheal_skill[.@i];
+	}
+
+	if(getarraysize(.@lheal_skill2) == 0){
+		clear;
+		mes .@menu$;
+		mes "Sorry, you don't have any kind of heal skills allowed";
+		next;
+		goto(regeneration_menu);
+	}
+
+	for (.@i = 0; .@i < getarraysize(.@lheal_skill2); .@i++)
+		.@healskill_menu1$ = .@healskill_menu1$ + (.@i > 0 ? ":" : "") + aa_getautoattackstring(0,.@lheal_skill2[.@i],1);
+
+	.@i = select(.@healskill_menu1$) -1;
+
+	if(.@skill_menu_state[.@lheal_skill2[.@i]]){
+		.@heal_menu = select("Modify","Disable","[Cancel]");
+		switch(.@heal_menu){
+			case 1 :
+				do{
+					clear;
+					mes .@menu$;
+					mes "Choose the skill lv to use";
+					mes "Max lv : " + getskilllv(.@lheal_skill2[.@i]);
+					mes "";
+					mes "Current configuration : ";
+					mes aa_getautoattackstring(0,.@lheal_skill2[.@i],0);
+					input .@heal_skilllv;
+				} while(.@heal_skilllv < 1 || .@heal_skilllv > getskilllv(.@lheal_skill2[.@i]));
+
+				do {
+					clear;
+					mes .@menu$;
+					mes "Choose the value of HP % to use the skill (ex : 10 to use skill if hp are below 10%)";
+					mes "Min value is 5, Max value is 90";
+					input .@heal_minhpvalue;
+				} while(.@heal_minhpvalue < 5 || .@heal_minhpvalue > 90);
+
+
+				aa_setautoattack("0;1;"+ .@lheal_skill2[.@i] + ";" + .@heal_skilllv + ";" + .@heal_minhpvalue);
+				break;
+
+				goto(heal_menu);
+				break;
+			case 2:
+				aa_setautoattack("0;0;"+ .@lheal_skill[.@i] + ";0;0");
+				goto(heal_menu);
+				break;
+			case 3:
+				goto(heal_menu);
+				break;
+		}
+	} else {
+		.@heal_menu = select("Enable","[Cancel]");
+		switch(.@heal_menu){
+			case 1 :
+				do{
+					clear;
+					mes .@menu$;
+					mes "Choose the skill lv to use";
+					mes "Max lv : " + getskilllv(.@lheal_skill2[.@i]);
+					mes "";
+					mes "Current configuration : ";
+					mes aa_getautoattackstring(0,.@lheal_skill2[.@i],0);
+					input .@heal_skilllv;
+				} while(.@heal_skilllv < 1 || .@heal_skilllv > getskilllv(.@lheal_skill2[.@i]));
+
+				do {
+					clear;
+					mes .@menu$;
+					mes "Choose the value of HP % to use the skill (ex : 10 to use skill if hp are below 10%)";
+					mes "Min value is 5, Max value is 90";
+					input .@heal_minhpvalue;
+				} while(.@heal_minhpvalue < 5 || .@heal_minhpvalue > 90);
+
+				aa_setautoattack("0;1;"+ .@lheal_skill2[.@i] + ";" + .@heal_skilllv + ";" + .@heal_minhpvalue);
+				break;
+
+				goto(heal_menu);
+				break;
+			case 2:
+				goto(heal_menu);
+				break;
+		}
+	}
+
+	goto(heal_menu);
+	close3;
+
+potion_menu:
+	clear;
+	.@menu$ = "[HP / SP Potions]";
+	mes .@menu$;
+	mes "--- Current configuration ---";
+	mes "Defina quais poções serão usadas e em qual condi??o.";
+	mes "You can add / modify or remove the following potion";
+	
+	//deletearray .@potion_menu_ids;
+	//deletearray .@potion_menu_state;
+	//deletearray .@potion_menu_list$;
+	setarray .@lpotion_disable_list[0],14875,14876;
+	mes aa_getautoattackstring(1,0);
+	
+	if(getarraysize(.@potion_menu_ids) == 0){
+		clear;
+		mes .@menu$;
+		mes "Sorry, you don't have any kind of heal items";
+		next;
+		goto(regeneration_menu);
+	}
+	
+	.@potion_menu_list$ = "[Cancel]:" + .@potion_menu_list$;
+	.@i = select( .@potion_menu_list$ );
+
+	if(.@i == 1)
+		goto(regeneration_menu);
+	else
+		.@i--;
+	
+	if(.@potion_menu_state[.@potion_menu_ids[.@i]]){
+		// Check if the selected the potion
+		for (.@j = 0; .@j < getarraysize(.@lpotion_disable_list); .@j++){
+			if(.@potion_menu_ids[.@i] == .@lpotion_disable_list[.@j]){
+				mes "You can't select that item. it has been disabled by GM on autoattack";
+				next;
+				goto(potion_menu);
+			}
+		}
+	
+		.@potion_menu2 = select("Modify","Disable","[Cancel]");
+		switch(.@potion_menu2){
+			case 1:
+				do {
+					clear;
+					mes .@menu$;
+					mes "Choose the value of HP % to use the consumable (ex : 10 to use it if hp are below 10%)";
+					mes "Min value is 5, Max value is 90 (0 to disable it)";
+					input .@potion_minhpvalue;
+				} while(.@potion_minhpvalue != 0 && (.@potion_minhpvalue < 5 || .@potion_minhpvalue > 90));
+
+				do {
+					clear;
+					mes .@menu$;
+					mes "Choose the value of SP % to use the consumable (ex : 10 to use it if sp are below 10%)";
+					mes "Min value is 5, Max value is 90 (0 to disable it)";
+					input .@potion_minspvalue;
+				} while(.@potion_minspvalue != 0 && (.@potion_minspvalue < 5 || .@potion_minspvalue > 90));
+
+				aa_setautoattack("1;1;"+ .@potion_menu_ids[.@i] + ";" + .@potion_minhpvalue + ";" + .@potion_minspvalue);
+				goto(potion_menu);
+				break;
+			case 2:
+				aa_setautoattack("1;0;"+ .@potion_menu_ids[.@i] + ";0;0");
+				goto(potion_menu);
+				break;
+			case 3:
+				goto(potion_menu);
+				break;
+		}
+	}
+	else{
+		.@potion_menu2 = select("Add","[Cancel]");
+		switch(.@potion_menu2){
+			case 1:
+				do {
+					clear;
+					mes .@menu$;
+					mes "Choose the value of HP % to use the consumable (ex : 10 to use it if hp are below 10%)";
+					mes "Min value is 5, Max value is 90 (0 to disable it)";
+					input .@potion_minhpvalue;
+				} while(.@potion_minhpvalue != 0 && (.@potion_minhpvalue < 5 || .@potion_minhpvalue > 90));
+
+				do {
+					clear;
+					mes .@menu$;
+					mes "Choose the value of SP % to use the consumable (ex : 10 to use it if sp are below 10%)";
+					mes "Min value is 5, Max value is 90 (0 to disable it)";
+					input .@potion_minspvalue;
+				} while(.@potion_minspvalue != 0 && (.@potion_minspvalue < 5 || .@potion_minspvalue > 90));
+
+				aa_setautoattack("1;1;"+ .@potion_menu_ids[.@i] + ";" + .@potion_minhpvalue + ";" + .@potion_minspvalue);
+				goto(potion_menu);
+				break;
+			case 2:
+				goto(potion_menu);
+				break;
+		}
+	}
+	
+	goto(regeneration_menu);
+	close3;
+
+attackskills_menu:
+	.@skill_page = 0;
+
+attackskills_page:
+	clear;
+	.@menu$ = callfunc("F_LangText", "[Attack Skills]", "[Habilidades de ataque]", "[Skills de ataque]");
+
+	mes .@menu$;
+	mes callfunc("F_LangText", "Choose the skills used by this routine.", "Elige las habilidades usadas por esta rutina.", "Escolha as habilidades usadas nesta rotina.");
+	mes "--- Current configuration ---";
+	mes "You can add / modify or remove the following skills";
+	mes callfunc("F_LangText", "Only learned skills from the 1st, 2nd and 3rd class trees are listed.", "Solo se muestran habilidades aprendidas de las clases 1?, 2? y 3?.", "Somente skills aprendidas das árvores de 1?, 2? e 3? classe são listadas.");
+	deletearray .@skill_menu_ids;
+	.@skill_menu_list$ = "";
+	mes aa_getautoattackstring(2,0,.@skill_page);
+
+	.@skill_total = .@skill_menu_total;
+	.@skill_page_size = .@skill_menu_page_size;
+	.@skill_count = getarraysize(.@skill_menu_ids);
+	if(.@skill_count > 0) .@skill_count--;
+
+	if(.@skill_count == 0){
+		clear;
+		mes .@menu$;
+		mes callfunc("F_LangText", "Sorry, you do not have any attack skills available.", "Lo siento, no tienes habilidades de ataque disponibles.", "Desculpe, você não possui skills de ataque disponíveis.");
+		next;
+		goto(config_menu);
+	}
+
+	.@skill_page_count = (.@skill_total + .@skill_page_size - 1) / .@skill_page_size;
+	.@skill_menu_list$ = "[Cancel]:" + .@skill_menu_list$;
+	if(.@skill_page > 0)
+		.@skill_menu_list$ += ":[Previous Page]";
+	if(.@skill_page + 1 < .@skill_page_count)
+		.@skill_menu_list$ += ":[Next Page]";
+
+	.@i = select(.@skill_menu_list$);
+	if(.@i == 1)
+		goto(config_menu);
+	.@i--;
+
+	if(.@i <= .@skill_count){
+		if(.@skill_menu_state[.@skill_menu_ids[.@i]]){
+			.@skill_menu2 = select("Modify","Disable","[Cancel]");
+			switch(.@skill_menu2){
+				case 1:
+					do{
+						clear;
+						mes .@menu$;
+						mes "Choose the skill lv to use";
+						mes "Max lv : " + getskilllv(.@skill_menu_ids[.@i]);
+						mes "";
+						mes "Current configuration : ";
+						mes aa_getautoattackstring(2,.@skill_menu_ids[.@i],1);
+						input .@attack_skilllv;
+					} while(.@attack_skilllv < 1 || .@attack_skilllv > getskilllv(.@skill_menu_ids[.@i]));
+					aa_setautoattack("2;1;"+ .@skill_menu_ids[.@i] + ";" + .@attack_skilllv);
+					goto(attackskills_page);
+				case 2:
+					aa_setautoattack("2;0;"+ .@skill_menu_ids[.@i] + ";0");
+					goto(attackskills_page);
+				case 3:
+					goto(attackskills_page);
+			}
+		}
+		else{
+			.@skill_menu2 = select("Add","[Cancel]");
+			switch(.@skill_menu2){
+				case 1:
+					do{
+						clear;
+						mes .@menu$;
+						mes "Choose the skill lv to use";
+						mes "Max lv : " + getskilllv(.@skill_menu_ids[.@i]);
+						mes "";
+						mes "Current configuration : ";
+						mes aa_getautoattackstring(2,.@skill_menu_ids[.@i],1);
+						input .@attack_skilllv;
+					} while(.@attack_skilllv < 1 || .@attack_skilllv > getskilllv(.@skill_menu_ids[.@i]));
+					aa_setautoattack("2;1;"+ .@skill_menu_ids[.@i] + ";" + .@attack_skilllv);
+					goto(attackskills_page);
+				case 2:
+					goto(attackskills_page);
+			}
+		}
+	}
+	else{
+		.@navigation_index = .@skill_count + 1;
+		if(.@skill_page > 0 && .@i == .@navigation_index){
+			.@skill_page--;
+			goto(attackskills_page);
+		}
+		if(.@skill_page + 1 < .@skill_page_count && .@i == .@navigation_index + (.@skill_page > 0)){
+			.@skill_page++;
+			goto(attackskills_page);
+		}
+	}
+
+	goto(config_menu);
+	close3;
+
+buffskills_menu:
+	.@skill_page = 0;
+
+buffskills_page:
+	clear;
+	.@menu$ = callfunc("F_LangText", "[Buff Skills]", "[Habilidades de buff]", "[Skills de buff]");
+
+	mes .@menu$;
+	mes callfunc("F_LangText", "Choose the skills used by this routine.", "Elige las habilidades usadas por esta rutina.", "Escolha as habilidades usadas nesta rotina.");
+	mes "--- Current configuration ---";
+	mes "You can add / modify or remove the following skills";
+	mes callfunc("F_LangText", "Only learned skills from the 1st, 2nd and 3rd class trees are listed.", "Solo se muestran habilidades aprendidas de las clases 1?, 2? y 3?.", "Somente skills aprendidas das árvores de 1?, 2? e 3? classe são listadas.");
+	deletearray .@skill_menu_ids;
+	.@skill_menu_list$ = "";
+	mes aa_getautoattackstring(3,0,.@skill_page);
+
+	.@skill_total = .@skill_menu_total;
+	.@skill_page_size = .@skill_menu_page_size;
+	.@skill_count = getarraysize(.@skill_menu_ids);
+	if(.@skill_count > 0) .@skill_count--;
+
+	if(.@skill_count == 0){
+		clear;
+		mes .@menu$;
+		mes callfunc("F_LangText", "Sorry, you do not have any buff skills available.", "Lo siento, no tienes habilidades de buff disponibles.", "Desculpe, você não possui skills de buff disponíveis.");
+		next;
+		goto(config_menu);
+	}
+
+	.@skill_page_count = (.@skill_total + .@skill_page_size - 1) / .@skill_page_size;
+	.@skill_menu_list$ = "[Cancel]:" + .@skill_menu_list$;
+	if(.@skill_page > 0)
+		.@skill_menu_list$ += ":[Previous Page]";
+	if(.@skill_page + 1 < .@skill_page_count)
+		.@skill_menu_list$ += ":[Next Page]";
+
+	.@i = select(.@skill_menu_list$);
+	if(.@i == 1)
+		goto(config_menu);
+	.@i--;
+
+	if(.@i <= .@skill_count){
+		if(.@skill_menu_state[.@skill_menu_ids[.@i]]){
+			.@skill_menu2 = select("Modify","Disable","[Cancel]");
+			switch(.@skill_menu2){
+				case 1:
+					do{
+						clear;
+						mes .@menu$;
+						mes "Choose the skill lv to use";
+						mes "Max lv : " + getskilllv(.@skill_menu_ids[.@i]);
+						mes "";
+						mes "Current configuration : ";
+						mes aa_getautoattackstring(3,.@skill_menu_ids[.@i],1);
+						input .@buff_skilllv;
+					} while(.@buff_skilllv < 1 || .@buff_skilllv > getskilllv(.@skill_menu_ids[.@i]));
+					aa_setautoattack("3;1;"+ .@skill_menu_ids[.@i] + ";" + .@buff_skilllv);
+					goto(buffskills_page);
+				case 2:
+					aa_setautoattack("3;0;"+ .@skill_menu_ids[.@i] + ";0");
+					goto(buffskills_page);
+				case 3:
+					goto(buffskills_page);
+			}
+		}
+		else{
+			.@skill_menu2 = select("Add","[Cancel]");
+			switch(.@skill_menu2){
+				case 1:
+					do{
+						clear;
+						mes .@menu$;
+						mes "Choose the skill lv to use";
+						mes "Max lv : " + getskilllv(.@skill_menu_ids[.@i]);
+						mes "";
+						mes "Current configuration : ";
+						mes aa_getautoattackstring(3,.@skill_menu_ids[.@i],1);
+						input .@buff_skilllv;
+					} while(.@buff_skilllv < 1 || .@buff_skilllv > getskilllv(.@skill_menu_ids[.@i]));
+					aa_setautoattack("3;1;"+ .@skill_menu_ids[.@i] + ";" + .@buff_skilllv);
+					goto(buffskills_page);
+				case 2:
+					goto(buffskills_page);
+			}
+		}
+	}
+	else{
+		.@navigation_index = .@skill_count + 1;
+		if(.@skill_page > 0 && .@i == .@navigation_index){
+			.@skill_page--;
+			goto(buffskills_page);
+		}
+		if(.@skill_page + 1 < .@skill_page_count && .@i == .@navigation_index + (.@skill_page > 0)){
+			.@skill_page++;
+			goto(buffskills_page);
+		}
+	}
+
+	goto(config_menu);
+	close3;
+
+buffitems_menu:
+	clear;
+	.@menu$ = "[Buff Items]";
+
+	mes .@menu$;
+	mes "--- Current configuration ---";
+	mes "Escolha os itens de buff usados automaticamente.";
+	setarray .@lbuff_item[0],645,656,657,12208,12210;
+	setarray .@lbuff_sc[0],SC_ASPDPOTION0,SC_ASPDPOTION1,SC_ASPDPOTION2,SC_EXPBOOST,SC_ITEMBOOST;
+	.@buffitems_menu1$ = "";
+	
+	for (.@i = 0; .@i < getarraysize(.@lbuff_item); .@i++)
+		.@buffitems_menu1$ = .@buffitems_menu1$ + (.@i > 0 ? ":" : "") + aa_getautoattackstring(5,.@lbuff_item[.@i]);
+
+
+	.@buffitems_menu1$ = "[Cancel]:" + .@buffitems_menu1$;
+	.@i = select(.@buffitems_menu1$) -1;
+
+	if(.@i == 0)
+		goto(config_menu);
+	else
+		.@i--;
+	
+	.@buffitems_menu = select(.@buffitem_menu_state[.@lbuff_item[.@i]] ? "Disable" : "Enable","[Cancel]");
+	if( .@buffitems_menu == 1 ){
+		if(.@buffitem_menu_state[.@lbuff_item[.@i]])
+			aa_setautoattack("5;0;"+ .@lbuff_item[.@i] + ";" + .@lbuff_sc[.@i]);
+		else
+			aa_setautoattack("5;1;"+ .@lbuff_item[.@i] + ";" + .@lbuff_sc[.@i]);
+		goto(buffitems_menu);
+	}
+	else if( .@buffitems_menu == 2 ){
+		aa_setautoattack("5;0;"+ .@lbuff_item[.@i] + ";0");
+		goto(buffitems_menu);
+	}
+	
+	goto(config_menu);
+	close3;
+
+sit_regen_menu:
+	clear;
+	.@menu$ = "[Sit to Rest]";
+
+	mes .@menu$;
+	mes "--- Current configuration ---";
+	mes "Veja abaixo a configuração atual desta rotina.";
+	mes aa_getautoattackstring(4,0); // status hp sp
+
+	mes "Escolha quando o personagem deve sentar para recuperar HP ou SP.";
+	.@sit_regen_menu = select(
+	aa_getautoattackint(14,0) == 1?"^008000(ON)^000000 Sit if HP < 75%":"^FF0000(OFF)^000000 Sit if HP < 75%"
+	,aa_getautoattackint(14,0) == 2?"^008000(ON)^000000 Sit if HP < 50%":"^FF0000(OFF)^000000 Sit if HP < 50%"
+	,aa_getautoattackint(14,0) == 3?"^008000(ON)^000000 Sit if HP < 25%":"^FF0000(OFF)^000000 Sit if HP < 25%"
+	,aa_getautoattackint(15,0) == 1?"^008000(ON)^000000 Sit if SP < 75%":"^FF0000(OFF)^000000 Sit if SP < 75%"
+	,aa_getautoattackint(15,0) == 2?"^008000(ON)^000000 Sit if SP < 50%":"^FF0000(OFF)^000000 Sit if SP < 50%"
+	,aa_getautoattackint(15,0) == 3?"^008000(ON)^000000 Sit if SP < 25%":"^FF0000(OFF)^000000 Sit if SP < 25%"
+	,"[Cancel]"
+	);
+
+	switch(.@sit_regen_menu){
+		case 1:
+			if(aa_getautoattackint(14,0) == 1)
+				aa_setautoattack("14;0;0");
+			else
+				aa_setautoattack("14;75;100");
+			break;
+		case 2:
+			if(aa_getautoattackint(14,0) == 2)
+				aa_setautoattack("14;0;0");
+			else
+				aa_setautoattack("14;50;100");
+			break;
+		case 3:
+			if(aa_getautoattackint(14,0) == 3)
+				aa_setautoattack("14;0;0");
+			else
+				aa_setautoattack("14;25;100");
+			break;
+		case 4:
+			if(aa_getautoattackint(15,0) == 1)
+				aa_setautoattack("15;0;0");
+			else
+				aa_setautoattack("15;75;100");
+			break;
+		case 5:
+			if(aa_getautoattackint(15,0) == 2)
+				aa_setautoattack("15;0;0");
+			else
+				aa_setautoattack("15;50;100");
+			break;
+		case 6:
+			if(aa_getautoattackint(15,0) == 3)
+				aa_setautoattack("15;0;0");
+			else
+				aa_setautoattack("15;25;100");
+			break;
+		case 7:
+			clear;
+			goto(regeneration_menu);
+			break;
+	}
+
+	clear;
+	goto(sit_regen_menu);
+	close3;
+}

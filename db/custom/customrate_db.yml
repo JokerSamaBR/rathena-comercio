@@ -1,0 +1,111 @@
+Header:
+  Type: CUSTOM_RATE_DB
+  Version: 1
+
+Body:
+  # Temporada 1x: 30 dias e conta mesmo com o personagem offline.
+  # As recompensas de marco sao entregues uma unica vez por personagem.
+  - Id: 1
+    Name: "Temporada 1x"
+    BaseRate: 1
+    JobRate: 1
+    DropRate: 60
+    Effect: 0
+    TimeLimit: "+30d"
+    FirstTimeReward:
+      - ItemId: 59198
+        Amount: 1
+      - ItemId: 100029
+        Amount: 1
+    Script: |
+      if (BaseLevel >= 99 && JobLevel >= 70 && !SEASON_1_REWARD_LV99) {
+        getitem 56331, 1;
+        getitem 32742, 1;
+        SEASON_1_REWARD_LV99 = 1;
+      }
+      if (BaseLevel >= 175 && JobLevel >= 60 && !SEASON_1_REWARD_LV175) {
+        getitem 56329, 1;
+        getitem 32743, 1;
+        SEASON_1_REWARD_LV175 = 1;
+      }
+      if (BaseLevel >= 200 && JobLevel >= 60 && !SEASON_1_REWARD_LV200) {
+        getitem 55017, 2;
+        getitem 56329, 1;
+        getitem 32744, 1;
+        SEASON_1_REWARD_LV200 = 1;
+      }
+      if (BaseLevel >= 275 && JobLevel >= 60 && !SEASON_1_REWARD_LV275) {
+        getitem 55017, 2;
+        getitem 56329, 1;
+        set #CASHPOINTS, #CASHPOINTS + 50000;
+        dispbottom "Temporada: voce recebeu 50.000 Cash.";
+        SEASON_1_REWARD_LV275 = 1;
+      }
+    ScriptEnd: |
+      dispbottom "Temporada 1x encerrada. Seus bonus sazonais foram removidos e a rate normal foi restaurada.";
+
+  # Rate normal permanente. Mantem o bonus historico de drop do sistema antigo.
+  - Id: 2
+    Name: "Rate Normal 1x"
+    BaseRate: 1
+    JobRate: 1
+    DropRate: 50
+    Effect: 0
+    TimeLimit: "0"
+    BonusScript: |
+      {
+        if (BaseLevel >= 275 && JobLevel >= 60) {
+          bonus bAllStats, 5;
+          bonus2 bDropAddRace, RC_All, 10;
+        }
+      }
+
+  # Rate 25x.
+  - Id: 3
+    Name: "Rate 25x"
+    BaseRate: 25
+    JobRate: 25
+    DropRate: 25
+    Effect: 0
+    TimeLimit: "0"
+    FirstTimeReward:
+      - ItemId: 59198
+        Amount: 1
+    BonusScript: |
+      {
+        if (BaseLevel >= 275 && JobLevel >= 60) {
+          bonus bAllStats, 3;
+          bonus2 bDropAddRace, RC_All, 5;
+        }
+      }
+
+  # Rate 50x.
+  - Id: 4
+    Name: "Rate 50x"
+    BaseRate: 50
+    JobRate: 50
+    DropRate: 10
+    Effect: 0
+    TimeLimit: "0"
+    FirstTimeReward:
+      - ItemId: 59198
+        Amount: 1
+    BonusScript: |
+      {
+        if (BaseLevel >= 275 && JobLevel >= 60) {
+          bonus bAllStats, 1;
+          bonus2 bDropAddRace, RC_All, 3;
+        }
+      }
+
+  # Rate 100x.
+  - Id: 5
+    Name: "Rate 100x"
+    BaseRate: 100
+    JobRate: 100
+    DropRate: 5
+    Effect: 0
+    TimeLimit: "0"
+    FirstTimeReward:
+      - ItemId: 59198
+        Amount: 1

@@ -1,0 +1,7 @@
+//Grademk Warp
+grademk,50,180,0	warp	keruang	1,1,grademk,92,178
+grademk,89,178,0	warp	kepintu	1,1,grademk,48,179
+grademk,135,156,0	warp	masuk	1,1,grademk,171,166
+grademk,167,165,0	warp	masuk2	1,1,grademk,131,156
+grademk,183,178,0	warp	masuk3	1,1,grademk,98,14
+grademk,98,6,0	warp	masuk4	1,1,grademk,183,175

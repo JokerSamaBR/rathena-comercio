@@ -1,0 +1,219 @@
+icas_in,138,183,108,0	warp	out_icas	1,1,icecastle,208,168
+icas_in,85,257,108,0	warp	in_icas_room_L	1,1,icas_in,49,258
+icas_in,53,258,108,0	warp	out_icas_romm_L	1,1,icas_in,89,257
+icas_in,193,257,108,0	warp	in_icas_room_R	1,1,icas_in,226,258
+icas_in,222,258,108,0	warp	out_icas_romm_R	1,1,icas_in,189,257
+icas_in,83,233,108,0	warp	in_dining	1,1,icas_in,25,169
+icas_in,25,166,108,0	warp	out_dining	1,1,icas_in,83,229
+icas_in,193,233,108,0	warp	in_bedroom	1,1,icas_in,253,169
+icas_in,253,166,108,0	warp	icas_in99	1,1,icas_in,193,229
+icas_in,108,29,108,0	warp	out_barracks	1,1,icecastle,186,218
+icas_in,92,60,108,0	warp	in_barracks_L	1,1,icas_in,56,60
+icas_in,59,60,108,0	warp	out_barracks_L	1,1,icas_in,95,60
+icas_in,125,60,108,0	warp	in_barracks_R	1,1,icas_in,161,60
+icas_in,158,60,108,0	warp	out_barracks_R	1,1,icas_in,122,60
+icas_in,243,33,108,0	warp	out_restaurant	1,1,icecastle,123,168
+icas_in,85,109,108,0	warp	out_house2	1,1,icecastle,67,222
+icas_in,138,109,108,0	warp	out_house3	1,1,icecastle,88,238
+icas_in,191,109,108,0	warp	out_house4	1,1,icecastle,159,241
+icas_in,249,109,108,0	warp	out_house5	1,1,icecastle,62,134
+icas_in,33,109,108,0	warp	out_house1	1,1,icecastle,60,211
+icas_in2,109,29,108,0	warp	in2_out	1,1,icecastle,227,158
+icas_in2,125,60,108,0	warp	ente_in2_right	1,1,icas_in2,163,60
+icas_in2,159,60,108,0	warp	out_in2_right	1,1,icas_in2,121,60
+icas_in2,92,60,108,0	warp	ente_in2_left	1,1,icas_in2,56,60
+icas_in2,59,60,108,0	warp	out_in2_left	1,1,icas_in2,96,60
+icas_in2,250,109,108,0	warp	out_icasin2_room5	1,1,icecastle,160,203
+icas_in2,33,109,108,0	warp	20ms64	1,1,icecastle,51,164
+icecastle,17,123,108,0	warp	to_jor_back1	1,1,jor_back1,380,229
+icecastle,213,175,108,0	warp	to_icas_in	1,1,icas_in,138,187
+icecastle,186,222,108,0	warp	in_barracks	1,1,icas_in,108,32
+icecastle,124,171,108,0	warp	in_restaurant	1,1,icas_in,243,36
+icecastle,62,223,108,0	warp	in_house2	1,1,icas_in,85,112
+icecastle,88,241,108,0	warp	in_house3	1,1,icas_in,138,112
+icecastle,159,243,108,0	warp	in_house4	1,1,icas_in,191,112
+icecastle,62,137,108,0	warp	in_house5	1,1,icas_in,249,112
+icecastle,59,213,108,0	warp	in_house1	1,1,icas_in,33,112
+icecastle,230,160,108,0	warp	enter_in2	1,1,icas_in2,109,32
+icecastle,157,206,108,0	warp	enter_icasin2_room5	1,1,icas_in2,248,112
+jalbe_in,65,130,108,0	warp	ep21_wh01_to_albe	1,1,jor_albe,87,216
+jalbe_in,73,141,108,0	warp	ep21_wh02_to_albe	1,1,jor_albe,96,237
+jalbe_in,65,153,108,0	warp	ep21_wh_to_room	1,1,jalbe_in,65,173
+jalbe_in,65,170,108,0	warp	ep21_room_to_wh	1,1,jalbe_in,65,150
+jalbe_in,79,43,108,0	warp	ep21_market_to_albe	1,1,jor_albe,118,145
+jalbe_in,63,57,108,0	warp	ep21_market_to_wroom1	1,1,jalbe_in,23,57
+jalbe_in,23,54,108,0	warp	ep21_wroom1_to_market	1,1,jalbe_in,63,54
+jalbe_in,63,30,108,0	warp	ep21_market_to_wroom2	1,1,jalbe_in,65,110
+jalbe_in,65,113,108,0	warp	ep21_wroom2_to_market	1,1,jalbe_in,63,33
+jalbe_in,14,141,108,0	warp	ep21_inn_to_albe	1,1,jor_albe,69,138
+jalbe_in,21,153,108,0	warp	ep21_inn_to_room1	1,1,jalbe_in,21,173
+jalbe_in,21,170,108,0	warp	ep21_room1_to_inn	1,1,jalbe_in,21,150
+jalbe_in,21,130,108,0	warp	ep21_inn_to_room2	1,1,jalbe_in,21,110
+jalbe_in,21,113,108,0	warp	ep21_room2_to_inn	1,1,jalbe_in,21,133
+jalbe_in,23,33,108,0	warp	ep21_house1_to_albe	1,1,jor_albe,200,104
+jalbe_in,114,50,108,0	warp	ep21_house2_to_albe	1,1,jor_albe,63,237
+jalbe_in,114,98,108,0	warp	ep21_house3_to_albe	1,1,jor_albe,110,88
+jor_ab01,113,7,108,0	warp	to_jor_back2	1,1,jor_back2,261,313
+//jor_ab01,8,238,108,0	warp	to_jor_ab02	1,1,jor_ab02,281,87
+jor_ab02,286,87,108,0	warp	to_jor_ab01	1,1,jor_ab01,12,238
+jor_albe,86,219,108,0	warp	ep21_albe_to_wh01	1,1,jalbe_in,65,133
+jor_albe,93,237,108,0	warp	ep21_albe_to_wh02	1,1,jalbe_in,70,141
+jor_albe,114,145,108,0	warp	ep21_albe_to_market	1,1,jalbe_in,76,43
+jor_albe,72,138,108,0	warp	ep21_albe_to_inn	1,1,jalbe_in,17,141
+jor_albe,197,101,108,0	warp	ep21_albe_to_house1	1,1,jalbe_in,23,30
+jor_albe,66,237,108,0	warp	ep21_albe_to_house2	1,1,jalbe_in,117,50
+jor_albe,113,87,108,0	warp	ep21_albe_to_house3	1,1,jalbe_in,117,98
+jor_back1,98,10,108,0	warp	to_tail_1	1,1,jor_tail,98,284
+jor_back1,131,10,108,0	warp	to_tail_2	1,1,jor_tail,139,280
+jor_back1,222,19,108,0	warp	to_tail_3	1,1,jor_tail,219,291
+jor_back1,385,229,108,0	warp	to_icecastle	1,1,icecastle,20,123
+jor_back1,214,390,108,0	warp	to_jor_back2-2	1,1,jor_back2,229,17
+jor_back2,229,12,108,0	warp	to_jor_back1-2	1,1,jor_back1,214,387
+jor_back2,9,248,108,0	warp	to_jor_back3-2	1,1,jor_back3,364,245
+jor_back2,256,313,108,0	warp	to_jor_ab01-2	1,1,jor_ab01,113,10
+jor_back3,368,245,108,0	warp	to_jor_back2-3	1,1,jor_back2,13,248
+jor_back3,63,326,108,0	warp	to_jor_dun01	1,1,jor_dun01,113,10
+jor_back3,159,365,108,0	warp	back3_to_back4	1,1,jor_back4,273,19
+jor_back4,277,16,108,0	warp	back4_to_back3	1,1,jor_back3,159,360
+jor_back4,6,374,108,0	warp	back4_to_back5	1,1,jor_back5,340,20
+jor_back5,339,14,108,0	warp	back5_to_back4	1,1,jor_back4,10,370
+jor_back5,10,239,108,0	warp	back5_to_back6	1,1,jor_back6,388,263
+jor_back6,393,263,108,0	warp	back6_to_back5	1,1,jor_back5,16,239
+jor_back6,30,147,108,0	warp	back6_to_root3	1,1,jor_root3,367,129
+jor_base,240,42,108,0	warp	ep21_jorbase_to_raise1	1,1,jor_raise1,276,386
+jor_dun01,113,7,108,0	warp	to_jor_back3-3	1,1,jor_back3,65,321
+//jor_dun01,8,238,108,0	warp	to_jor_dun02	1,1,jor_que,282,87
+//jor_que,286,87,108,0	warp	to_jor_dun019	1,1,jor_dun01,13,237
+jor_dun01,8,238,108,0	warp	to_jor_dun02-2	1,1,jor_dun02,282,87
+jor_dun02,286,87,108,0	warp	to_jor_dun01-2	1,1,jor_dun01,12,238
+jor_dun02,18,31,108,0	warp	to_jor_nest	1,1,jor_nest,278,18
+jor_dun03,58,48,108,0	warp	hw_ep19re3	1,1,jor_nest,62,255
+jor_maze,206,12,108,0	warp	out_maze	1,1,jor_sanct,28,286
+jor_maze,198,58,108,0	warp	maze_a1_to_b1	1,1,jor_maze,268,116
+jor_maze,268,113,108,0	warp	maze_b1_to_a1	1,1,jor_maze,198,54
+jor_maze,264,187,108,0	warp	maze_b2_to_c2	1,1,jor_maze,85,256
+jor_maze,89,256,108,0	warp	maze_c2_to_b2	1,1,jor_maze,268,187
+jor_maze,46,275,108,0	warp	maze_c3_to_d3	1,1,jor_maze,16,16
+jor_maze,16,12,108,0	warp	maze_d3_to_c3	1,1,jor_maze,46,271
+jor_maze,88,28,108,0	warp	maze_d4_to_e4	1,1,jor_maze,151,281
+jor_maze,151,285,108,0	warp	maze_e4_to_d4	1,1,jor_maze,88,32
+jor_maze,182,206,108,0	warp	maze_e5_to_f5	1,1,jor_maze,192,153
+jor_maze,192,157,108,0	warp	maze_f5_to_e5	1,1,jor_maze,182,210
+jor_maze,164,138,108,0	warp	maze_f6_to_g6	1,1,jor_maze,49,162
+jor_maze,53,162,108,0	warp	maze_g6_to_f6	1,1,jor_maze,168,138
+jor_maze,50,125,108,0	warp	maze_g7_to_f7	1,1,jor_maze,192,106
+jor_maze,192,102,108,0	warp	maze_f7_to_g7	1,1,jor_maze,50,121
+jor_maze,34,189,108,0	warp	maze_g8_to_h8	1,1,jor_maze,104,156
+jor_maze,104,152,108,0	warp	maze_h8_to_g8	1,1,jor_maze,34,185
+jor_maze,104,207,108,0	warp	maze_h9_to_i9	1,1,jor_maze,148,28
+jor_maze,148,24,108,0	warp	maze_i9_to_h9	1,1,jor_maze,104,203
+jor_maze,140,79,108,0	warp	maze_to_twice	1,1,jor_twice,42,55
+jor_maze,136,176,108,0	warp	maze_h10_to_j10	1,1,jor_maze,260,46
+jor_maze,260,50,108,0	warp	maze_j10_to_h10	1,1,jor_maze,136,180
+jor_maze,14,283,108,0	warp	maze_c11_to_k11	1,1,jor_maze,282,246
+jor_maze,282,242,108,0	warp	maze_k11_to_c11	1,1,jor_maze,14,279
+jor_maze,217,289,108,0	warp	maze_k12_to_b12	1,1,jor_maze,243,156
+jor_maze,243,152,108,0	warp	maze_b12_to_k12	1,1,jor_maze,217,285
+jor_mbase,204,196,108,0	warp	ep21_mbase_center_in	1,1,mbase_in,89,101
+jor_mbase,222,264,108,0	warp	ep21_mbase_store_in	1,1,mbase_in,221,112
+jor_mbase,321,115,108,0	warp	ep21_mbase_lichard_in	1,1,mbase_in,285,124
+jor_mbase,170,248,108,0	warp	ep21_mbase_house_in	1,1,mbase_in,375,134
+jor_nest,282,18,108,0	warp	to_jor_dun02-3	1,1,jor_dun02,21,32
+jor_nest,39,272,108,0	warp	20ms01	1,1,jor_root1,32,17
+jor_raise1,301,6,108,0	warp	ep21_raise1_to_raise2	1,1,jor_raise2,118,410
+jor_raise1,276,394,108,0	warp	ep21_raise1_to_jorbase	1,1,jor_base,240,46
+jor_raise1,152,323,108,0	warp	ep21_raise1_to_tmple1	1,1,jor_tmple1,170,62
+jor_raise2,118,414,108,0	warp	ep21_raise2_to_raise1	1,1,jor_raise1,301,10
+jor_root1,32,11,108,0	warp	roo1_to_nest	1,1,jor_nest,38,270
+jor_root1,59,295,108,0	warp	root1_to_root2	1,1,jor_root2,25,17
+jor_root2,25,10,108,0	warp	root2_to_root1	1,1,jor_root1,59,290
+jor_root2,25,291,108,0	warp	root2_to_sanct	1,1,jor_sanct,150,47
+jor_root3,372,129,108,0	warp	root3_to_back6	1,1,jor_back6,34,147
+jor_sanct,28,291,108,0	warp	enter_maze	1,1,jor_maze,206,16
+jor_sanct,150,43,108,0	warp	sanct_to_root2	1,1,jor_root2,25,285
+jor_tail,98,287,108,0	warp	to_jor_back1_1	1,1,jor_back1,98,13
+jor_tail,134,281,108,0	warp	to_jor_back1_2	1,1,jor_back1,131,13
+jor_tail,219,294,108,0	warp	to_jor_back1_3	1,1,jor_back1,222,22
+jor_tmple1,170,55,108,0	warp	ep21_tmple1_to_raise1	1,1,jor_raise1,152,319
+jor_tmple1,40,205,108,0	warp	ep21_tmple1_to_tmple2_wu	1,1,jor_tmple2,24,173
+jor_tmple1,40,134,108,0	warp	ep21_tmple1_to_tmple2_wd	1,1,jor_tmple2,25,128
+jor_tmple1,299,205,108,0	warp	ep21_tmple1_to_tmple2_wu-1	1,1,jor_tmple2,276,173
+jor_tmple1,299,134,108,0	warp	ep21_tmple1_to_tmple2_wu-2	1,1,jor_tmple2,276,128
+jor_tmple2,20,173,108,0	warp	ep21_tmple2_to_tmple1_wu	1,1,jor_tmple1,44,205
+jor_tmple2,20,128,108,0	warp	ep21_tmple2_to_tmple1_wd	1,1,jor_tmple1,44,134
+jor_tmple2,280,173,108,0	warp	ep21_tmple1_to_tmple2_wu-3	1,1,jor_tmple1,294,205
+jor_tmple2,280,128,108,0	warp	ep21_tmple1_to_tmple2_wu-4	1,1,jor_tmple1,294,134
+jor_twice,40,52,108,0	warp	twice_to_maze	1,1,jor_maze,140,75
+jor_twig,212,109,108,0	warp	out_twig	1,1,jor_twice,47,327
+mbase_in,89,98,108,0	warp	ep21_mbase_center_out	1,1,jor_mbase,204,192
+mbase_in,111,128,108,0	warp	ep21_mbase_room2_in	1,1,mbase_in,165,169
+mbase_in,162,169,108,0	warp	ep21_mbase_room2_out	1,1,mbase_in,108,127
+mbase_in,66,114,108,0	warp	ep21_mbase_room8_in	1,1,mbase_in,22,79
+mbase_in,25,80,108,0	warp	ep21_mbase_room8_out	1,1,mbase_in,70,114
+mbase_in,66,120,108,0	warp	ep21_mbase_room9_in	1,1,mbase_in,22,123
+mbase_in,25,124,108,0	warp	ep21_mbase_room9_out	1,1,mbase_in,70,120
+mbase_in,68,128,108,0	warp	ep21_mbase_room10_in	1,1,mbase_in,22,167
+mbase_in,25,168,108,0	warp	ep21_mbase_room10_out	1,1,mbase_in,71,128
+mbase_in,221,109,108,0	warp	ep21_mbase_store_out	1,1,jor_mbase,222,260
+mbase_in,282,124,108,0	warp	ep21_mbase_lichard_out	1,1,jor_mbase,317,115
+mbase_in,375,137,108,0	warp	ep21_mbase_house_out	1,1,jor_mbase,170,253
+mbase_in,94,141,108,0	warp	21ms50	1,1,mbase_in,117,181
+mbase_in,117,178,108,0	warp	21ms51	1,1,mbase_in,94,138
+mbase_in,113,120,108,0	warp	in_리하르트	1,1,mbase_in,166,126
+mbase_in,162,126,108,0	warp	out_리하르트	1,1,mbase_in,109,120
+mbase_in,113,114,108,0	warp	in_갈라시아	1,1,mbase_in,165,81
+mbase_in,162,82,108,0	warp	out_갈라시아	1,1,mbase_in,109,114
+mbase_in,65,178,108,0	warp	ep21_mbase_room11_out	1,1,mbase_in,85,137
+memohall,205,13,108,0	warp	wp02	1,1,prt_fild08,148,356
+ein_fild08,192,49,108,0	warp	enter_mjowst01	1,1,mjo_wst01,204,382
+mjo_wst01,204,387,108,0	warp	out_mjowst01	1,1,ein_fild08,192,53
+ra_pol01,297,103,108,0	warp	out_ra_pol01	1,1,ra_fild10,348,336
+moc_akhet,190,53,108,0	warp	akhet_to_mocfild11	1,1,moc_fild11,188,212
+nif_fild03,246,43,108,0	warp	to_niflheim	1,1,niflheim,348,272
+niflheim,351,276,108,0	warp	to_niffild03	1,1,nif_fild03,253,47
+
+
+icecastle,46,164,3	script	Iwin Soldier	EP19_NPC_IWIN_SY,{
+		warp "icas_in2",33,114;}
+jor_albe,201,200,3	script	Walter Sailor#1	1_M_03,{
+		warp "jor_mbase",338,148;}
+mbase_in,85,141,3	script	Small Gate	4_POINT_BLUE,{
+		warp "mbase_in",66,182;}
+prt_fild08,145,356,5	script	Memorial Hall Guide	8W_SOLDIER,{
+		warp "memohall",205,17;}
+ra_fild10,352,341,3	script	Priest Pano	4_F_TRAINEE,{
+		warp "ra_pol01",294,106;}
+moc_fild11,192,214,3	script	Morocc Soldier#to_akhet	4_M_MOC_SOLDIER,{
+		warp "moc_akhet",190,56;}
+ba_maison,242,128,3	script	Enter Chess Garden	1_SHADOW_ORANGE,{
+		warp "ba_chess",16,16;}
+ba_chess,13,16,3	script	Exit to Mansion	1_SHADOW_ORANGE,{
+		warp "ba_maison",242,122;}
+ba_chess,13,36,3	script	To 2nd Floor Biosphere#1	GATE_SKYBLUE,{
+		warp "bl_depth2",194,188;}
+ba_chess,13,36,3	script	To 2nd Floor Biosphere#2	GATE_SKYBLUE,{
+		warp "bl_depth2",190,64;}
+ba_chess,13,36,3	script	To 2nd Floor Biosphere#3	GATE_SKYBLUE,{
+		warp "bl_depth2",57,87;}
+ba_chess,13,36,3	script	To 2nd Floor Biosphere#4	GATE_SKYBLUE,{
+		warp "bl_depth2",90,202;}
+bl_depth2,141,137,3	script	Back to Chess Garden	GATE_SKYBLUE,{
+		warp "ba_chess",13,31;}
+jor_twice,43,331,3	script	White Cat	4_EP20_NYAR,{
+		warp "jor_twig",212,114;}
+jor_tail,233,41,3	script	Supapa	4_EP19_IWIN_DIVER,{
+		warp "jor_crk",137,137;}
+jor_raise2,100,26,3	script	Hidden Ship	4_POINT_BLUE,{
+		warp "jor_mbase",161,338;}
+jor_mbase,122,27,3	script	Small Ship#1	4_POINT_BLUE,{
+		warp "jor_crk_p",77,66;}
+jor_mbase,343,148,3	script	Walter Sailor#2	1_M_03,{
+		warp "jor_albe",200,197;}
+jor_mbase,161,343,3	script	Walter Sailor#3	1_M_03,{
+		warp "jor_raise2",103,30;}
+jor_crk,105,108,3	script	Nyar#1	4_EP20_NYAR,{
+		warp "jor_crk_p",108,106;}
+jor_crk_p,79,64,3	script	Small Ship#2	4_POINT_BLUE,{
+		warp "jor_mbase",124,28;}
+jor_crk_p,105,108,3	script	Nyar#2	4_EP20_NYAR,{
+		warp "jor_crk",108,105;}
