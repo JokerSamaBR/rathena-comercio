@@ -48,6 +48,12 @@ A tabela abaixo resume os sistemas que fazem parte desta versão. Cada sistema d
 
 Os sistemas estão presentes na árvore para facilitar a implantação, mas isso não significa que todas as funções devam ser habilitadas simultaneamente. Ative e valide cada conjunto de NPCs, fontes, bancos e configurações de forma controlada.
 
+### Atualizações recentes
+
+A versão atualizada do AutoAttack aguarda o término da conjuração antes de tomar novas decisões automáticas. Durante o cast de uma skill, o personagem não inicia movimento automático nem executa ataque básico indevido; depois que a conjuração termina, o ciclo de combate é retomado normalmente.
+
+O comando `@rates` também considera o multiplicador da temporada ativa e o bônus VIP ao exibir Base EXP e Job EXP. O cálculo mostrado pelo comando deve acompanhar a taxa efetiva usada pelo gameplay.
+
 ### AutoAttack e banco SQL
 
 Antes de testar a persistência do AutoAttack, importe manualmente `sql-files/autoattack.sql` no banco de dados utilizado pelo servidor. O item rental 56330 e as caixas 56329, 56331 e 56332 devem existir nos bancos de importação/customização do emulador. O modo AFK depende da integração correspondente no servidor e deve ser testado em um ambiente controlado.

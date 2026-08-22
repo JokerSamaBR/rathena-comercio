@@ -1166,6 +1166,15 @@ int aa_status(map_session_data* sd) {
 	struct status_data* status = status_get_status_data(*sd);
 	t_tick last_tick = gettick();
 
+	// A cast must finish before the automation can perform any other action.
+	// Without this gate, aa_status_attack() skips the current skill because
+	// skilltimer is active, then aa_status_melee() can still issue a basic
+	// attack and the movement logic can start walking during the cast.
+	if (sd->ud.skilltimer != INVALID_TIMER) {
+		sd->aa.last_attack = last_tick;
+		return 1; // Keep SC_AUTOATTACK scheduled; only pause this cycle.
+	}
+
 	//if surrounded by too much monsters
 	if (sd->aa.monster_surround && aa_check_surround_monster(sd) > sd->aa.monster_surround) {
 		if (aa_teleport(sd)) {
