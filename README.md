@@ -1,90 +1,150 @@
-<img src="doc/logo.png" align="right" height="90" />
-
 # rAthena Comercio
 
-Distribuição de código-fonte do emulador rAthena personalizado para o projeto **Comercio**. Esta versão foi preparada para ser publicada em um host Linux e compilada pelo administrador a partir dos fontes, sem executáveis Windows, DLLs, símbolos de depuração, arquivos de Visual Studio, logs ou backups de trabalho.
+**Projeto de JokerSama — distribuição Linux do emulador rAthena personalizado para o projeto Comercio.**
 
-> Este repositório combina a base rAthena com sistemas customizados de gameplay, NPCs, bancos e integrações desenvolvidos para este emulador. A pasta `Pasta Manus/rathena - Copia` permanece como referência funcional local e não faz parte desta distribuição.
+Este repositório reúne a base [rAthena](https://github.com/rathena/rathena) com os sistemas customizados, NPCs, bancos, configurações e adaptações desenvolvidos para este projeto. A distribuição contém somente a árvore-fonte do servidor e os arquivos necessários para compilação em Linux. Executáveis Windows, DLLs, símbolos de depuração, logs de desenvolvimento, backups locais, arquivos do cliente e GRFs não fazem parte deste repositório.
 
-[Projeto rAthena](https://github.com/rathena/rathena) · [Wiki oficial](https://github.com/rathena/rathena/wiki) · [Fórum rAthena](https://rathena.org/board) · [Licença da base](LICENSE)
+> Este é um projeto de JokerSama. Os créditos e licenças da base rAthena e de componentes de terceiros continuam válidos e devem ser preservados.
 
----
+**Repositório do projeto:** [github.com/JokerSamaBR/new4themu](https://github.com/JokerSamaBR/new4themu)  
+**Base:** [rAthena oficial](https://github.com/rathena/rathena)  
+**Documentação da base:** [Wiki oficial](https://github.com/rathena/rathena/wiki)  
+**Comunidade:** [Fórum rAthena](https://rathena.org/board)
 
 ## Sumário
 
-1. [Características desta distribuição](#1-características-desta-distribuição)
-2. [Sistemas customizados](#2-sistemas-customizados)
-3. [Requisitos](#3-requisitos)
-4. [Instalação em Linux](#4-instalação-em-linux)
-5. [Configuração inicial](#5-configuração-inicial)
-6. [Banco de dados](#6-banco-de-dados)
-7. [Execução dos servidores](#7-execução-dos-servidores)
-8. [Estrutura do projeto](#8-estrutura-do-projeto)
-9. [Solução de problemas](#9-solução-de-problemas)
-10. [Publicação no GitHub](#10-publicação-no-github)
-11. [Créditos e licença](#11-créditos-e-licença)
+1. [Objetivo e escopo](#1-objetivo-e-escopo)
+2. [Sistemas incluídos](#2-sistemas-incluídos)
+3. [Comandos importantes](#3-comandos-importantes)
+4. [Status icons](#4-status-icons)
+5. [Requisitos](#5-requisitos)
+6. [Instalação em Linux](#6-instalação-em-linux)
+7. [Configuração inicial](#7-configuração-inicial)
+8. [Banco de dados SQL](#8-banco-de-dados-sql)
+9. [Execução dos servidores](#9-execução-dos-servidores)
+10. [Estrutura das personalizações](#10-estrutura-das-personalizações)
+11. [Solução de problemas](#11-solução-de-problemas)
+12. [Créditos, licenças e autoria](#12-créditos-licenças-e-autoria)
 
-## 1. Características desta distribuição
+## 1. Objetivo e escopo
 
-O `rathena comercio` é uma distribuição **source-only para Linux**. O pacote contém os fontes C/C++, scripts NPC, bancos YAML, configurações, documentação, ferramentas de build e arquivos de persistência necessários para compilar e executar o emulador.
+O `rathena comercio` é uma distribuição-fonte para administradores que desejam compilar o próprio servidor em um host Linux. A árvore foi preparada a partir do emulador local de JokerSama e mantém as customizações aplicadas no servidor atual, organizadas preferencialmente em `src/custom`, `db/import`, `db/custom`, `conf/import`, `conf/msg_conf` e `npc/custom`.
 
-Os binários Windows, arquivos `.bat`, soluções do Visual Studio, DLLs, símbolos `.pdb`/`.ilk`, logs, dumps, backups e artefatos de validação foram removidos intencionalmente. Isso reduz o conteúdo da distribuição e evita publicar arquivos específicos da máquina de desenvolvimento.
+A distribuição não inclui o patch do cliente. Os arquivos `stateicon`, TGA, Lua, `System`, `SystemEN`, GRF, executável Ragexe e demais arquivos do cliente devem ser mantidos e distribuídos separadamente pelo administrador do servidor.
 
-Esta árvore foi derivada da versão local limpa do emulador e mantém a revisão-base do rAthena utilizada pelo projeto. O cliente do jogo, GRF, `data`, `System`, `SystemEN`, arquivos Lua e patch visual não estão incluídos nesta distribuição do servidor.
+A pasta local `new4th_Backup31122025` foi usada como referência durante algumas adaptações, mas não faz parte do projeto e não é sobrescrita por este repositório.
 
-## 2. Sistemas customizados
+## 2. Sistemas incluídos
 
-A tabela abaixo resume os sistemas que fazem parte desta versão. Cada sistema deve ser testado separadamente antes de ser ativado em produção.
+Os sistemas abaixo estão presentes na árvore do projeto. A ativação de cada sistema depende dos arquivos de configuração e dos NPCs incluídos em `npc/scripts_custom.conf`.
 
-| Sistema | Descrição | Arquivos e áreas principais |
+| Sistema | O que faz | Como usar ou ativar | Arquivos principais |
+|---|---|---|---|
+| **AutoAttack** | Permite configurar ataque básico, uso de habilidades, seleção de alvos, poções, filtros e persistência do modo automático. O sistema também possui integração com o modo AFK. | Use o item de acesso configurado, abra o menu e ajuste as opções. O item padrão da configuração atual é o ID `56330`. | `src/map/autoattack*`, `npc/custom/autoattack_menu.txt`, `sql-files/autoattack.sql`, configurações `aa_*` |
+| **AutoAttack AFK** | Permite manter o personagem no mapa enquanto o jogador se desconecta, conforme as regras do sistema AFK. | Ative o AutoAttack e use `@afk` quando o personagem estiver preparado. Teste primeiro em ambiente controlado. | `src/map/autoattack*`, `src/map/afk*` quando presente, `conf` e `npc/custom` relacionados |
+| **Population Engine / Fake Players** | Cria personagens artificiais com perfis, comportamento de cidade e campo, navegação, combate, seleção de habilidades e chat de proximidade. | Administradores usam `@populate`, `@reloadpopenginedb` e as configurações em `conf/battle/population_engine.conf`. | `src/map/population_engine*`, `db/population_*.yml`, `npc/custom/population`, `conf/battle/population_engine.conf` |
+| **Season / CustomRate** | Permite escolher uma taxa individual por personagem, aplicar duração de temporada, entregar recompensas, executar scripts de marco e restaurar a taxa normal ao terminar. | O personagem escolhe pelo NPC de temporada. Administradores usam `@season`, `@season reload` e `@season reset`. | `src/map/customrate*`, `db/custom/customrate_db.yml`, `npc/custom/season`, configurações `customrate_*` |
+| **Hunting Missions** | Entrega missões de caça com quatro monstros diferentes, selecionados por faixa de nível, recompensas configuráveis e loja de troca por barter. | Fale com o NPC de Hunting Missions. Para localizar um monstro, use `@whereis <nome>` quando o comando estiver disponível no grupo da conta. | `npc/custom/quests/hunting_missions.txt`, `npc/re/merchants/barters`, bancos e imports relacionados |
+| **ModPk / Individual PvP Mode** | Ativa um modo PvP individual por mapa, com mapas protegidos ou forçados, efeitos visuais, status icon, restrições de teleporte, relações de party/guild/alliance, regras especiais de dano, EXP/drop e penalidades configuráveis. | Use `@pvpmode` em um mapa permitido. Os mapas são definidos em `npc/custom/modpk/map_flag.txt`. | `src/map/pc.cpp`, `src/map/clif.cpp`, `src/map/battle.cpp`, `src/map/atcommand.cpp`, `src/map/map.hpp`, `npc/custom/modpk/map_flag.txt` |
+| **Idiomas do servidor** | Mantém mensagens e scripts preparados para Inglês, Espanhol e Português Brasileiro. O map-server atual usa `LANG_ENABLE=0x082` para SPN e POR, além do Inglês padrão. | Use `@langtype eng`, `@langtype spn` ou `@langtype por`. | `src/custom/defines_pre.hpp`, `conf/msg_conf`, `npc/custom/functions/langtype_dialog.txt` e scripts multilíngues |
+| **Status Icons de sistemas** | Liga status reais do servidor aos EFSTs do cliente para mostrar AutoAttack, VIP, temporada e ModPk com tempo e descrição. | O servidor precisa ser recompilado após alterações em `src`; o cliente precisa usar uma GRF com os Lua e TGA corretos. | `src/map/status.hpp`, `src/map/script_constants.hpp`, `db/import/status.yml`, `npc/custom/status_icons`, arquivos do cliente fora deste repositório |
+| **NPCs e customizações Comercio** | Reúne NPCs, quests, lojas, diálogos e ajustes específicos do projeto. | Ative ou desative cada script em `npc/scripts_custom.conf`. | `npc/custom`, `npc/scripts_custom.conf`, `conf/import` |
+
+### Sistemas não incluídos como ativos
+
+O Autofarm legado baseado em clones não deve ser considerado ativo apenas porque existem arquivos de código na árvore. O menu legado permanece desativado durante a migração. O sistema CraftTrees não faz parte desta distribuição atual. Não ative esses componentes sem adaptar e testar todos os arquivos correspondentes.
+
+## 3. Comandos importantes
+
+Os comandos dependem do grupo da conta configurado em `conf/groups.yml` e em `conf/atcommands.yml`. Um comando pode existir no código e ainda assim não estar liberado para jogadores comuns.
+
+| Comando | Parâmetros | Função |
 |---|---|---|
-| **AutoAttack** | Permite que o próprio personagem faça farming automático mediante o item rental 56330. Inclui menu de configuração, habilidades aprendidas das árvores de 1ª, 2ª e 3ª classe, seleção de monstros do mapa atual, filtros de itens, poções, persistência e modo AFK. | `src/map/autoattack*`, `npc/custom/autoattack_menu.txt`, `sql-files/autoattack.sql` |
-| **Autofarm** | Sistema separado de farming automático com menu, persistência de recompensas e itens de aluguel. | `src/map/autofarm*`, `npc/custom/autofarm_menu.txt`, `conf/autofarm.conf`, `sql-files/autofarm_rewards.sql` |
-| **Population/FakePlayer** | Motor de personagens artificiais com perfis, comportamento de campo e dungeon, combate, navegação, chat de proximidade e configurações de população. | `src/map/population_engine*`, `db/population_*.yml`, `conf/battle/population_engine.conf`, `npc/custom/population` |
-| **Season/CustomRate** | Sistema de temporadas e taxas customizadas com escolha de rate, scripts de login, recompensas e encerramento de temporada. | `src/map/customrate*`, `db/custom/customrate_db.yml`, `conf/battle/customrate.conf`, `npc/custom/season` |
-| **Hunting Missions** | NPC de missões de caça com quatro monstros por missão, recompensas configuráveis e loja de troca por moeda através do sistema de barter. | `npc/custom/quests/hunting_missions.txt`, arquivos de barter e bancos relacionados |
-| **Idiomas dos scripts** | Suporte utilizado pelos scripts customizados para inglês, espanhol e português brasileiro por meio de `#langtype`, além dos diálogos multilíngues do servidor. | `npc/custom/functions/langtype_dialog.txt`, scripts customizados |
-| **Itens e integrações customizadas** | Itens de aluguel, módulos de AutoAttack, caixas de duração, status customizados, comandos e integrações de persistência SQL. | `db/import`, `db/custom`, `conf`, `src/map`, `sql-files` |
+| `@pvpmode` | nenhum | Alterna o PvP individual do personagem, respeitando mapas protegidos e regras da ModPk. |
+| `@afk` | nenhum | Entra no modo AFK integrado ao AutoAttack e desconecta mantendo o personagem conforme a implementação do sistema. |
+| `@populate` | `<quantidade> [mapa]` | Cria shells do Population Engine em tempo de execução. |
+| `@populate stop` | nenhum | Para a população criada em runtime. |
+| `@populate stats` | nenhum | Mostra estatísticas da população. |
+| `@populate status` | nenhum | Mostra o estado do Population Engine. |
+| `@reloadpopenginedb` | nenhum | Recarrega os bancos YAML do Population Engine sem reiniciar o processo, quando permitido pela configuração. |
+| `@season` | nenhum | Mostra a temporada/rate individual atual. |
+| `@season reload` | nenhum | Recarrega o banco de temporadas, conforme a implementação ativa. |
+| `@season reset` | nenhum | Remove a temporada individual do personagem, conforme o grupo de acesso. |
+| `@rates` | nenhum | Mostra as taxas efetivas exibidas pelo servidor, incluindo o efeito da temporada quando aplicável. |
+| `@langtype` | `<idioma>` | Altera o idioma de mensagens do personagem. Use `eng`, `spn` ou `por`. |
+| `@whereis` | `<monstro>` | Mostra mapas onde o monstro aparece, quando disponível para o grupo da conta. |
+| `@go` / `@warp` / `@rura` / `@mapmove` | depende do comando | Podem ser bloqueados pela ModPk em mapas ou condições configuradas. |
 
-Os sistemas estão presentes na árvore para facilitar a implantação, mas isso não significa que todas as funções devam ser habilitadas simultaneamente. Ative e valide cada conjunto de NPCs, fontes, bancos e configurações de forma controlada.
+Use `@commands` ou `@help <comando>` para verificar a permissão e a descrição carregada pelo map-server. Não libere comandos administrativos para jogadores comuns.
 
-### Atualizações recentes
+## 4. Status icons
 
-A versão atualizada do AutoAttack aguarda o término da conjuração antes de tomar novas decisões automáticas. Durante o cast de uma skill, o personagem não inicia movimento automático nem executa ataque básico indevido; depois que a conjuração termina, o ciclo de combate é retomado normalmente.
+O método oficial usado neste projeto é:
 
-O comando `@rates` também considera o multiplicador da temporada ativa e o bônus VIP ao exibir Base EXP e Job EXP. O cálculo mostrado pelo comando deve acompanhar a taxa efetiva usada pelo gameplay.
+```text
+SC_* real no servidor
+        -> db/import/status.yml
+        -> EFST_* do cliente
+        -> stateiconimginfo.lub e stateiconinfo.lub
+        -> arquivo .tga dentro da GRF
+```
 
-### AutoAttack e banco SQL
+O `db/custom/statusicon_db.yml` não é o mecanismo principal desta versão. O ícone só aparece quando todas as partes da cadeia estão presentes e o Ragexe está lendo a GRF correta.
 
-Antes de testar a persistência do AutoAttack, importe manualmente `sql-files/autoattack.sql` no banco de dados utilizado pelo servidor. O item rental 56330 e as caixas 56329, 56331 e 56332 devem existir nos bancos de importação/customização do emulador. O modo AFK depende da integração correspondente no servidor e deve ser testado em um ambiente controlado.
+| Sistema | Status do servidor | EFST | Arquivo visual esperado |
+|---|---|---|---|
+| AutoAttack | `SC_AUTOATTACK` | `EFST_AUTOATTACK` | `autoataque.tga` |
+| VIP | `SC_VIPSTATE` | `EFST_VIPSTATE` | `vip_system.tga` |
+| ModPk | `SC_PVPMODE` | `EFST_PK_ICON` | `pk_icon.tga` |
+| Temporada 1x temporária | `SC_SEASON_1X_TEMP` | `EFST_SEASON_1X_TEMP` | `xp1xtemp.tga` |
+| Temporada normal 1x | `SC_SEASON_1X` | `EFST_SEASON_1X` | `xp1x.tga` |
+| Temporada 25x | `SC_SEASON_25X` | `EFST_SEASON_25X` | `xp25x.tga` |
+| Temporada 50x | `SC_SEASON_50X` | `EFST_SEASON_50X` | `xp50x.tga` |
+| Temporada 100x | `SC_SEASON_100X` | `EFST_SEASON_100X` | `xp100x.tga` |
+| Temporada 200x reservado | `SC_SEASON_200X` | `EFST_SEASON_200X` | `xp200x.tga` |
 
-### Population/FakePlayer e banco SQL
+Para criar um novo ícone, adicione um `SC_*` no final de `src/map/status.hpp`, exporte-o em `src/map/script_constants.hpp` se for usado por scripts, acrescente o vínculo em `db/import/status.yml`, registre o mesmo número EFST no cliente, ligue o EFST ao TGA em `stateiconimginfo.lub` e configure a descrição em `stateiconinfo.lub`. Depois recompile o map-server e reempacote o cliente.
 
-O Population Engine possui bancos YAML próprios e, quando utilizado com integração externa ou painel, pode exigir a importação de `sql-files/population_engine/cp_population_stats.sql`. Leia as configurações antes de aumentar a quantidade de personagens artificiais, pois população, navegação e combate podem aumentar o consumo de CPU e memória.
+A duração real é controlada pelo servidor usando `sc_start` ou `status_change_start`. A configuração Lua do cliente apenas apresenta o contador e a descrição; ela não substitui o timer do servidor.
 
-## 3. Requisitos
+O tutorial detalhado fica no pacote de desenvolvimento local de JokerSama, em `Packs_systemas_Mods_Npc/Mods/StatusIcons/README_StatusIcons_Metodo_ModPk.md`. Essa pasta de pacotes não é incluída nesta distribuição Linux para manter a árvore do emulador limpa.
 
-Os requisitos exatos dependem da distribuição Linux, do número de jogadores e da quantidade de sistemas ativados. Como ponto de partida, utilize uma distribuição Linux suportada pelo host, um compilador C++17, CMake, Make, Git, MariaDB/MySQL e as bibliotecas de desenvolvimento necessárias.
+## 5. Requisitos
 
-| Recurso | Mínimo para testes | Recomendado para produção |
+A distribuição deve ser compilada no host Linux onde o servidor será executado. Os requisitos variam conforme a distribuição e a quantidade de jogadores, NPCs e Fake Players.
+
+| Recurso | Para testes | Para produção inicial |
 |---|---:|---:|
 | CPU | 2 vCPUs | 4 ou mais vCPUs |
 | Memória | 2 GB | 4 GB ou mais |
 | Armazenamento | 2 GB livres | SSD com espaço para logs e banco |
 | Sistema | Linux 64-bit atualizado | Distribuição LTS atualizada |
 | Banco | MariaDB/MySQL compatível | MariaDB/MySQL com backup automático |
+| Compilador | GCC ou Clang com C++17 | GCC/Clang atualizados |
+| Ferramentas | Git, CMake, Make, pkg-config | As mesmas, com bibliotecas de desenvolvimento instaladas |
 
-Em Debian/Ubuntu, um ponto de partida comum é instalar `build-essential`, `cmake`, `git`, `pkg-config`, o cliente de desenvolvimento MariaDB/MySQL, PCRE e zlib. Os nomes exatos dos pacotes podem variar entre distribuições; confirme as dependências do host antes do build.
+Em Debian ou Ubuntu, instale inicialmente as ferramentas de compilação, Git, CMake, pkg-config, zlib, PCRE e os headers do MariaDB/MySQL. Os nomes dos pacotes podem variar entre versões da distribuição.
 
-## 4. Instalação em Linux
+## 6. Instalação em Linux
 
-Clone ou envie esta pasta para o host. Depois, entre no diretório do emulador:
+Clone o repositório privado ou copie a árvore para o host Linux:
 
 ```bash
-cd /caminho/para/rathena-comercio
+git clone https://github.com/JokerSamaBR/new4themu.git rathena-comercio
+cd rathena-comercio
 ```
 
-A compilação deve ser feita fora da árvore de fontes. O projeto CMake exige uma pasta de build separada por padrão:
+Se o repositório for privado, configure uma chave SSH ou autenticação do GitHub antes do clone. Não coloque tokens dentro de scripts, arquivos de configuração ou commits.
+
+Instale as dependências da distribuição. Em Debian/Ubuntu, um ponto de partida é:
+
+```bash
+sudo apt update
+sudo apt install -y build-essential cmake git pkg-config \
+  libmariadb-dev libpcre3-dev zlib1g-dev
+```
+
+Compile fora da árvore de fontes:
 
 ```bash
 mkdir -p build
@@ -93,48 +153,64 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake --build . --parallel "$(nproc)"
 ```
 
-Em hosts com poucos recursos, reduza o paralelismo, por exemplo `--parallel 2`. Ao final, os executáveis serão gerados na árvore conforme as regras do CMake desta base. Confira os nomes e permissões antes de iniciar os serviços.
+Em um host com pouca memória, reduza o paralelismo:
 
-Como alternativa, utilize o fluxo Autotools fornecido pela base, caso seja o padrão adotado pelo seu host:
+```bash
+cmake --build . --parallel 2
+```
+
+A base também possui fluxo Autotools. Use-o somente se for o padrão adotado pelo administrador:
 
 ```bash
 ./configure
 make -j"$(nproc)"
 ```
 
-Não execute o build como `root`. Use um usuário próprio do servidor e conceda ao processo somente as permissões necessárias.
+Não compile ou execute os servidores como `root`. Use um usuário próprio e mantenha os logs fora da árvore pública quando possível.
 
-## 5. Configuração inicial
+## 7. Configuração inicial
 
-Antes do primeiro start, revise os arquivos de configuração em `conf/`, especialmente as conexões com o banco, portas, endereços de bind, nomes dos servidores, grupos de comandos e configurações de cada sistema customizado.
+Antes do primeiro start, configure as conexões com o banco, os endereços, as portas, os nomes dos servidores, os grupos de comandos e as permissões em `conf/`. Os arquivos de importação devem ser revisados antes de entrar em produção.
 
-Os arquivos em `conf/import/`, `db/import/`, `db/custom/` e `npc/custom/` devem ser tratados como personalizações do projeto. Não substitua bancos oficiais inteiros para adicionar uma entrada customizada; prefira os arquivos de importação e customização já utilizados pela árvore.
+As principais áreas de configuração são:
 
-Os scripts NPC que contêm português ou espanhol devem permanecer em uma codificação compatível com o parser configurado do servidor. Ao editar esses arquivos em Linux, preserve a codificação usada pelo projeto e valide o carregamento no console antes de colocar o servidor online.
+| Área | Arquivos | O que revisar |
+|---|---|---|
+| Banco e servidores | `conf/` | IPs, portas, credenciais, nomes e permissões. |
+| Rates gerais | `conf/battle/` | EXP, drop, zeny e regras gerais. |
+| Population Engine | `conf/battle/population_engine.conf`, `db/population_*.yml` | Quantidade, intervalos, mapas, IA, combate, chat e limites por ciclo. |
+| CustomRate | `db/custom/customrate_db.yml`, configurações `customrate_*` | Rates, duração, recompensas, scripts e efeitos. |
+| ModPk | `npc/custom/modpk/map_flag.txt`, `conf/battle/misc.conf` | Mapas bloqueados/forçados, dano, EXP/drop, FLEE, warps e penalidades. |
+| NPCs | `npc/scripts_custom.conf` | Scripts que serão carregados ou mantidos comentados. |
+| Idiomas | `src/custom/defines_pre.hpp`, `conf/msg_conf` | `LANG_ENABLE=0x082` e imports ENG/SPN/POR. |
+| Status icons | `db/import/status.yml` | Status `SC_*` e EFSTs correspondentes. |
 
-## 6. Banco de dados
+Para manter a árvore limpa, não copie backups, logs de compilação, executáveis Windows ou arquivos do patch do cliente para este repositório.
 
-Crie previamente os bancos do login, char e map conforme a instalação padrão do rAthena. Importe as tabelas oficiais exigidas pela sua configuração e, depois, importe as tabelas dos sistemas customizados que serão utilizados.
+## 8. Banco de dados SQL
 
-Exemplo genérico para um arquivo SQL customizado:
+Crie os bancos `login`, `char` e `map` conforme a documentação da base rAthena. Importe primeiro as tabelas oficiais e depois somente os arquivos customizados dos sistemas que serão utilizados.
+
+Exemplos:
 
 ```bash
 mysql -u usuario -p nome_do_banco < sql-files/autoattack.sql
+mysql -u usuario -p nome_do_banco < sql-files/autofarm_rewards.sql
 ```
 
-Os arquivos SQL customizados desta distribuição incluem:
-
-| Arquivo | Finalidade |
+| Arquivo | Uso |
 |---|---|
 | `sql-files/autoattack.sql` | Persistência do AutoAttack. |
-| `sql-files/autofarm_rewards.sql` | Persistência das recompensas do Autofarm. |
-| `sql-files/population_engine/cp_population_stats.sql` | Estatísticas auxiliares do Population Engine/painel, quando utilizadas. |
+| `sql-files/autofarm_rewards.sql` | Persistência do Autofarm legado, somente se esse sistema for reativado. |
+| `sql-files/population_engine/cp_population_stats.sql` | Estatísticas auxiliares do Population Engine ou painel, quando utilizadas. |
 
-Faça backup do banco antes de importar ou atualizar tabelas. O agente que prepara esta distribuição não possui acesso ao seu banco de produção; a importação deve ser realizada pelo administrador do host.
+Os IDs de itens customizados precisam existir nos bancos de importação do servidor. Não substitua o `item_db` oficial inteiro para adicionar itens do projeto; use `db/import` ou `db/custom` conforme a estrutura da árvore.
 
-## 7. Execução dos servidores
+Faça backup do banco antes de qualquer importação. A manutenção do MySQL/MariaDB deve ser feita pelo administrador do host; este repositório não contém acesso ao banco de produção.
 
-A ordem tradicional de inicialização é login, char e map. Execute os binários a partir da pasta do emulador ou configure serviços systemd separados para cada processo:
+## 9. Execução dos servidores
+
+Após a compilação, execute os serviços na ordem tradicional:
 
 ```bash
 ./login-server
@@ -142,67 +218,65 @@ A ordem tradicional de inicialização é login, char e map. Execute os binário
 ./map-server
 ```
 
-O `web-server` somente deve ser iniciado se fizer parte da arquitetura do seu host. Em produção, prefira unidades systemd com usuário dedicado, diretório de trabalho definido, reinício controlado e logs encaminhados para o journal ou para uma pasta externa ao código-fonte.
+Em produção, use unidades `systemd` separadas ou outro supervisor de processos. Defina um usuário dedicado, diretório de trabalho, política de reinício e destino dos logs.
 
-Não publique senhas, tokens, dumps de banco, logs de produção ou arquivos de configuração com credenciais dentro de um repositório Git público.
-
-## 8. Estrutura do projeto
-
-| Diretório | Conteúdo |
-|---|---|
-| `src/` | Código C/C++ dos servidores e sistemas customizados. |
-| `conf/` | Configurações do login, char, map e sistemas. |
-| `db/` | Bancos oficiais e customizações YAML/TXT. |
-| `npc/` | Scripts, NPCs, quests, warps e menus. |
-| `sql-files/` | Scripts de criação e atualização de tabelas SQL. |
-| `doc/` | Documentação técnica e exemplos da base. |
-| `3rdparty/` | Dependências, módulos e arquivos auxiliares usados pelo build. |
-| `tools/` | Ferramentas auxiliares; scripts específicos de Windows foram excluídos desta distribuição Linux. |
-| `generated/` | Arquivos gerados mantidos pela árvore de fontes quando necessários ao build. |
-
-O diretório `patchRO/Data` e os arquivos do cliente não fazem parte deste pacote. Eles devem ser distribuídos separadamente, de acordo com o patch e o cliente utilizados pelo servidor.
-
-## 9. Solução de problemas
-
-Quando um servidor não inicia ou desconecta, consulte primeiro a mensagem completa exibida no console. Erros de YAML, codificação, banco, porta ou script normalmente informam o arquivo e a linha que precisam ser corrigidos.
-
-| Sintoma | Primeira verificação |
-|---|---|
-| Falha no build | Versão do compilador, CMake, dependências e saída completa do build. |
-| Erro ao carregar NPC | Caminho importado, sintaxe, codificação e existência de funções chamadas por `callfunc`. |
-| Tabela SQL ausente | Nome do banco, usuário, permissões e importação do arquivo correto. |
-| Item customizado inexistente | Arquivo em `db/import` ou `db/custom`, ID duplicado e carregamento do item DB. |
-| AutoAttack sem persistência | Importação de `sql-files/autoattack.sql` e conexão SQL do map-server. |
-| Population consumindo muitos recursos | Quantidade de perfis ativos, intervalos de IA, mapas e logs de combate. |
-
-Não apague os logs para esconder um erro. Guarde uma cópia fora da árvore do código e registre a revisão e a configuração usadas para reproduzir o problema.
-
-## 10. Publicação no GitHub
-
-Para publicar esta distribuição, crie um repositório novo e envie somente o conteúdo de `rathena comercio`. A pasta `.git` da referência local não foi incluída, permitindo que o repositório remoto tenha seu próprio histórico.
-
-Exemplo:
+Exemplo conceitual de verificação dos processos:
 
 ```bash
-cd rathena-comercio
-git init
-git add .
-git commit -m "Initial Linux source distribution"
-git branch -M main
-git remote add origin https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-git push -u origin main
+ps aux | grep -E 'login-server|char-server|map-server'
 ```
 
-Antes do `git add`, revise os arquivos para garantir que não há senhas, IPs privados, tokens, dumps, logs ou dados pessoais. A base rAthena fornece orientações próprias de contribuição e licenciamento; este repositório deve manter os avisos de copyright existentes e documentar claramente as alterações customizadas.
+Não inicie uma segunda instância do mesmo map-server na mesma porta. Antes de testar uma nova compilação, encerre a instância anterior e confirme que o executável usado pertence à árvore correta.
 
-## 11. Créditos e licença
+## 10. Estrutura das personalizações
 
-Este projeto utiliza a base rAthena, um projeto de servidor MMORPG escrito em C++. Consulte o repositório oficial e o arquivo `LICENSE` incluído nesta distribuição para as condições aplicáveis à base.[1]
+| Diretório | Finalidade |
+|---|---|
+| `src/` | Código C/C++ da base e dos sistemas integrados. |
+| `src/custom/` | Configurações e extensões personalizadas do projeto. |
+| `conf/` | Configurações do login, char, map, mensagens e sistemas. |
+| `db/` | Bancos oficiais e customizações YAML/TXT. |
+| `db/import/` | Entradas adicionais sem substituir os bancos oficiais. |
+| `db/custom/` | Bancos customizados específicos, como temporadas. |
+| `npc/` | NPCs, quests, menus, warps e eventos. |
+| `npc/custom/` | Scripts customizados do projeto Comercio. |
+| `sql-files/` | Estruturas e migrações SQL. |
+| `doc/` | Documentação da base. |
+| `3rdparty/` | Dependências e código auxiliar usado pela compilação. |
+| `tools/` | Ferramentas-fonte e scripts compatíveis com a distribuição. |
+| `generated/` | Arquivos gerados necessários ao build. |
 
-Os sistemas customizados, scripts e ajustes específicos do servidor Comercio pertencem ao projeto que os desenvolveu, salvo quando um arquivo indicar outra licença ou crédito. Antes de redistribuir componentes de terceiros, confirme a licença, os avisos de copyright e as regras de redistribuição correspondentes.
+Os pacotes locais de desenvolvimento em `Packs_systemas_Mods_Npc` e os backups em `emuladorBackup` ficam fora desta árvore de distribuição.
+
+## 11. Solução de problemas
+
+Leia a mensagem completa do console e anote o arquivo e a linha indicados. Não tente esconder o erro removendo o log ou substituindo arquivos inteiros.
+
+| Sintoma | Verificações iniciais |
+|---|---|
+| `Invalid Status` ou `Icon ... is invalid` | Confirme o `SC_*`, o `EFST_*`, as exportações e o `db/import/status.yml`. Recompile o map-server. |
+| Ícone não aparece, mas o prompt está normal | Confira a GRF usada pelo Ragexe, a prioridade entre GRFs, o caminho do TGA e as entradas nos três `.lub` do cliente. |
+| `Message ... not found for langtype 2` | Confirme `LANG_ENABLE=0x082`, os arquivos `map_msg_spn.conf` e `map_msg_por.conf` e use o map-server recompilado. |
+| Erro de sintaxe em NPC | Confira o cabeçalho, os labels, as funções `callfunc`, a codificação e se o script está incluído em `npc/scripts_custom.conf`. |
+| `No database Header was found` | Confirme o cabeçalho e o `Type` do YAML. Não misture formatos de bancos diferentes. |
+| Item inexistente | Confirme se o item está em `db/import`/`db/custom` e se o ID está disponível no banco usado pelo servidor. |
+| AutoAttack sem persistência | Importe `sql-files/autoattack.sql` e confirme a conexão SQL do map-server. |
+| Population consumindo muita CPU | Reduza quantidade de shells, intervalos de IA, detecção de monstros, chat e limite por ciclo em `population_engine.conf`. |
+| Servidor desconecta ao escolher temporada | Leia o console, confirme o `customrate_db.yml`, não use scripts duplicados de login e teste com o map-server recém-compilado. |
+
+Após alterar qualquer arquivo em `src`, recompile os servidores afetados. Alterações apenas em NPC, YAML ou configuração normalmente exigem reiniciar o map-server, mas não substituem uma recompilação quando o código-fonte foi alterado.
+
+## 12. Créditos, licenças e autoria
+
+Este projeto é mantido por **JokerSama** e foi organizado para o projeto **Comercio**. Os comentários de autoria das adaptações customizadas utilizam `By: JokerSama` quando aplicável.
+
+A base do servidor é o [rAthena](https://github.com/rathena/rathena). Mantenha o arquivo `LICENSE`, os avisos de copyright e os créditos presentes nos arquivos originais. Sistemas ou scripts de terceiros podem possuir licenças próprias; verifique cada arquivo antes de redistribuir ou modificar.
+
+Este repositório não concede direitos sobre o cliente Ragnarok Online, GRFs, sprites, músicas, imagens, arquivos Lua proprietários ou outros componentes que não estejam sob uma licença compatível. O cliente e o patch devem ser tratados separadamente pelo administrador.
 
 ### Referências
 
-[1]: https://github.com/rathena/rathena — Repositório oficial do rAthena.
-[2]: https://github.com/rathena/rathena/wiki — Wiki oficial do rAthena.
-[3]: https://rathena.org/board — Fórum oficial da comunidade rAthena.
+[1]: https://github.com/rathena/rathena — Repositório oficial do rAthena.  
+[2]: https://github.com/rathena/rathena/wiki — Wiki oficial do rAthena.  
+[3]: https://rathena.org/board — Fórum da comunidade rAthena.  
+[4]: https://github.com/JokerSamaBR/new4themu — Repositório privado do projeto rAthena Comercio de JokerSama.
