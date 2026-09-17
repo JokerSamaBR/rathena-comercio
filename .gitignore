@@ -152,3 +152,10 @@ Thumbs.db
 
 # generated files
 generated
+
+# WYO source customizations that are part of the distributable emulator.
+# Host-specific credentials under conf/import remain ignored intentionally.
+!/db/import/
+!/db/import/**
+!/src/custom/
+!/src/custom/**
